@@ -73,6 +73,13 @@ pipeline {
                OPENSHIFT_WORKLOAD_NODE_MEMORY_SIZE=131072<br>
                OPENSHIFT_WORKLOAD_NODE_CPU_CORE_PER_SOCKET_COUNT=2<br>
                OPENSHIFT_WORKLOAD_NODE_NETWORK_NAME=qe-segment<br>
+               e.g. <b>for Alicloud:</b><br>
+               OPENSHIFT_INFRA_NODE_VOLUME_SIZE=100 <br>
+               OPENSHIFT_INFRA_NODE_INSTANCE_TYPE=ecs.g6.13xlarge <br>
+               OPENSHIFT_WORKLOAD_NODE_VOLUME_SIZE=500 <br>
+               OPENSHIFT_WORKLOAD_NODE_INSTANCE_TYPE=ecs.g6.8xlarge <br>
+               OPENSHIFT_PROMETHEUS_STORAGE_CLASS=alicloud-disk <br>
+               OPENSHIFT_ALERTMANAGER_STORAGE_CLASS=alicloud-disk <br>
                <b>And ALWAYS INCLUDE(except for vSphere provider) this part, for Prometheus AlertManager, it may look like</b>:<br>
                OPENSHIFT_PROMETHEUS_RETENTION_PERIOD=15d<br>
                OPENSHIFT_PROMETHEUS_STORAGE_SIZE=500Gi  <br>
@@ -105,6 +112,10 @@ pipeline {
                          file(credentialsId: 'ocp-azure', variable: 'OCP_AZURE')]) {
           sh label: '', script: '''
           if [[ $HOST_NETWORK_CONFIGS == "true" ]]; then
+            # Get ENV VARS Supplied by the user to this job and store in .env_override
+            echo "$ENV_VARS" > .env_override
+            # Export those env vars so they could be used by CI Job
+            set -a && source .env_override && set +a
             mkdir -p ~/.kube
             cp $WORKSPACE/flexy-artifacts/workdir/install-dir/auth/kubeconfig ~/.kube/config
 
@@ -325,7 +336,15 @@ pipeline {
               envsubst < infra-node-machineset-vsphere.yaml | oc apply -f -
               envsubst < workload-node-machineset-vsphere.yaml | oc apply -f -
             fi
+            if [[ $(echo $VARIABLES_LOCATION | grep alicloud -c) > 0 ]]; then
+              export WORKER_NODE_MACHINESET=$(oc get machinesets --no-headers -n openshift-machine-api | awk {'print $1'} | awk 'NR==1{print $1}')
+              export WORKER_MACHINESET_IMAGE=$(oc get machineset ${WORKER_NODE_MACHINESET} -n openshift-machine-api -o jsonpath='{.spec.template.spec.providerSpec.value.imageId}')
+              export CLUSTER_REGION=$(oc get machineset -n openshift-machine-api -o=go-template='{{(index .items 0).spec.template.spec.providerSpec.value.regionId}}')
 
+              envsubst < infra-node-machineset-alicloud.yaml | oc apply -f -
+              envsubst < workload-node-machineset-alicloud.yaml | oc apply -f -
+
+            fi
             retries=0
             attempts=60
             while [[ $(oc get nodes -l 'node-role.kubernetes.io/infra=' --no-headers| wc -l) -lt 3 ]]; do
