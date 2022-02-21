@@ -11,6 +11,7 @@ A job that will allow adding and removing firewall ports for HostNetwork Uperf t
 * GCP
 * Vsphere
 * Alicloud/Alibaba (only infra nodes)
+* IBM Cloud (only infra nodes)
 
 ### Author
 Paige Rubendall <@paigerube14 on Github>

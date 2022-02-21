@@ -80,6 +80,11 @@ pipeline {
                OPENSHIFT_WORKLOAD_NODE_INSTANCE_TYPE=ecs.g6.8xlarge <br>
                OPENSHIFT_PROMETHEUS_STORAGE_CLASS=alicloud-disk <br>
                OPENSHIFT_ALERTMANAGER_STORAGE_CLASS=alicloud-disk <br>
+               e.g. <b>for Ibmcloud:</b><br>
+               OPENSHIFT_INFRA_NODE_INSTANCE_TYPE=bx2d-48x192<br>
+               OPENSHIFT_WORKLOAD_NODE_INSTANCE_TYPE=bx2-32x128<br>
+               OPENSHIFT_PROMETHEUS_STORAGE_CLASS=ibmc-vpc-block-5iops-tier<br>
+               OPENSHIFT_ALERTMANAGER_STORAGE_CLASS=ibmc-vpc-block-5iops-tier<br>
                <b>And ALWAYS INCLUDE(except for vSphere provider) this part, for Prometheus AlertManager, it may look like</b>:<br>
                OPENSHIFT_PROMETHEUS_RETENTION_PERIOD=15d<br>
                OPENSHIFT_PROMETHEUS_STORAGE_SIZE=500Gi  <br>
@@ -118,7 +123,6 @@ pipeline {
             set -a && source .env_override && set +a
             mkdir -p ~/.kube
             cp $WORKSPACE/flexy-artifacts/workdir/install-dir/auth/kubeconfig ~/.kube/config
-
             oc config view
             oc projects
             ls -ls ~/.kube/
@@ -288,16 +292,12 @@ pipeline {
               export CLUSTER_REGION=$(oc get machineset -n openshift-machine-api -o=go-template='{{(index .items 0).spec.template.spec.providerSpec.value.placement.region}}')
               envsubst < infra-node-machineset-aws.yaml | oc apply -f -
               envsubst < workload-node-machineset-aws.yaml | oc apply -f -
-            fi
-
-            if [[ $(echo $VARIABLES_LOCATION | grep azure -c) > 0 ]]; then
+            elif [[ $(echo $VARIABLES_LOCATION | grep azure -c) > 0 ]]; then
               export AMI_ID=$(oc get machineset -n openshift-machine-api -o=go-template='{{(index .items 0).spec.template.spec.providerSpec.value.ami.id}}')
               export AZURE_LOCATION=$(oc get machineset -n openshift-machine-api -o=go-template='{{(index .items 0).spec.template.spec.providerSpec.value.location}}')
               envsubst < infra-node-machineset-azure.yaml | oc apply -f -
               envsubst < workload-node-machineset-azure.yaml | oc apply -f -
-            fi
-
-            if [[ $(echo $VARIABLES_LOCATION | grep gcp -c) > 0 ]]; then
+            elif [[ $(echo $VARIABLES_LOCATION | grep gcp -c) > 0 ]]; then
 
               echo $NETWORK_NAME
               # login to service account
@@ -322,9 +322,7 @@ pipeline {
               oc apply -f gcp-sc-pd-ssd.yaml
               envsubst < infra-node-machineset-gcp.yaml | oc apply -f -
               envsubst < workload-node-machineset-gcp.yaml | oc apply -f -
-            fi
-
-            if [[ $(echo $VARIABLES_LOCATION | grep vsphere -c) > 0 ]]; then
+            elif [[ $(echo $VARIABLES_LOCATION | grep vsphere -c) > 0 ]]; then
               export WORKER_NODE_MACHINESET=$(oc get machinesets --no-headers -n openshift-machine-api | awk {'print $1'} | awk 'NR==1{print $1}')
               export WORKER_MACHINESET_IMAGE=$(oc get machineset ${WORKER_NODE_MACHINESET} -n openshift-machine-api -o jsonpath='{.spec.template.spec.providerSpec.value.disks[0].image}')
               export TEMPLATE_NAME=$(oc get machineset -n openshift-machine-api $(oc get machinesets --no-headers -A -o custom-columns=:.metadata.name | head -1) -o=jsonpath='{.spec.template.spec.providerSpec.value.template}')
@@ -335,14 +333,19 @@ pipeline {
               export VSPHERE_SERVER=$(oc get machineset -n openshift-machine-api $(oc get machinesets --no-headers -A -o custom-columns=:.metadata.name | head -1) -o=jsonpath='{.spec.template.spec.providerSpec.value.workspace.server}')
               envsubst < infra-node-machineset-vsphere.yaml | oc apply -f -
               envsubst < workload-node-machineset-vsphere.yaml | oc apply -f -
-            fi
-            if [[ $(echo $VARIABLES_LOCATION | grep alicloud -c) > 0 ]]; then
+            elif [[ $(echo $VARIABLES_LOCATION | grep alicloud -c) > 0 ]]; then
               export WORKER_NODE_MACHINESET=$(oc get machinesets --no-headers -n openshift-machine-api | awk {'print $1'} | awk 'NR==1{print $1}')
               export WORKER_MACHINESET_IMAGE=$(oc get machineset ${WORKER_NODE_MACHINESET} -n openshift-machine-api -o jsonpath='{.spec.template.spec.providerSpec.value.imageId}')
               export CLUSTER_REGION=$(oc get machineset -n openshift-machine-api -o=go-template='{{(index .items 0).spec.template.spec.providerSpec.value.regionId}}')
 
               envsubst < infra-node-machineset-alicloud.yaml | oc apply -f -
               envsubst < workload-node-machineset-alicloud.yaml | oc apply -f -
+
+            elif [[ $(echo $VARIABLES_LOCATION | grep ibmcloud -c) > 0 ]]; then
+              export WORKER_NODE_MACHINESET=$(oc get machinesets --no-headers -n openshift-machine-api | awk {'print $1'} | awk 'NR==1{print $1}')
+              export CLUSTER_REGION=$(oc get machineset -n openshift-machine-api -o=go-template='{{(index .items 0).spec.template.spec.providerSpec.value.region}}')
+              envsubst < infra-node-machineset-ibmcloud.yaml | oc apply -f -
+              envsubst < workload-node-machineset-ibmcloud.yaml | oc apply -f -
 
             fi
             retries=0

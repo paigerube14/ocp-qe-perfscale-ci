@@ -1,0 +1,49 @@
+apiVersion: machine.openshift.io/v1beta1
+kind: MachineSet
+metadata:
+  labels:
+    machine.openshift.io/cluster-api-cluster: ${CLUSTER_NAME}
+    machine.openshift.io/cluster-api-machine-role: workload
+    machine.openshift.io/cluster-api-machine-type: workload
+  name: ${CLUSTER_NAME}-workload-${CLUSTER_REGION}
+  namespace: openshift-machine-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      machine.openshift.io/cluster-api-cluster: ${CLUSTER_NAME}
+      machine.openshift.io/cluster-api-machineset: ${CLUSTER_NAME}-workload-${CLUSTER_REGION}
+  template:
+    metadata:
+      labels:
+        machine.openshift.io/cluster-api-cluster: ${CLUSTER_NAME}
+        machine.openshift.io/cluster-api-machine-role: workload
+        machine.openshift.io/cluster-api-machine-type: workload
+        machine.openshift.io/cluster-api-machineset: ${CLUSTER_NAME}-workload-${CLUSTER_REGION}
+    spec:
+      metadata:
+        labels:
+          node-role.kubernetes.io/workload: ""
+      providerSpec:
+        value:
+          apiVersion: ibmcloudproviderconfig.openshift.io/v1beta1
+          credentialsSecret:
+            name: ibmcloud-credentials
+          image: ${CLUSTER_NAME}-rhcos
+          kind: IBMCloudMachineProviderSpec
+          primaryNetworkInterface:
+              securityGroups:
+              - ${CLUSTER_NAME}-sg-cluster-wide
+              - ${CLUSTER_NAME}-sg-openshift-net
+              # Installer: Can/should the user actually specify this, or will one get created during install and pulled in here?
+              subnet: ${CLUSTER_NAME}-subnet-compute-${CLUSTER_REGION}-1
+          profile: ${OPENSHIFT_WORKLOAD_NODE_INSTANCE_TYPE}
+          region: ${CLUSTER_REGION}
+          resourceGroup: ${CLUSTER_NAME}
+          userDataSecret:
+              name: worker-user-data
+          vpc: ${CLUSTER_NAME}-vpc
+          zone: ${CLUSTER_REGION}-1
+        taints:
+        - key: node-role.kubernetes.io/workload
+          effect: NoSchedule
