@@ -8,7 +8,7 @@ def build_string = "DEFAULT"
 def load_result = "SUCCESS"
 def loaded_url = ""
 def upgrade_url = ""
-
+def proxy_settings = ""
 
 def userId = currentBuild.rawBuild.getCause(hudson.model.Cause$UserIdCause)?.userId
 if (userId) {
@@ -22,7 +22,7 @@ pipeline{
         string(name: 'BUILD_NUMBER', defaultValue: '', description: 'Build number of job that has installed the cluster.')
         string(name: 'OCP_PREFIX', defaultValue: '', description: 'Name of ocp cluster you want to build')
         string(name: 'OCP_VERSION', defaultValue: '', description: 'Build version to install the cluster.')
-        choice(choices: ['','aws', 'azure', 'gcp', 'osp', 'alicloud', 'ibmcloud'], name: 'CLOUD_TYPE', description: '''Cloud type (As seen on https://gitlab.cee.redhat.com/aosqe/flexy-templates/-/tree/master/functionality-testing/aos-4_9, after ""-on-") <br/>
+        choice(choices: ['','aws', 'azure', 'gcp', 'osp', 'alicloud', 'ibmcloud', 'vsphere'], name: 'CLOUD_TYPE', description: '''Cloud type (As seen on https://gitlab.cee.redhat.com/aosqe/flexy-templates/-/tree/master/functionality-testing/aos-4_9, after ""-on-") <br/>
         Will be ignored if BUILD_NUMBER is set''')
         choice(choices: ['','ovn', 'sdn'], name: 'NETWORK_TYPE', description: 'Network type, will be ignored if BUILD_NUMBER is set')
         choice(choices: ['','ipi', 'upi', 'sno'], name: 'INSTALL_TYPE', description: '''Type of installation (set to SNO for sno cluster type),  <br/>
@@ -78,13 +78,16 @@ pipeline{
                     def install_type_custom = params.INSTALL_TYPE
                      if(params.BUILD_NUMBER == "") {
                          def network_ending = ""
-                            if (params.NETWORK_TYPE != "sdn") {
+                          if (params.CLOUD_TYPE == "vsphere") {
+                                network_ending = "-vmc7"
+                          }
+                           if (params.NETWORK_TYPE != "sdn") {
                             if (params.CLOUD_TYPE == "alicloud") {
                                 network_ending = "-fips-${params.NETWORK_TYPE}-ci"
-                            } else {
-                                network_ending = "-${params.NETWORK_TYPE}"
+                            }else {
+                                network_ending += "-${params.NETWORK_TYPE}"
                             }
-                            }
+                           }
                             def worker_type = ""
                             if (params.CLOUD_TYPE == "aws") {
                                 if (params.INSTALL_TYPE == "sno") {
@@ -94,24 +97,27 @@ pipeline{
                                 worker_type = "vm_type_workers: 'm5.xlarge', num_workers: " + WORKER_COUNT + ", num_masters: " + MASTER_COUNT + ","
                                 }
                             }
-                            if (params.CLOUD_TYPE == "azure") {
+                            else if (params.CLOUD_TYPE == "azure") {
                                 worker_type = "vm_type_workers: 'Standard_D8s_v3', region: centralus, num_workers: " + WORKER_COUNT + ", num_masters: " + MASTER_COUNT + ","
                             }
-                            if (params.CLOUD_TYPE == "gcp") {
+                            else if (params.CLOUD_TYPE == "gcp") {
                                 worker_type = "vm_type_workers: 'n1-standard-4', num_workers: " + WORKER_COUNT + ", num_masters: " + MASTER_COUNT + ","
                                 if (params.NETWORK_TYPE != "sdn") {
                                  network_ending = network_ending + "-ci"
                                 }
                             }
-                            if (params.CLOUD_TYPE == "osp") {
+                            else if (params.CLOUD_TYPE == "osp") {
                                 worker_type = "vm_type_workers: 'ci.m1.xlarge', num_workers: " + WORKER_COUNT + ", num_masters: " + MASTER_COUNT + ","
                             }
-                            if (params.CLOUD_TYPE == "alicloud") {
+                            else if (params.CLOUD_TYPE == "alicloud") {
 
                                 worker_type = "vm_type_workers: 'ecs.g6.xlarge', num_workers: " + WORKER_COUNT + ", num_masters: " + MASTER_COUNT + ","
                             }
-                            if (params.CLOUD_TYPE == "ibmcloud") {
+                            else if (params.CLOUD_TYPE == "ibmcloud") {
                                 worker_type = "vm_type_workers: 'bx2d-4x16', region: 'jp-tok', num_workers: " + WORKER_COUNT + ", num_masters: " + MASTER_COUNT + ","
+                            }
+                            else if (params.CLOUD_TYPE == "vsphere") {
+                                worker_type = " num_workers: " + WORKER_COUNT + ", num_masters: " + MASTER_COUNT + ","
                             }
                             def version = params.OCP_VERSION
                             sh "echo ${version}"
@@ -148,6 +154,21 @@ REG_SVC_CI=9a9187c6-a54c-452a-866f-bea36caea6f9''' ) ]
                         target: 'flexy-artifacts'
                        )
                      }
+                 copyArtifacts(
+                    fingerprintArtifacts: true,
+                    projectName: 'ocp-common/Flexy-install',
+                    selector: specific(params.BUILD_NUMBER),
+                    filter: "workdir/install-dir/",
+                    target: 'flexy-artifacts'
+                   )
+                if (fileExists("flexy-artifacts/workdir/install-dir/client_proxy_setting.sh")) {
+                 sh "echo yes"
+                 proxy_settings = sh returnStdout: true, script: 'cat flexy-artifacts/workdir/install-dir/client_proxy_setting.sh'
+                 proxy_settings = proxy_settings.replace('export ', '')
+                }
+
+                ENV_VARS += '\n' + proxy_settings
+                sh "echo $ENV_VARS"
 
                  }
             }
