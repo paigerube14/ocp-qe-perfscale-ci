@@ -154,10 +154,17 @@ REG_SVC_CI=9a9187c6-a54c-452a-866f-bea36caea6f9''' ) ]
                         target: 'flexy-artifacts'
                        )
                      }
+
+                    if (params.BUILD_NUMBER != "") {
+                            build_string = params.BUILD_NUMBER
+                    } else if( install.result.toString() == "SUCCESS" ) {
+                            build_string = install.number.toString()
+                    }
+                 if ( build_string != "DEFAULT") {
                  copyArtifacts(
                     fingerprintArtifacts: true,
                     projectName: 'ocp-common/Flexy-install',
-                    selector: specific(params.BUILD_NUMBER),
+                    selector: specific(build_string),
                     filter: "workdir/install-dir/",
                     target: 'flexy-artifacts'
                    )
@@ -169,7 +176,7 @@ REG_SVC_CI=9a9187c6-a54c-452a-866f-bea36caea6f9''' ) ]
 
                 ENV_VARS += '\n' + proxy_settings
                 sh "echo $ENV_VARS"
-
+                }
                  }
             }
         }
@@ -177,13 +184,7 @@ REG_SVC_CI=9a9187c6-a54c-452a-866f-bea36caea6f9''' ) ]
             agent { label params['JENKINS_AGENT_LABEL'] }
             steps{
                     script {
-                        if (params.BUILD_NUMBER != "") {
-                            build_string = params.BUILD_NUMBER
-                        } else {
-                            if( install.result.toString() == "SUCCESS" ) {
-                                build_string = install.number.toString()
-                            }
-                        }
+
                         if( build_string != "DEFAULT" ) {
                           if(params.CI_TYPE == "cluster-density") {
                             loaded_ci = build job: "scale-ci/e2e-benchmarking-multibranch-pipeline/cluster-density", propagate: false, parameters:[string(name: "BUILD_NUMBER", value: "${build_string}"),string(name: "JENKINS_AGENT_LABEL", value: JENKINS_AGENT_LABEL),string(name: "JOB_ITERATIONS", value: JOB_ITERATIONS),text(name: "ENV_VARS", value: ENV_VARS),string(name: "SCALE_UP", value: SCALE_UP),string(name: "SCALE_DOWN", value: SCALE_DOWN),booleanParam(name: "WRITE_TO_FILE", value: WRITE_TO_FILE),string(name: "E2E_BENCHMARKING_REPO", value: E2E_BENCHMARKING_REPO),string(name: "E2E_BENCHMARKING_REPO_BRANCH", value: E2E_BENCHMARKING_REPO_BRANCH)]
