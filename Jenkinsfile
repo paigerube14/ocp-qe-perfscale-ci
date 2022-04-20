@@ -12,10 +12,11 @@ pipeline {
   agent none
   parameters {
         string(name: 'BUILD_NUMBER', defaultValue: '', description: 'Build number of job that has installed the cluster.')
-        string(name: 'CERBERUS_ITERATIONS', defaultValue: '', description: 'Number of iterations to run of cerberus.')
-        booleanParam(name: 'CERBERUS_DAEMON_MODE', defaultValue: false, description: 'This variable will set cerberus to run forever (only way to stop is abort job)')
-        booleanParam(name: 'INSPECT_COMPONENTS', defaultValue: false,  description: 'This variable will set cerberus to inspect failing components')
-        string(name: "CERBERUS_WATCH_NAMESPACES", defaultValue: "[openshift-etcd, openshift-apiserver, openshift-kube-apiserver, openshift-monitoring, openshift-kube-controller-manager, openshift-machine-api, openshift-kube-scheduler, openshift-ingress, openshift-sdn]", description: "Which specific namespaces you want to watch any failing components, use [^.*\$] if you want to watch all namespaces")
+        string(name: 'CLUSTER_API', defaultValue: '', description: 'Api url of your cluster, only be used if BUILD_NUMBER is blank.')
+        string(name: 'CLUSTER_USER', defaultValue: 'kubeadmin', description: 'User to login to the cluster.')
+        string(name: 'CLUSTER_PASSWORD', defaultValue: '', description: 'Password to login to cluster.')
+
+        choice(choices: ["application-outages","container-scenarios","namespace-scenarios","network-scenarios","pod-scenarios","node-cpu-hog","node-io-hog", "node-memory-hog", "power-outages","pvc-scenario","time-scenarios","zone-outages"], name: 'SCENARIO_TYPE', description: '''Type of kraken scenario to run''')
         string(name:'JENKINS_AGENT_LABEL',defaultValue:'oc45',description:
         '''
         scale-ci-static: for static agent that is specific to scale-ci, useful when the jenkins dynamic agent isn't stable<br>
@@ -36,20 +37,20 @@ pipeline {
                SOMEVARn='envn-test'<br>
                </p>'''
             )
-       string(name: 'CERBERUS_REPO', defaultValue:'https://github.com/cloud-bulldozer/cerberus', description:'You can change this to point to your fork if needed.')
-       string(name: 'CERBERUS_REPO_BRANCH', defaultValue:'master', description:'You can change this to point to a branch on your fork if needed.')
+       string(name: 'KRAKEN_REPO', defaultValue:'https://github.com/cloud-bulldozer/kraken', description:'You can change this to point to your fork if needed.')
+       string(name: 'KRAKN_REPO_BRANCH', defaultValue:'master', description:'You can change this to point to a branch on your fork if needed.')
      }
 
   stages {
-    stage('Cerberus Run'){
+    stage('Kraken Run'){
       agent { label params['JENKINS_AGENT_LABEL'] }
       steps{
         deleteDir()
         checkout([
           $class: 'GitSCM',
-          branches: [[name: params.CERBERUS_REPO_BRANCH ]],
+          branches: [[name: params.KRAKEN_REPO_BRANCH ]],
           doGenerateSubmoduleConfigurations: false,
-          userRemoteConfigs: [[url: params.CERBERUS_REPO ]
+          userRemoteConfigs: [[url: params.KRAKEN_REPO ]
          ]])
         copyArtifacts(
             filter: '',
@@ -67,30 +68,36 @@ pipeline {
 
         script {
           RETURNSTATUS = sh(returnStatus: true, script: '''
-          wget https://raw.githubusercontent.com/cloud-bulldozer/kraken-hub/master/cerberus/env.sh
+          wget https://raw.githubusercontent.com/cloud-bulldozer/kraken-hub/main/env.sh
           source env.sh
+
+          wget https://raw.githubusercontent.com/cloud-bulldozer/kraken-hub/main/${SCENARIO_TYPE}/env.sh -O ${SCENARIO_TYPE}_env.sh
+          source ${SCENARIO_TYPE}_env.sh
           # Get ENV VARS Supplied by the user to this job and store in .env_override
           echo "$ENV_VARS" > .env_override
           # Export those env vars so they could be used by CI Job
           set -a && source .env_override && set +a
           mkdir -p ~/.kube
+          if (BUILD_NUMBER != "") {
           cp $WORKSPACE/flexy-artifacts/workdir/install-dir/auth/kubeconfig ~/.kube/config
+          } else {
+            oc login $CLUSTER_API -u $CLUSTER_USER -p $CLUSTER_PASSWORD
+            oc config view >> ~/.kube/config
+          }
+
+
           export CERBERUS_KUBECONFIG=~/.kube/config
           env
-          wget https://raw.githubusercontent.com/cloud-bulldozer/kraken-hub/master/cerberus/cerberus.yaml.template
-          envsubst <cerberus.yaml.template > cerberus.yaml
+          wget https://raw.githubusercontent.com/cloud-bulldozer/kraken-hub/main/config.yaml.template
+          envsubst <config.yaml.template > kraken.yaml
           python3 --version
           python3 -m venv venv3
           source venv3/bin/activate
           pip --version
           pip install --upgrade pip
           pip install -U -r requirements.txt
-          python start_cerberus.py --config cerberus.yaml
-          replaced_json=$(less -XF final_cerberus_info.json | sed "s/True/0/g" | sed "s/False/1/g" )
-          value=${replaced_json#*:*:}   # remove prefix ending at second ":"
-          final_health=${value%,*}  # remove suffix starting with ","
-          echo "health $final_health"
-          exit $final_health
+          python run_kraken.py --config kraken.yaml
+          exit $?
 
           ''')
           sh "echo $RETURNSTATUS"
@@ -104,12 +111,6 @@ pipeline {
                 currentBuild.result = "FAILURE"
            }
       }
-      script {
-          if (fileExists("inspect_data")) {
-             archiveArtifacts artifacts: 'inspect_data/*,inspect_data/**', fingerprint: false
-          }
-       }
-
      }
    }
   }
