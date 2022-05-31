@@ -71,7 +71,7 @@ pipeline {
           wget https://raw.githubusercontent.com/cloud-bulldozer/kraken-hub/main/env.sh
           source env.sh
 
-          wget https://raw.githubusercontent.com/cloud-bulldozer/kraken-hub/main/${SCENARIO_TYPE}/env.sh -O ${SCENARIO_TYPE}_env.sh
+          wget https://raw.githubusercontent.com/cloud-bulldozer/kraken-hub/main/${SCENARIO_TYPE}
           source ${SCENARIO_TYPE}_env.sh
           # Get ENV VARS Supplied by the user to this job and store in .env_override
           echo "$ENV_VARS" > .env_override
@@ -85,17 +85,18 @@ pipeline {
             oc config view >> ~/.kube/config
           }
 
-
-          export CERBERUS_KUBECONFIG=~/.kube/config
           env
           wget https://raw.githubusercontent.com/cloud-bulldozer/kraken-hub/main/config.yaml.template
           envsubst <config.yaml.template > kraken.yaml
+          envsubst <config.yaml.template > kraken.yaml
+          sed -i 's/\/root\/.kube\/config/~\/.kube\/config/g' kraken.yaml
           python3 --version
           python3 -m venv venv3
           source venv3/bin/activate
           pip --version
           pip install --upgrade pip
           pip install -U -r requirements.txt
+          cat kraken.yaml
           python run_kraken.py --config kraken.yaml
           exit $?
 
