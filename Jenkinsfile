@@ -12,7 +12,6 @@ pipeline {
   agent none
   parameters {
         string(name: 'BUILD_NUMBER', defaultValue: '', description: 'Build number of job that has installed the cluster.')
-        choice(choices: ["application-outages","container-scenarios","namespace-scenarios","network-scenarios","pod-scenarios","node-cpu-hog","node-io-hog", "node-memory-hog", "power-outages","pvc-scenario","time-scenarios","zone-outages"], name: 'SCENARIO_TYPE', description: '''Type of kraken scenario to run''')
         string(name:'JENKINS_AGENT_LABEL',defaultValue:'oc45',description:
         '''
         scale-ci-static: for static agent that is specific to scale-ci, useful when the jenkins dynamic agent isn't stable<br>
@@ -33,8 +32,6 @@ pipeline {
                SOMEVARn='envn-test'<br>
                </p>'''
             )
-       string(name: 'KRAKEN_REPO', defaultValue:'https://github.com/cloud-bulldozer/kraken', description:'You can change this to point to your fork if needed.')
-       string(name: 'KRAKN_REPO_BRANCH', defaultValue:'master', description:'You can change this to point to a branch on your fork if needed.')
      }
 
   stages {
@@ -42,12 +39,6 @@ pipeline {
       agent { label params['JENKINS_AGENT_LABEL'] }
       steps{
         deleteDir()
-        checkout([
-          $class: 'GitSCM',
-          branches: [[name: params.KRAKEN_REPO_BRANCH ]],
-          doGenerateSubmoduleConfigurations: false,
-          userRemoteConfigs: [[url: params.KRAKEN_REPO ]
-         ]])
         copyArtifacts(
             filter: '',
             fingerprintArtifacts: true,
@@ -61,7 +52,6 @@ pipeline {
           currentBuild.description = "Copying Artifact from Flexy-install build <a href=\"${buildinfo.buildUrl}\">Flexy-install#${params.BUILD_NUMBER}</a>"
           buildinfo.params.each { env.setProperty(it.key, it.value) }
         }
-
         script {
           RETURNSTATUS = sh(returnStatus: true, script: '''
           yum install podman
