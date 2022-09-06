@@ -12,10 +12,6 @@ pipeline {
   agent none
   parameters {
         string(name: 'BUILD_NUMBER', defaultValue: '', description: 'Build number of job that has installed the cluster.')
-        string(name: 'CLUSTER_API', defaultValue: '', description: 'Api url of your cluster, only be used if BUILD_NUMBER is blank.')
-        string(name: 'CLUSTER_USER', defaultValue: 'kubeadmin', description: 'User to login to the cluster.')
-        string(name: 'CLUSTER_PASSWORD', defaultValue: '', description: 'Password to login to cluster.')
-
         choice(choices: ["application-outages","container-scenarios","namespace-scenarios","network-scenarios","pod-scenarios","node-cpu-hog","node-io-hog", "node-memory-hog", "power-outages","pvc-scenario","time-scenarios","zone-outages"], name: 'SCENARIO_TYPE', description: '''Type of kraken scenario to run''')
         string(name:'JENKINS_AGENT_LABEL',defaultValue:'oc45',description:
         '''
@@ -78,12 +74,7 @@ pipeline {
           # Export those env vars so they could be used by CI Job
           set -a && source .env_override && set +a
           mkdir -p ~/.kube
-          if (BUILD_NUMBER != "") {
           cp $WORKSPACE/flexy-artifacts/workdir/install-dir/auth/kubeconfig ~/.kube/config
-          } else {
-            oc login $CLUSTER_API -u $CLUSTER_USER -p $CLUSTER_PASSWORD
-            oc config view >> ~/.kube/config
-          }
 
           env
           wget https://raw.githubusercontent.com/cloud-bulldozer/kraken-hub/main/config.yaml.template
