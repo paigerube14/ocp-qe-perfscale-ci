@@ -54,8 +54,7 @@ pipeline {
         }
         script {
           RETURNSTATUS = sh(returnStatus: true, script: '''
-          yum module enable -y container-tools:rhel8
-          yum module install -y container-tools:rhel8 
+
           podman --version
           exit $?
 
