@@ -64,30 +64,8 @@ pipeline {
 
         script {
           RETURNSTATUS = sh(returnStatus: true, script: '''
-          wget https://raw.githubusercontent.com/cloud-bulldozer/kraken-hub/main/env.sh
-          source env.sh
-
-          wget https://raw.githubusercontent.com/cloud-bulldozer/kraken-hub/main/${SCENARIO_TYPE}
-          source ${SCENARIO_TYPE}_env.sh
-          # Get ENV VARS Supplied by the user to this job and store in .env_override
-          echo "$ENV_VARS" > .env_override
-          # Export those env vars so they could be used by CI Job
-          set -a && source .env_override && set +a
-          mkdir -p ~/.kube
-          cp $WORKSPACE/flexy-artifacts/workdir/install-dir/auth/kubeconfig ~/.kube/config
-
-          env
-          wget https://raw.githubusercontent.com/cloud-bulldozer/kraken-hub/main/config.yaml.template
-          envsubst <config.yaml.template > kraken.yaml
-          envsubst <config.yaml.template > kraken.yaml
-          sed -i 's/\/root\/.kube\/config/~\/.kube\/config/g' kraken.yaml
-          python3 --version
-          python3 -m venv venv3
-          source venv3/bin/activate
-          pip --version
-          pip install --upgrade pip
-          pip install -U -r requirements.txt
-          cat kraken.yaml
+          yum install podman
+          podman --version
           python run_kraken.py --config kraken.yaml
           exit $?
 
