@@ -56,7 +56,6 @@ pipeline {
           RETURNSTATUS = sh(returnStatus: true, script: '''
           yum install podman
           podman --version
-          python run_kraken.py --config kraken.yaml
           exit $?
 
           ''')
