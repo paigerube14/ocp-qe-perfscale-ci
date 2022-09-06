@@ -54,7 +54,8 @@ pipeline {
         }
         script {
           RETURNSTATUS = sh(returnStatus: true, script: '''
-          yum install podman
+          pip install -U urllib3
+          sudo yum install podman
           podman --version
           exit $?
 
