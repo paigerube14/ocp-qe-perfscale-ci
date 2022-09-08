@@ -64,7 +64,9 @@ pipeline {
           RETURNSTATUS = sh(returnStatus: true, script: '''
           pip --version
           pip install podman-compose docker-compose
-
+          ls
+          ./runenv.sh
+          ./test/scan-example-with-podman.sh
           ''')
           sh "echo $RETURNSTATUS"
         }
