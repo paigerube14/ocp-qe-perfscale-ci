@@ -62,9 +62,16 @@ pipeline {
         }
         script {
           RETURNSTATUS = sh(returnStatus: true, script: '''
-          pip --version
-          pip install podman-compose docker-compose
+          
           ls
+          python3.9 --version
+          python3.9 -m pip install virtualenv
+          python3.9 -m virtualenv venv3
+          source venv3/bin/activate
+          python --version
+          pip --version
+          pip install  docker-compose
+          docker-compose --help
           ./runenv.sh
           ./test/scan-example-with-podman.sh
           ''')
