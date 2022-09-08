@@ -72,8 +72,8 @@ pipeline {
           pip --version
           pip install  docker-compose
           docker-compose --help
-          ./runenv.sh
-          ./test/scan-example-with-podman.sh
+          docker-compose up zaproxy
+          ./test/scan-example-with-docker.sh
           ''')
           sh "echo $RETURNSTATUS"
         }
