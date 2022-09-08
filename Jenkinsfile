@@ -12,6 +12,8 @@ pipeline {
   agent none
   parameters {
         string(name: 'BUILD_NUMBER', defaultValue: '', description: 'Build number of job that has installed the cluster.')
+        string(name: 'DAST_TOOL_URL', defaultValue: 'https://github.com/RedHatProductSecurity/rapidast.git', description: 'Rapidast tool github url .')
+        string(name: 'DAST_TOOL_BRANCH', defaultValue: 'development', description: 'Rapdiast tool github barnch to checkout.')
         string(name:'JENKINS_AGENT_LABEL',defaultValue:'oc45',description:
         '''
         scale-ci-static: for static agent that is specific to scale-ci, useful when the jenkins dynamic agent isn't stable<br>
@@ -39,6 +41,12 @@ pipeline {
       agent { label params['JENKINS_AGENT_LABEL'] }
       steps{
         deleteDir()
+        checkout([
+            $class: 'GitSCM',
+            branches: [[name: params.DAST_TOOL_BRANCH ]],
+            doGenerateSubmoduleConfigurations: false,
+            userRemoteConfigs: [[url: params.DAST_TOOL_URL ]]
+        ])
         copyArtifacts(
             filter: '',
             fingerprintArtifacts: true,
@@ -54,9 +62,8 @@ pipeline {
         }
         script {
           RETURNSTATUS = sh(returnStatus: true, script: '''
-
-          podman --version
-          exit $?
+          pip --version
+          pip install podman-compose docker-compose
 
           ''')
           sh "echo $RETURNSTATUS"
