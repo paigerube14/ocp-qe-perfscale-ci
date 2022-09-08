@@ -72,6 +72,12 @@ pipeline {
           pip --version
           pip install  docker-compose
           docker-compose --help
+
+
+          curl -fsSL https://get.docker.com -o get-docker.sh
+          sh get-docker.sh
+
+
           docker-compose up zaproxy
           ./test/scan-example-with-docker.sh
           ''')
