@@ -2,7 +2,7 @@ import json
 import subprocess
 from datetime import datetime
 import get_es_data
-from tzlocal import get_localzone
+import pytz
 
 def run(command):
     try:
@@ -107,13 +107,12 @@ def get_worker_num(scale="false"):
         worker_count = worker_count.strip()
     return worker_count
 
-
-def get_local_time(): 
+def get_local_time():
+    eastern = pytz.timezone('US/Eastern')
+    fmt = '%Y-%m-%d %H:%M:%S %Z%z'
     """From any timezone to local datetime - also cope with DST"""
-    local_time_zone = get_localzone()
-    print("local_time_zone" + str(local_time_zone))
-    local_tz = datetime.now(local_time_zone)
-    print('local_tz' + str(local_tz))
-    return local_tz
+    local_dt = eastern.localize(datetime.now())
+    print("local_time_zone" + str(local_dt))
+    return local_dt.strftime(fmt)
 
 #flexy_install_type("https://mastern-jenkins-csb-openshift-qe.apps.ocp-c1.prod.psi.redhat.com/job/ocp-common/job/Flexy-install/54597")
