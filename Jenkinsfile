@@ -96,7 +96,6 @@ pipeline {
             source venv3/bin/activate
             pip --version
             pip install --upgrade pip
-from tzlocal import get_localzone
             pip install -U gspread oauth2client datetime pytz pyyaml tzlocal
 
             export PYTHONIOENCODING=utf8
