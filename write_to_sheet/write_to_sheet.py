@@ -32,7 +32,7 @@ def write_to_sheet(google_sheet_account, flexy_id, job_url, status, scale, force
     if worker_master == "1":
         sno = "yes"
 
-    row = [flexy_cell, all_versions[0], ci_cell, worker_count, status, duration, scale, force, cloud_type, install_type, network_type, sno, str(datetime.now(tz)), write_helper.get_env_vars_from_file(env_vars_file), user]
+    row = [flexy_cell, all_versions[0], ci_cell, worker_count, status, duration, scale, force, cloud_type, install_type, network_type, sno, str(write_helper.get_local_time()), write_helper.get_env_vars_from_file(env_vars_file), user]
 
     ws = sheet.worksheet("Upgrade Output")
     ws.insert_row(row, index, "USER_ENTERED")

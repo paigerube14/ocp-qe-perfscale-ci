@@ -217,7 +217,7 @@ def write_to_sheet(google_sheet_account, flexy_id, ci_job, job_type, job_url, st
         google_sheet_url = parse_output_for_sheet(job_output)
         row.append(google_sheet_url)
 
-    row.append(str(datetime.now(tz)))
+    row.append(str(write_helper.get_local_time()))
     row.append(str(write_helper.get_env_vars_from_file(env_vars_file)))
     row.append(user)
     ws.insert_row(row, index, "USER_ENTERED")

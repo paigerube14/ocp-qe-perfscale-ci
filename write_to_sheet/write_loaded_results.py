@@ -53,7 +53,7 @@ def write_to_sheet(google_sheet_account, flexy_id, scale_ci_job, upgrade_job_url
     last_version = versions[-1].split(".")
     last_version_string = str(last_version[0]) + "." + str(last_version[1])
     row1 = [flexy_cell, versions[0], upgrade_path_cell, ci_cell, worker_count, status_cell, duration,scale, force,
-           cloud_type, install_type, network_type, sno, str(datetime.now(tz)), env_vars, user]
+           cloud_type, install_type, network_type, sno, str(write_helper.get_local_time()), env_vars, user]
     upgrade_sheet = file.open_by_url(
         "https://docs.google.com/spreadsheets/d/1yqQxAxLcYEF-VHlQ_KDLs8NOFsRLb4R8V2UM9VFaRBI/edit?usp=sharing")
     ws_upgrade = upgrade_sheet.worksheet(last_version_string)

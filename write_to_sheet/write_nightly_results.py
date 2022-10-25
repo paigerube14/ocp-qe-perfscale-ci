@@ -34,7 +34,7 @@ def write_to_sheet(google_sheet_account, flexy_id, scale_ci_job, ran_jobs, faile
 
     cluster_version = write_helper.get_oc_version()
     tz = timezone('EST')
-    row = [flexy_cell, cluster_version, profile, profile_sizing, worker_count, ci_cell, failed_jobs, str(datetime.now(tz)), status, write_helper.get_env_vars_from_file(env_vars_file), user]
+    row = [flexy_cell, cluster_version, profile, profile_sizing, worker_count, ci_cell, failed_jobs, str(write_helper.get_local_time()), status, write_helper.get_env_vars_from_file(env_vars_file), user]
 
     latest_version = cluster_version.split('.')
     print('cluster verison list ' + str(latest_version))
