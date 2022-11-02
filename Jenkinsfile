@@ -42,9 +42,22 @@ pipeline {
       steps{
         deleteDir()
         checkout([
+          $class: 'GitSCM',
+          branches: [[name: GIT_BRANCH ]],
+          doGenerateSubmoduleConfigurations: false,
+          userRemoteConfigs: [[url: GIT_URL ]
+          ]])
+        checkout([
             $class: 'GitSCM',
             branches: [[name: params.DAST_TOOL_BRANCH ]],
             doGenerateSubmoduleConfigurations: false,
+            extensions: [
+                [$class: 'CloneOption', noTags: true, reference: '', shallow: true],
+                [$class: 'PruneStaleBranch'],
+                [$class: 'CleanCheckout'],
+                [$class: 'IgnoreNotifyCommit'],
+                [$class: 'RelativeTargetDirectory', relativeTargetDir: 'dast_tool']
+            ],
             userRemoteConfigs: [[url: params.DAST_TOOL_URL ]]
         ])
         copyArtifacts(
@@ -64,22 +77,12 @@ pipeline {
           RETURNSTATUS = sh(returnStatus: true, script: '''
           
           ls
-          python3.9 --version
-          python3.9 -m pip install virtualenv
-          python3.9 -m virtualenv venv3
-          source venv3/bin/activate
-          python --version
-          pip --version
-          pip install  docker-compose
-          docker-compose --help
 
-
-          curl -fsSL https://get.docker.com -o get-docker.sh
-          sh get-docker.sh
-
-
-          docker-compose up zaproxy
-          ./test/scan-example-with-docker.sh
+          kubectl apply -f operator_configs/catalog_source.yaml
+          kubectl apply -f operator_configs/subscription.yaml
+          kubectl apply -f operator_configs/operatorgroup.yaml
+          
+          kubectl apply -f dast_tool/operator/config/samples/research_v1alpha1_rapidast.yaml
           ''')
           sh "echo $RETURNSTATUS"
         }
