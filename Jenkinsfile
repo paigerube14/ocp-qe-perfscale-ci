@@ -12,8 +12,11 @@ pipeline {
   agent none
   parameters {
         string(name: 'BUILD_NUMBER', defaultValue: '', description: 'Build number of job that has installed the cluster.')
+        string(name: 'KUBEADMIN_PASS', defaultValue: '', description: 'Password to login to password.')
         string(name: 'DAST_TOOL_URL', defaultValue: 'https://github.com/RedHatProductSecurity/rapidast.git', description: 'Rapidast tool github url .')
         string(name: 'DAST_TOOL_BRANCH', defaultValue: 'development', description: 'Rapdiast tool github barnch to checkout.')
+        string(name: 'GIT_LAB_URL', defaultValue: 'https://gitlab.cee.redhat.com/jechoi/rapidast-ocp.git', description: 'Rapidast tool github url .')
+        string(name: 'GIT_LAB_BRANCH', defaultValue: 'main', description: 'Rapdiast tool github barnch to checkout.')
         string(name:'JENKINS_AGENT_LABEL',defaultValue:'oc45',description:
         '''
         scale-ci-static: for static agent that is specific to scale-ci, useful when the jenkins dynamic agent isn't stable<br>
@@ -60,6 +63,19 @@ pipeline {
             ],
             userRemoteConfigs: [[url: params.DAST_TOOL_URL ]]
         ])
+        checkout([
+            $class: 'GitSCM',
+            branches: [[name: params.GIT_LAB_BRANCH ]],
+            doGenerateSubmoduleConfigurations: false,
+            extensions: [
+                [$class: 'CloneOption', noTags: true, reference: '', shallow: true],
+                [$class: 'PruneStaleBranch'],
+                [$class: 'CleanCheckout'],
+                [$class: 'IgnoreNotifyCommit'],
+                [$class: 'RelativeTargetDirectory', relativeTargetDir: 'dast_git_lab']
+            ],
+            userRemoteConfigs: [[url: params.GIT_LAB_URL ]]
+        ])
         copyArtifacts(
             filter: '',
             fingerprintArtifacts: true,
@@ -75,13 +91,23 @@ pipeline {
         }
         script {
           RETURNSTATUS = sh(returnStatus: true, script: '''
-          
+           # Get ENV VARS Supplied by the user to this job and store in .env_override
+          echo "$ENV_VARS" > .env_override
+          # Export those env vars so they could be used by CI Job
+          set -a && source .env_override && set +a
+          mkdir -p ~/.kube
+          cp $WORKSPACE/flexy-artifacts/workdir/install-dir/auth/kubeconfig ~/.kube/config
           ls
+
+          
 
           kubectl apply -f operator_configs/catalog_source.yaml
           kubectl apply -f operator_configs/subscription.yaml
           kubectl apply -f operator_configs/operatorgroup.yaml
           
+
+          cp dast_git_lab/
+          cp dast_git_lab/ dast_tool/scripts
           kubectl apply -f dast_tool/operator/config/samples/research_v1alpha1_rapidast.yaml
           ''')
           sh "echo $RETURNSTATUS"
