@@ -63,19 +63,26 @@ pipeline {
             ],
             userRemoteConfigs: [[url: params.DAST_TOOL_URL ]]
         ])
-        checkout([
-            $class: 'GitSCM',
-            branches: [[name: params.GIT_LAB_BRANCH ]],
-            doGenerateSubmoduleConfigurations: false,
-            extensions: [
-                [$class: 'CloneOption', noTags: true, reference: '', shallow: true],
-                [$class: 'PruneStaleBranch'],
-                [$class: 'CleanCheckout'],
-                [$class: 'IgnoreNotifyCommit'],
-                [$class: 'RelativeTargetDirectory', relativeTargetDir: 'dast_git_lab']
-            ],
-            userRemoteConfigs: [[url: params.GIT_LAB_URL ]]
-        ])
+        checkout changelog: false,
+          poll: false,
+          scm: [
+              $class: 'GitSCM',
+              branches: [[name: "${params.GIT_LAB_BRANCH}"]],
+              doGenerateSubmoduleConfigurations: false,
+              extensions: [
+                  [$class: 'CloneOption', noTags: true, reference: '', shallow: true],
+                  [$class: 'PruneStaleBranch'],
+                  [$class: 'CleanCheckout'],
+                  [$class: 'IgnoreNotifyCommit'],
+                  [$class: 'RelativeTargetDirectory', relativeTargetDir: 'dast_git_lab']
+              ],
+              submoduleCfg: [],
+              userRemoteConfigs: [[
+                  name: 'origin',
+                  refspec: "+refs/heads/${params.GIT_LAB_BRANCH}:refs/remotes/origin/${params.GIT_LAB_BRANCH}",
+                  url: "${params.GIT_LAB_URL}"
+              ]]
+          ]
         copyArtifacts(
             filter: '',
             fingerprintArtifacts: true,
@@ -100,15 +107,15 @@ pipeline {
           ls
 
           if [[ ! -z $(kubectl get ns rapidast) ]]; then 
-            kubectl delete ns rapidast
+              kubectl delete ns rapidast
           fi
           kubectl create ns rapidast
 
           mkdir /dast_tool/config/openapi
 
-          
+
           cp dast_git_lab/ocp-openapi-v2-1.23.5%2B3afdacb.json /dast_tool/config/openapi/
-          
+
           ls /dast_tool/config/openapi
           cp dast_git_lab/config.yaml /dast_tool/config/config.yaml
           cp dast_git_lab/add-ocp-token-cookie.js dast_tool/scripts
@@ -116,14 +123,21 @@ pipeline {
           kubectl apply -f operator_configs/catalog_source.yaml
           kubectl apply -f operator_configs/subscription.yaml
           kubectl apply -f operator_configs/operatorgroup.yaml
-          
+
 
           kubectl apply -f dast_tool/operator/config/samples/research_v1alpha1_rapidast.yaml
 
+          mkdir results
+          bash results.sh rapidast-pvc results
+          ls
 
-          bash results.sh rapidast-pvc <LOCAL_RESULTS_DIR>
           ''')
           sh "echo $RETURNSTATUS"
+          archiveArtifacts(
+              artifacts: 'results/*',
+              allowEmptyArchive: true,
+              fingerprint: true
+          )
         }
       script{
             def status = "FAIL"
