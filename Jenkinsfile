@@ -42,7 +42,6 @@ pipeline{
         choice(choices: ['','ovn', 'sdn'], name: 'NETWORK_TYPE', description: 'Network type, will be ignored if BUILD_NUMBER is set')
         choice(choices: ['','ipi', 'upi', 'sno'], name: 'INSTALL_TYPE', description: '''Type of installation (set to SNO for sno cluster type),  <br/>
         will be ignored if BUILD_NUMBER is set''')
-        choice(choices: ['x86_64','aarch64', 's390x', 'ppc64le', 'multi', 'multi-aarch64','multi-x86_64','multi-ppc64le', 'multi-s390x'], name: 'ARCH_TYPE', description: '''Type of installation''')
         string(name: 'MASTER_COUNT', defaultValue: '3', description: 'Number of master nodes in your cluster to create.')
         string(name: "WORKER_COUNT", defaultValue: '3', description: 'Number of worker nodes in your cluster to create.')
         string(name:'JENKINS_AGENT_LABEL',defaultValue:'oc411',description:
