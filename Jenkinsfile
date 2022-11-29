@@ -15,7 +15,7 @@ pipeline {
         string(name: 'KUBEADMIN_PASS', defaultValue: '', description: 'Password to login to password.')
         string(name: 'DAST_TOOL_URL', defaultValue: 'https://github.com/RedHatProductSecurity/rapidast.git', description: 'Rapidast tool github url .')
         string(name: 'DAST_TOOL_BRANCH', defaultValue: 'development', description: 'Rapdiast tool github barnch to checkout.')
-        string(name:'JENKINS_AGENT_LABEL',defaultValue:'oc45',description:
+        string(name:'JENKINS_AGENT_LABEL',defaultValue:'oc412',description:
         '''
         scale-ci-static: for static agent that is specific to scale-ci, useful when the jenkins dynamic agent isn't stable<br>
         4.y: oc4y || mac-installer || rhel8-installer-4y <br/>
@@ -84,9 +84,11 @@ pipeline {
           cp $WORKSPACE/flexy-artifacts/workdir/install-dir/auth/kubeconfig ~/.kube/config
           ls
 
+          oc login -u kubeadmin -p $KUBEADMIN_PASS
+
           ./deploy_ssml.sh
 
-          
+
           mkdir results
           bash results.sh rapidast-pvc results
           ls
