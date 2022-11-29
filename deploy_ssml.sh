@@ -5,8 +5,7 @@ if [[ ! -z $(kubectl get ns rapidast) ]]; then
 fi
 kubectl create ns rapidast
 
-ls /dast_tool/config/
-
+ls dast_tool
 
 console_url=$( oc get routes console -n openshift-console -o jsonpath='{.spec.host}')
 
