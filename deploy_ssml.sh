@@ -6,7 +6,7 @@ fi
 kubectl create ns rapidast
 
 ls /dast_tool/config/
-cp dast_git_lab/config.yaml /dast_tool/config/config.yaml
+
 
 console_url=$( oc get routes console -n openshift-console -o jsonpath='{.spec.host}')
 
