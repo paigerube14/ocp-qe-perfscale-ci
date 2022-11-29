@@ -15,8 +15,6 @@ pipeline {
         string(name: 'KUBEADMIN_PASS', defaultValue: '', description: 'Password to login to password.')
         string(name: 'DAST_TOOL_URL', defaultValue: 'https://github.com/RedHatProductSecurity/rapidast.git', description: 'Rapidast tool github url .')
         string(name: 'DAST_TOOL_BRANCH', defaultValue: 'development', description: 'Rapdiast tool github barnch to checkout.')
-        string(name: 'GIT_LAB_URL', defaultValue: 'https://gitlab.cee.redhat.com/jechoi/rapidast-ocp.git', description: 'Rapidast tool github url .')
-        string(name: 'GIT_LAB_BRANCH', defaultValue: 'main', description: 'Rapdiast tool github barnch to checkout.')
         string(name:'JENKINS_AGENT_LABEL',defaultValue:'oc45',description:
         '''
         scale-ci-static: for static agent that is specific to scale-ci, useful when the jenkins dynamic agent isn't stable<br>
@@ -63,26 +61,6 @@ pipeline {
             ],
             userRemoteConfigs: [[url: params.DAST_TOOL_URL ]]
         ])
-        checkout changelog: false,
-          poll: false,
-          scm: [
-              $class: 'GitSCM',
-              branches: [[name: "${params.GIT_LAB_BRANCH}"]],
-              doGenerateSubmoduleConfigurations: false,
-              extensions: [
-                  [$class: 'CloneOption', noTags: true, reference: '', shallow: true],
-                  [$class: 'PruneStaleBranch'],
-                  [$class: 'CleanCheckout'],
-                  [$class: 'IgnoreNotifyCommit'],
-                  [$class: 'RelativeTargetDirectory', relativeTargetDir: 'dast_git_lab']
-              ],
-              submoduleCfg: [],
-              userRemoteConfigs: [[
-                  name: 'origin',
-                  refspec: "+refs/heads/${params.GIT_LAB_BRANCH}:refs/remotes/origin/${params.GIT_LAB_BRANCH}",
-                  url: "${params.GIT_LAB_URL}"
-              ]]
-          ]
         copyArtifacts(
             filter: '',
             fingerprintArtifacts: true,
@@ -106,27 +84,9 @@ pipeline {
           cp $WORKSPACE/flexy-artifacts/workdir/install-dir/auth/kubeconfig ~/.kube/config
           ls
 
-          if [[ ! -z $(kubectl get ns rapidast) ]]; then 
-              kubectl delete ns rapidast
-          fi
-          kubectl create ns rapidast
+          ./deploy_ssml.sh
 
-          mkdir /dast_tool/config/openapi
-
-
-          cp dast_git_lab/ocp-openapi-v2-1.23.5%2B3afdacb.json /dast_tool/config/openapi/
-
-          ls /dast_tool/config/openapi
-          cp dast_git_lab/config.yaml /dast_tool/config/config.yaml
-          cp dast_git_lab/add-ocp-token-cookie.js dast_tool/scripts
-
-          kubectl apply -f operator_configs/catalog_source.yaml
-          kubectl apply -f operator_configs/subscription.yaml
-          kubectl apply -f operator_configs/operatorgroup.yaml
-
-
-          kubectl apply -f dast_tool/operator/config/samples/research_v1alpha1_rapidast.yaml
-
+          
           mkdir results
           bash results.sh rapidast-pvc results
           ls
