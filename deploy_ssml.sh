@@ -5,9 +5,7 @@ if [[ ! -z $(kubectl get ns rapidast) ]]; then
 fi
 kubectl create ns rapidast
 
-cp dast_git_lab/ocp-openapi-v2-1.23.5%2B3afdacb.json /dast_tool/config/
-
-ls /dast_tool/config/openapi
+ls /dast_tool/config/
 cp dast_git_lab/config.yaml /dast_tool/config/config.yaml
 
 console_url=$( oc get routes console -n openshift-console -o jsonpath='{.spec.host}')
@@ -20,6 +18,8 @@ curl -k "https://${console_url}/api/kubernetes/openapi/v2" -H "Cookie: openshift
 kubectl apply -f operator_configs/catalog_source.yaml
 kubectl apply -f operator_configs/subscription.yaml
 kubectl apply -f operator_configs/operatorgroup.yaml
+
+#edit rapidast config file
 
 kubectl apply -f dast_tool/operator/config/samples/research_v1alpha1_rapidast.yaml
 
