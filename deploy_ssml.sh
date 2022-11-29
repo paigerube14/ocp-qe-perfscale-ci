@@ -15,9 +15,7 @@ curl -k "https://${console_url}/api/kubernetes/openapi/v2" -H "Cookie: openshift
 
 ls -la
 
-kubectl apply -f operator_configs/catalog_source.yaml
-kubectl apply -f operator_configs/subscription.yaml
-kubectl apply -f operator_configs/operatorgroup.yaml
+kubectl apply -f operator_configs/olm/rapidast.yaml
 
 #edit rapidast config file
 
