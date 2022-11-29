@@ -12,7 +12,6 @@ pipeline {
   agent none
   parameters {
         string(name: 'BUILD_NUMBER', defaultValue: '', description: 'Build number of job that has installed the cluster.')
-        string(name: 'KUBEADMIN_PASS', defaultValue: '', description: 'Password to login to password.')
         string(name: 'DAST_TOOL_URL', defaultValue: 'https://github.com/RedHatProductSecurity/rapidast.git', description: 'Rapidast tool github url .')
         string(name: 'DAST_TOOL_BRANCH', defaultValue: 'development', description: 'Rapdiast tool github barnch to checkout.')
         string(name:'JENKINS_AGENT_LABEL',defaultValue:'oc412',description:
@@ -84,7 +83,7 @@ pipeline {
           cp $WORKSPACE/flexy-artifacts/workdir/install-dir/auth/kubeconfig ~/.kube/config
           ls
 
-          oc login -u kubeadmin -p $KUBEADMIN_PASS
+          oc login -u kubeadmin -p $(cat $WORKSPACE/flexy-artifacts/workdir/install-dir/auth/kubeadmin-password)
 
           ./deploy_ssml.sh
 
