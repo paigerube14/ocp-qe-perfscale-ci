@@ -2,6 +2,7 @@ package main
 
 import (
 	"k8s.io/client-go/discovery"
+	"log"
 	"path/filepath"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
 )
@@ -18,15 +19,15 @@ func main() {
 	}
 
 	cfg, err := testEnv.Start()
-	handleErr(err)
+	log.Fatal(err)
 
 	defer testEnv.Stop()
 
-	cl, err := discovery.NewDsicoveryClientForConfig(cfg)
-	handleErr(err)
+	cl, err := discovery.NewDiscoveryClientForConfig(cfg)
+	log.Fatal(err)
 
 	schema, err := cl.OpenAPISchema()
-	handleErr()
+	log.Fatal(err)
 
-	// Do whatever you want with the schema
+	log.Print(schema)
 }
