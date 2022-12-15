@@ -93,7 +93,9 @@ pipeline {
             currentBuild.description = "Copying Artifact from Flexy-install build <a href=\"${buildinfo.buildUrl}\">Flexy-install#${params.BUILD_NUMBER}</a>"
             buildinfo.params.each { env.setProperty(it.key, it.value) }
         }
-        withCredentials([file(credentialsId: 'b73d6ed3-99ff-4e06-b2d8-64eaaf69d1db', variable: 'OCP_AWS')]) {
+        withCredentials([file(credentialsId: 'b73d6ed3-99ff-4e06-b2d8-64eaaf69d1db', variable: 'OCP_AWS'),
+                         file(credentialsId: 'eb22dcaa-555c-4ebe-bb39-5b25628cc6bb', variable: 'OCP_GCP'),
+                         file(credentialsId: 'ocp-azure', variable: 'OCP_AZURE')]) {
           script {
             println "Will keep the cluster long run for ${params.LONG_RUN_HOURS} hours."
             sleep time: PAUSE_TIME, unit:"MINUTES"
@@ -104,11 +106,35 @@ pipeline {
             echo "$ENV_VARS" > .env_override
             # Export those env vars so they could be used by CI Job
             set -a && source .env_override && set +a
-            mkdir -p ~/.aws
-            cp -f $OCP_AWS ~/.aws/credentials
-            echo "[profile default]
-            region = `cat $WORKSPACE/flexy-artifacts/workdir/install-dir/terraform.platform.auto.tfvars.json | jq -r ".aws_region"`
-            output = text" > ~/.aws/config
+            
+            if [[ $(echo $VARIABLES_LOCATION | grep azure -c) > 0 ]]; then
+                # create azure profile
+                az login --service-principal -u `cat $OCP_AZURE | jq -r '.clientId'` -p "`cat $OCP_AZURE | jq -r '.clientSecret'`" --tenant `cat $OCP_AZURE | jq -r '.tenantId'`
+                az account set --subscription `cat $OCP_AZURE | jq -r '.subscriptionId'`
+
+                client_id=$(cat $OCP_AZURE | jq -r '.clientId')
+                client_secret=$(cat $OCP_AZURE | jq -r '.clientSecret')
+                tenant_id=$(cat $OCP_AZURE | jq -r '.tenantId')
+                export AZURE_TENANT_ID=$tenant_id
+                export AZURE_CLIENT_SECRET=$client_secret
+                export AZURE_CLIENT_ID=$client_id
+            else if [[ $(echo $VARIABLES_LOCATION | grep gcp -c) > 0 ]]; then
+                # login to service account
+                gcloud auth activate-service-account `cat $OCP_GCP | jq -r '.client_email'`  --key-file=$OCP_GCP --project=`cat $OCP_GCP | jq -r '.project_id'`
+                gcloud auth list
+                gcloud config set account `cat $OCP_GCP | jq -r '.client_email'`
+                ls
+                cp -f $OCP_GCP $WORKSPACE/.gcp/credentials
+
+                export GOOGLE_APPLICATION_CREDENTIALS=$WORKSPACE/.gcp/credentials
+             else if [[ $(echo $VARIABLES_LOCATION | grep aws -c) > 0 ]]; then
+                mkdir -p ~/.aws
+                cp -f $OCP_AWS ~/.aws/credentials
+                echo "[profile default]
+                region = `cat $WORKSPACE/flexy-artifacts/workdir/install-dir/terraform.aws.auto.tfvars.json | jq -r ".aws_region"`
+                output = text" >> ~/.aws/config
+                cp ~/.aws/config $WORKSPACE/aws_config
+            fi
             
             mkdir -p ~/.kube
             cp $WORKSPACE/flexy-artifacts/workdir/install-dir/auth/kubeconfig ~/.kube/config
