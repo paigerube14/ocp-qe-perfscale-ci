@@ -48,9 +48,6 @@ pipeline {
             }
             script {   
               if (fileExists("flexy-artifacts/workdir/install-dir/cluster_info.json")){ 
-                private_ip_address = "cat flexy-artifacts/workdir/install-dir/cluster_info.json"
-                println private_ip_address
-                ENV_VARS += '\n' + private_ip_address
                 sh label: '', script: '''
                 echo "$ENV_VARS" > .env_override
                 set -a && source .env_override && set +a
@@ -62,7 +59,7 @@ pipeline {
                 println private_ip_address
                 println "now copying ip to ENV variable"
                 ENV_VARS += '\n' + "PRIVATE_IP_ADDRESS=" + private_ip_address
-                println "printing the ENV variable $ENV_VARS"
+                println "printing the ENV variable $ENV_VARS------"
                 }
               }
           }
@@ -113,7 +110,7 @@ pipeline {
               ls -la
               cd Egress-Load-test 
 	            pwd
-
+              ./run.sh
               '''
             }
           }
