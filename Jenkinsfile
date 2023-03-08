@@ -47,6 +47,8 @@ pipeline {
         )
         string(name: 'E2E_BENCHMARKING_REPO', defaultValue:'https://github.com/cloud-bulldozer/e2e-benchmarking', description:'You can change this to point to your fork if needed.')
         string(name: 'E2E_BENCHMARKING_REPO_BRANCH', defaultValue:'master', description:'You can change this to point to a branch on your fork if needed.')
+        string(name: "CI_PROFILES_URL",defaultValue: "https://gitlab.cee.redhat.com/aosqe/ci-profiles.git/",description:"Owner of ci-profiles repo to checkout, will look at folder 'scale-ci/\${major_v}.\${minor_v}'")
+        string(name: "CI_PROFILES_REPO_BRANCH", defaultValue: "master", description: "Branch of ci-profiles repo to checkout" )
     }
 
   stages {
@@ -78,6 +80,27 @@ pipeline {
             ],
             userRemoteConfigs: [[url: params.E2E_BENCHMARKING_REPO ]]
         ])
+        // checkout CI profile repo from GitLab
+        checkout changelog: false,
+            poll: false,
+            scm: [
+                $class: 'GitSCM',
+                branches: [[name: "${params.CI_PROFILES_REPO_BRANCH}"]],
+                doGenerateSubmoduleConfigurations: false,
+                extensions: [
+                    [$class: 'CloneOption', noTags: true, reference: '', shallow: true],
+                    [$class: 'PruneStaleBranch'],
+                    [$class: 'CleanCheckout'],
+                    [$class: 'IgnoreNotifyCommit'],
+                    [$class: 'RelativeTargetDirectory', relativeTargetDir: 'ci-profiles']
+                ],
+                submoduleCfg: [],
+                userRemoteConfigs: [[
+                    name: 'origin',
+                    refspec: "+refs/heads/${params.CI_PROFILES_REPO_BRANCH}:refs/remotes/origin/${params.CI_PROFILES_REPO_BRANCH}",
+                    url: "${params.CI_PROFILES_URL}"
+                ]]
+            ]
         copyArtifacts(
             filter: '',
             fingerprintArtifacts: true,

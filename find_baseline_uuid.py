@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import json
 import helper_uuid
+import update_es_uuid
 
 import subprocess, json, os, yaml, sys
 from utils import *
@@ -8,9 +9,6 @@ from optparse import OptionParser
 
 cliparser = OptionParser()
 
-cliparser.add_option("-f", "--flexy_template", dest="flexy_template",
-                     help="This is the template type of what built the cluster.",
-                     )
 cliparser.add_option("-w", "--workload", dest="workload",
                      help="This is the workload type that was run. See kube-burner-job label in created namespace for help")
 
@@ -19,25 +17,29 @@ cliparser.add_option("-w", "--workload", dest="workload",
 
 
 globalvars = {}
-globalvars["flexy_template"] = options.flexy_template
 globalvars["workload"] = options.workload
 
-def find_uuid(workload, flexy_template):
+def find_uuid(workload):
     
-    split_temp = helper_uuid.split_flexy_temp(flexy_template)
-    
-    platform = split_temp[1]
+    network_type= helper_uuid.get_net_type()
 
-    with open(workload + "/" + platform + ".json", "r") as fr:
-        read_str =fr.read()
-        read_json = json.loads(read_str)
+    worker_count = helper_uuid.get_node_count("node-role.kubernetes.io/worker=")
+    var_loc = os.getenv('VARIABLES_LOCATION')
+    search_params = {
+        "metric_name": "base_line_uuids", 
+        "workload": workload,
+        "LAUNCHER_VARS": os.getenv('VARIABLES_LOCATION'),
+        "network_type": network_type,
+        "worker_count": worker_count
+    }
 
-    ocp_version = split_temp[0]
-    network_type = split_temp[2]
-    cluster_worker_count = helper_uuid.get_worker_num() 
-    cluster_arch_type = helper_uuid.get_arch_type()
-    found_uuid = helper_uuid.find_uuid(read_json, ocp_version, cluster_worker_count, network_type, cluster_arch_type)
-    print(str(found_uuid))
+    hits = update_es_uuid.es_search(search_params)
+    if len(hits) == 0: 
+        search_params["LAUNCHER_VARS"] = var_loc.replace("-ci","")
 
-find_uuid(globalvars["workload"], globalvars["flexy_template"])
+        hits = update_es_uuid.es_search(search_params)
+        print("hits " + str(hits))
+    print(hits['_source']['uuid'])
+
+find_uuid(globalvars["workload"])
 
