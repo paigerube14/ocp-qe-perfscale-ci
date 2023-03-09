@@ -84,9 +84,10 @@ pipeline {
           ls
 
           oc login -u kubeadmin -p $(cat $WORKSPACE/flexy-artifacts/workdir/install-dir/auth/kubeadmin-password)
-        
+          HELM_DIR=$(mktemp -d)
+          curl -sS -L https://github.com/helm/helm/archive/refs/tags/v3.11.2.tar.gz | tar -xzC ${HELM_DIR}/ helm
 
-          helm version
+          ${HELM_DIR}/helm version
           ./deploy_ssml.sh
 
           mkdir results
