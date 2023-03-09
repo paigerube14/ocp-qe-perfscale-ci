@@ -15,11 +15,12 @@ curl -k "https://${console_url}/api/kubernetes/openapi/v2" -H "Cookie: openshift
 
 ls -la
 
-kubectl apply -f operator_configs/olm/rapidast.yaml
+kubectl apply -f dast_tool/operator/olm/rapidast.yaml
 
 #edit rapidast config file
+envsubst < operator_configs/config.yaml.template > operator_configs/config/ssml_config.yaml
 
-kubectl apply -f dast_tool/operator/config/samples/research_v1alpha1_rapidast.yaml
+kubectl apply -f operator_configs/config/ssml_config.yaml
 
 mkdir results
 bash dast_tool/operator/results.sh rapidast-pvc results
