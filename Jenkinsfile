@@ -78,7 +78,7 @@ pipeline {
     stage('Run Benchmark Comparison'){
       agent { label params['JENKINS_AGENT_LABEL'] }
       environment{
-          EMAIL_ID_FOR_RESULTS_SHEET = "${userId}@redhat.com",
+          EMAIL_ID_FOR_RESULTS_SHEET = "${userId}@redhat.com"
           GLOBAL_USER_ID = "${userId}"
       }
       steps{
