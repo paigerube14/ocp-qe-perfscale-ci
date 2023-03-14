@@ -1,10 +1,29 @@
 @Library('flexy') _
 
 // rename build
-def userId = currentBuild.rawBuild.getCause(hudson.model.Cause$UserIdCause)?.userId
-if (userId) {
-  currentBuild.displayName = userId
+def userCause = currentBuild.rawBuild.getCause(Cause.UserIdCause)
+def upstreamCause = currentBuild.rawBuild.getCause(Cause.UpstreamCause)
+
+userId = "prubenda"
+if (userCause) {
+    userId = userCause.getUserId()
 }
+else if (upstreamCause) {
+    def upstreamJob = Jenkins.getInstance().getItemByFullName(upstreamCause.getUpstreamProject(), hudson.model.Job.class)
+    if (upstreamJob) {
+        def upstreamBuild = upstreamJob.getBuildByNumber(upstreamCause.getUpstreamBuild())
+        if (upstreamBuild) {
+            def realUpstreamCause = upstreamBuild.getCause(Cause.UserIdCause)
+            if (realUpstreamCause) {
+                userId = realUpstreamCause.getUserId()
+            }
+        }
+    }
+}
+if (userId) {
+    currentBuild.displayName = userId
+}
+
 
 def RETURNSTATUS = "default"
 
@@ -13,6 +32,8 @@ pipeline {
 
   parameters {
         string(name: 'BUILD_NUMBER', defaultValue: '', description: 'Build number of job that has installed the cluster.')
+        string(name: 'JENKINS_JOB_NUMBER', defaultValue: '', description: 'Build number of the scale-ci job that was used to load the cluster.')
+        string(name: 'JENKINS_JOB_PATH', defaultValue: '', description: 'Build path for the type of job that was used to load the cluster.')
         choice(choices: ["cluster-density","node-density","node-density-heavy","pod-density","pod-density-heavy","max-namespaces","max-services", "concurrent-builds","network-perf","router-perf","etcd-perf"], name: 'WORKLOAD', description: '''Type of kube-burner job to run''')
         string(name: "UUID", defaultValue: "", description: 'Json files of what data to output into a google sheet')
         string(
@@ -158,14 +179,16 @@ pipeline {
                       export TOLERANCY_RULES=$WORKSPACE/e2e-benchmark/workloads/kube-burner/$TOLERANCY_RULES
                     fi
 
-                    export BASELINE_UUID=$(python find_baseline_uuid.py --workload $WORKLOAD --flexy_template $VARIABLES_LOCATION)
-
+                    export BASELINE_UUID=$(python find_baseline_uuid.py --workload $WORKLOAD)
+                    env | grep BASELINE_UUID
                     if [[ -n $BASELINE_UUID ]]; then 
                       cd e2e-benchmark/utils
 
                       source compare.sh
                       run_benchmark_comparison
                     else 
+                      echo "need to add $UUID to es"
+                      python post_uuid_to_es.py --jenkins-job $JENKINS_JOB_PATH --jenkins-build $JENKINS_JOB_NUMBER --uuid $UUID --user $userId
                       exit 1
                     fi
 

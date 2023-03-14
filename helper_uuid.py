@@ -114,7 +114,7 @@ def get_scale_profile_name(version, arch, net_type, worker_count):
             print("var_loc_split" + str(var_loc))
             if launcher_vars != "" and var_loc == launcher_vars:
                 return p, worker_size, master_size, launcher_vars
-    return profiles_list[0], worker_size, master_size, var_loc
+    return "", "", "", var_loc
 
 def get_node_sizing(scale_data): 
     worker_size = ""
