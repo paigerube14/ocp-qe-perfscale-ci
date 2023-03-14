@@ -3,15 +3,12 @@
 import os
 import sys
 import json
-import yaml
-import uuid
 import time
 import urllib3
 import pathlib
 import jenkins
 import logging
 import argparse
-import requests
 import datetime
 import subprocess
 import coloredlogs
@@ -217,15 +214,10 @@ if __name__ == '__main__':
 
     # set standard mode flags
     standard = parser.add_argument_group("Standard Mode", "Connect to an OCP cluster and gather data")
-    standard.add_argument("--user-workloads", default=False, action='store_true', help='Flag to query userWorkload metrics. Ensure FLP service and service-monitor are enabled and some network traffic exists.')
     standard.add_argument("--jenkins-job", type=str, help='Jenkins job name to associate with run')
     standard.add_argument("--jenkins-build", type=str, help='Jenkins build number to associate with run')
     standard.add_argument("--uuid", type=str, help='UUID to associate with run - if none is provided one will be generated')
     standard.add_argument("--user",type=str,help="User who ran specified job")
-    # set upload mode flags
-    upload = parser.add_argument_group("Upload Mode", "Directly upload data from a previously generated JSON file to Elasticsearch")
-    upload.add_argument("--upload-file", type=str, default='', help='JSON file to upload to Elasticsearch. Must be in the "data" directory. Note this flag runs the NOPE tool in Upload mode and causes all flags other than --debug to be IGNORED.')
-
     # parse arguments
     args = parser.parse_args()
 
