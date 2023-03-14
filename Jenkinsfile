@@ -186,7 +186,8 @@ pipeline {
                       cd e2e-benchmark/utils
 
                       source compare.sh
-                      run_benchmark_comparison
+                      run_benchmark_comparison |& tee "comparison.out"
+                      ! grep "Benchmark comparison failed" comparison.out
                     else 
                       echo "need to add $UUID to es"
                       python post_uuid_to_es.py --jenkins-job $JENKINS_JOB_PATH --jenkins-build $JENKINS_JOB_NUMBER --uuid $UUID --user $GLOBAL_USER_ID
@@ -203,5 +204,16 @@ pipeline {
       }
 
     }
+ }
+ post {
+        always {
+          
+            println 'Post Section - Always'
+            archiveArtifacts(
+                artifacts: 'comparison.out',
+                allowEmptyArchive: true,
+                fingerprint: true
+            )
+        }
  }
 }
