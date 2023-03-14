@@ -28,16 +28,22 @@ def find_uuid(workload):
     search_params = {
         "metric_name": "base_line_uuids", 
         "workload": workload,
-        "LAUNCHER_VARS": os.getenv('VARIABLES_LOCATION'),
+        "LAUNCHER_VARS": var_loc,
         "network_type": network_type,
-        "worker_count": worker_count
+        "worker_count": int(worker_count)
     }
 
     hits = update_es_uuid.es_search(search_params)
+    
     if len(hits) == 0: 
         search_params["LAUNCHER_VARS"] = var_loc.replace("-ci","")
         hits = update_es_uuid.es_search(search_params)
-    print(hits['_source']['uuid'])
+        if len(hits) == 0: 
+            print("")
+        else: 
+            print(hits[0]['_source']['uuid'])
+    else: 
+        print(hits[0]['_source']['uuid'])
 
 find_uuid(globalvars["workload"])
 
