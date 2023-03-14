@@ -12,7 +12,7 @@ def run(command):
 
 def get_node_type(node_type):
 
-    return_code, node_name = run(f"oc get node -l {node_type} -o name | HEAD -n1")
+    return_code, node_name = run("oc get node -l " + str(node_type) +" -o name | awk 'NR==1{print $1}'")
     node_instance = '.metadata.labels."node.kubernetes.io/instance-type"'
     return_code, node_type = run(f"oc get {node_name} -o json | jq '{node_instance}'")
     if return_code == 0:
@@ -40,7 +40,7 @@ def get_net_type():
     return network_type_string
 
 def get_arch_type():
-    node_status, node_name=run("oc get node --no-headers | grep master| head -1| awk '{print $1}'")
+    node_status, node_name=run("oc get node --no-headers | grep master| awk 'NR==1{print $1}'")
     node_name = node_name.strip()
     arch_type_status, architecture_type = run("oc get node " + str(node_name) + " --no-headers -ojsonpath='{.status.nodeInfo.architecture}'")
     return architecture_type
