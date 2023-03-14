@@ -78,10 +78,10 @@ pipeline {
     stage('Run Benchmark Comparison'){
       agent { label params['JENKINS_AGENT_LABEL'] }
       environment{
-          EMAIL_ID_FOR_RESULTS_SHEET = "${userId}@redhat.com"
+          EMAIL_ID_FOR_RESULTS_SHEET = "${userId}@redhat.com",
+          GLOBAL_USER_ID = "${userId}"
       }
       steps{
-
         deleteDir()
         checkout([
           $class: 'GitSCM',
@@ -189,7 +189,7 @@ pipeline {
                       run_benchmark_comparison
                     else 
                       echo "need to add $UUID to es"
-                      python post_uuid_to_es.py --jenkins-job $JENKINS_JOB_PATH --jenkins-build $JENKINS_JOB_NUMBER --uuid $UUID --user ${env.userId}
+                      python post_uuid_to_es.py --jenkins-job $JENKINS_JOB_PATH --jenkins-build $JENKINS_JOB_NUMBER --uuid $UUID --user ${env.GLOBAL_USER_ID}
                       exit 1
                     fi
 
