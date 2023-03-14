@@ -36,7 +36,6 @@ def find_uuid(workload):
     hits = update_es_uuid.es_search(search_params)
     if len(hits) == 0: 
         search_params["LAUNCHER_VARS"] = var_loc.replace("-ci","")
-
         hits = update_es_uuid.es_search(search_params)
     print(hits['_source']['uuid'])
 

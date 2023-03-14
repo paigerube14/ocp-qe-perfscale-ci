@@ -61,7 +61,7 @@ def post_current_es(workload, json_data):
     '''
 
     # intialize info object
-    iso_timestamp = datetime.datetime.utcfromtimestamp(int(START_TIME)).isoformat() + 'Z'
+    iso_timestamp = datetime.datetime.utcnow()
     info = {
         "metric_name": "base_line_uuids",
         "data_type": "metadata",
@@ -80,7 +80,7 @@ def get_jenkins_env_info():
     '''
 
     # intialize info object
-    iso_timestamp = datetime.datetime.utcfromtimestamp(int(START_TIME)).isoformat() + 'Z'
+    iso_timestamp = datetime.datetime.utcnow()
 
     version = helper_uuid.get_oc_version()
     network_type= helper_uuid.get_net_type()
