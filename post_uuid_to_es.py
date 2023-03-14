@@ -104,7 +104,8 @@ def get_jenkins_env_info():
             "master_size": helper_uuid.get_node_type("node-role.kubernetes.io/master="),
             "worker_size": helper_uuid.get_node_type("node-role.kubernetes.io/worker="),
             "infra_node_count": helper_uuid.get_node_count("node-role.kubernetes.io/infra="), 
-            "workload_node_count": helper_uuid.get_node_count("node-role.kubernetes.io/workload=")
+            "workload_node_count": helper_uuid.get_node_count("node-role.kubernetes.io/workload="),
+            "LAUNCHER_VARS": os.getenv('VARIABLES_LOCATION')
         }
 
         # collect data from Jenkins server
