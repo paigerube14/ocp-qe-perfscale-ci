@@ -195,6 +195,11 @@ pipeline {
                     fi
 
                 ''')
+                archiveArtifacts(
+                    artifacts: 'comparison.out',
+                    allowEmptyArchive: true,
+                    fingerprint: true
+                )
 
                 if (RETURNSTATUS.toInteger() != 0) {
                     currentBuild.result = "FAILURE"
@@ -204,16 +209,5 @@ pipeline {
       }
 
     }
- }
- post {
-        always {
-          
-            println 'Post Section - Always'
-            archiveArtifacts(
-                artifacts: 'comparison.out',
-                allowEmptyArchive: true,
-                fingerprint: true
-            )
-        }
  }
 }
