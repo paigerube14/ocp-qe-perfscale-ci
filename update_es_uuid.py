@@ -25,9 +25,7 @@ def es_search(params):
         match_data['match_phrase'] = {}
         match_data['match_phrase'][p] = v
         filter_data.append(match_data)
-    print('filter data' + str(filter_data))
     search_result = es.search(index=index, body={"query": {"bool": {"filter": filter_data}}})
-    print('search_result' + str(search_result))
     hits = []
     if "hits" in search_result.keys() and "hits" in search_result['hits'].keys():
         return search_result['hits']['hits']
@@ -55,7 +53,6 @@ def update_data_to_elasticsearch(id, data_to_update):
 
     index = 'perfscale-jenkins-metadata'
     doc = es.get(index=index, doc_type='_doc', id=id)
-    print('doc '+ str(doc))
     for k,v in data_to_update.items(): 
 
         doc['_source'][k] = v
