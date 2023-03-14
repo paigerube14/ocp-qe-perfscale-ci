@@ -189,7 +189,7 @@ pipeline {
                       run_benchmark_comparison
                     else 
                       echo "need to add $UUID to es"
-                      python post_uuid_to_es.py --jenkins-job $JENKINS_JOB_PATH --jenkins-build $JENKINS_JOB_NUMBER --uuid $UUID --user ${env.GLOBAL_USER_ID}
+                      python post_uuid_to_es.py --jenkins-job $JENKINS_JOB_PATH --jenkins-build $JENKINS_JOB_NUMBER --uuid $UUID --user $GLOBAL_USER_ID
                       exit 1
                     fi
 
