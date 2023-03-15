@@ -38,7 +38,27 @@ pipeline {
           name: 'WORKLOAD', 
           description: '''Type of kube-burner job to run'''
         )
-        string(name: "UUID", defaultValue: "", description: 'Json files of what data to output into a google sheet')
+        string(
+          name: 'PARAMETERS',
+          defaultValue: '', 
+          description: '''
+          This variable configures parameter needed for each type of workload.
+          '''
+      )
+        string(
+          name: 'JENKINS_JOB_NUMBER', 
+          defaultValue: '', 
+          description: 'Build number of the scale-ci job that was used to load the cluster.')
+        string(
+          name: 'JENKINS_JOB_PATH', 
+          defaultValue: '', 
+          description: 'Build path for the type of job that was used to load the cluster.'
+        )
+        text(
+          name: 'JOB_OUTPUT', 
+          defaultValue: '', 
+          description:'This is the output that was run from the scale-ci job. This will be used to help get comparison sheets'
+        )
         string(
           name: "COMPARISON_CONFIG",
           defaultValue: "podLatency.json",
@@ -74,7 +94,42 @@ pipeline {
     }
 
   stages {
-
+    stage('Run Workload and Mr. Sandman') {
+        steps {
+            checkout([
+                $class: 'GitSCM',
+                branches: [[name: 'netobserv-perf-tests' ]],
+                userRemoteConfigs: [[url: GIT_URL ]],
+                extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'ocp-qe-perfscale-ci-netobs']]
+            ])
+            script {
+                // run Mr. Sandman
+                returnCode = sh(returnStatus: true, script: """
+                    python3.9 --version
+                    python3.9 -m pip install virtualenv
+                    python3.9 -m virtualenv venv3
+                    source venv3/bin/activate
+                    python --version
+                    python -m pip install -r $WORKSPACE/ocp-qe-perfscale-ci-netobs/scripts/requirements.txt
+                    python $WORKSPACE/ocp-qe-perfscale-ci-netobs/scripts/sandman.py --file $WORKSPACE/workload-artifacts/workloads/**/*.out
+                """)
+                // fail pipeline if Mr. Sandman run failed, continue otherwise
+                if (returnCode.toInteger() != 0) {
+                    error('Mr. Sandman tool failed :(')
+                }
+                else {
+                    println 'Successfully ran Mr. Sandman tool :)'
+                }
+                // update build description fields
+                // UUID
+                env.UUID = sh(returnStdout: true, script: "jq -r '.uuid' $WORKSPACE/ocp-qe-perfscale-ci-netobs/data/workload.json").trim()
+                currentBuild.description += "<b>UUID:</b> ${env.UUID}<br/>"
+                // STARTTIME_TIMESTAMP is unix timestamp of start time
+                env.STARTTIME_TIMESTAMP = sh(returnStdout: true, script: "jq -r '.starttime_timestamp' $WORKSPACE/ocp-qe-perfscale-ci-netobs/data/workload.json").trim()
+                currentBuild.description += "<b>STARTTIME_TIMESTAMP:</b> ${env.STARTTIME_TIMESTAMP}<br/>"
+            }
+        }
+    }
     stage('Run Benchmark Comparison'){
       agent { label params['JENKINS_AGENT_LABEL'] }
       environment{
@@ -143,7 +198,7 @@ pipeline {
                     python --version
                     pip install -r requirements.txt
 
-                    export BASELINE_UUID=$(python find_baseline_uuid.py --workload $WORKLOAD)
+                    export BASELINE_UUID=$(python find_baseline_uuid.py --workload $WORKLOAD --parameters $PARAMETERS )
                     env | grep BASELINE_UUID
 
                     if [[ $WORKLOAD == "network-perf" ]]; then 

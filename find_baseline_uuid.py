@@ -7,6 +7,8 @@ from optparse import OptionParser
 
 cliparser = OptionParser()
 
+cliparser.add_option("-p", "--parameters", dest="parameter",
+                     help="This is the number of iterations ran for a workload")
 cliparser.add_option("-w", "--workload", dest="workload",
                      help="This is the workload type that was run. See kube-burner-job label in created namespace for help")
 
@@ -16,8 +18,9 @@ cliparser.add_option("-w", "--workload", dest="workload",
 
 globalvars = {}
 globalvars["workload"] = options.workload
+globalvars["parameter"] = options.parameter
 
-def find_uuid(workload):
+def find_uuid(workload, parameter):
     
     # might want to add parameter count here
     network_type= helper_uuid.get_net_type()
@@ -29,7 +32,8 @@ def find_uuid(workload):
         "workload": workload,
         "LAUNCHER_VARS": var_loc,
         "network_type": network_type,
-        "worker_count": int(worker_count)
+        "worker_count": int(worker_count), 
+        "parameters": parameter
     }
 
     hits = helper_uuid.es_search(search_params)
