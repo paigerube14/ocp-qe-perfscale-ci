@@ -30,7 +30,6 @@ def RETURNSTATUS = "default"
 
 pipeline {
   agent none
-
   parameters {
         string(name: 'BUILD_NUMBER', defaultValue: '', description: 'Build number of job that has installed the cluster.')
         choice(
@@ -95,6 +94,7 @@ pipeline {
 
   stages {
     stage('Run Workload and Mr. Sandman') {
+        agent { label params['JENKINS_AGENT_LABEL'] }
         steps {
             checkout([
                 $class: 'GitSCM',
