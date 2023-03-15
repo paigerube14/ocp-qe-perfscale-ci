@@ -102,6 +102,12 @@ pipeline {
                 userRemoteConfigs: [[url: "https://github.com/openshift-qe/ocp-qe-perfscale-ci" ]],
                 extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'ocp-qe-perfscale-ci-netobs']]
             ])
+            copyArtifacts(
+                    fingerprintArtifacts: true, 
+                    projectName: JENKINS_JOB_PATH,
+                    selector: specific(JENKINS_JOB_NUMBER),
+                    target: 'workload-artifacts'
+                )
             script {
                 // run Mr. Sandman
                 returnCode = sh(returnStatus: true, script: """
