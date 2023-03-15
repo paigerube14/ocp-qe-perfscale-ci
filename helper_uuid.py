@@ -1,7 +1,12 @@
 import subprocess
-import yaml
-from yaml.loader import SafeLoader
-import os 
+import os
+from utils import *
+from elasticsearch import Elasticsearch
+
+# elasticsearch constants
+ES_URL = 'search-ocp-qe-perf-scale-test-elk-hcm7wtsqpxy7xogbu72bor4uve.us-east-1.es.amazonaws.com'
+ES_USERNAME = os.getenv('ES_USERNAME')
+ES_PASSWORD = os.getenv('ES_PASSWORD')
 
 def run(command):
     try:
@@ -64,3 +69,25 @@ def find_uuid(read_json, ocp_version, cluster_worker_count, network_type_string,
                     else:
                         network_type = "SDN"
                     return sub_worker_json[network_type][cluster_arch_type]
+
+
+def es_search(params):
+     # create Elasticsearch object and attempt index
+    es = Elasticsearch(
+        [f'https://{ES_USERNAME}:{ES_PASSWORD}@{ES_URL}:443']
+    )
+    index = 'perfscale-jenkins-metadata'
+    filter_data = []
+    filter_data.append({
+          "match_all": {}
+        })
+    for p, v in params.items():
+        match_data= {}
+        match_data['match_phrase'] = {}
+        match_data['match_phrase'][p] = v
+        filter_data.append(match_data)
+    search_result = es.search(index=index, body={"query": {"bool": {"filter": filter_data}}})
+    hits = []
+    if "hits" in search_result.keys() and "hits" in search_result['hits'].keys():
+        return search_result['hits']['hits']
+    return hits

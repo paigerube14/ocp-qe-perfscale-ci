@@ -33,7 +33,11 @@ pipeline {
 
   parameters {
         string(name: 'BUILD_NUMBER', defaultValue: '', description: 'Build number of job that has installed the cluster.')
-        choice(choices: ["cluster-density","node-density","node-density-heavy","pod-density","pod-density-heavy","max-namespaces","max-services", "concurrent-builds","network-perf","router-perf","etcd-perf"], name: 'WORKLOAD', description: '''Type of kube-burner job to run''')
+        choice(
+          choices: ["cluster-density","node-density","node-density-heavy","pod-density","pod-density-heavy","max-namespaces","max-services", "concurrent-builds","network-perf","router-perf","etcd-perf"], 
+          name: 'WORKLOAD', 
+          description: '''Type of kube-burner job to run'''
+        )
         string(name: "UUID", defaultValue: "", description: 'Json files of what data to output into a google sheet')
         string(
           name: "COMPARISON_CONFIG",

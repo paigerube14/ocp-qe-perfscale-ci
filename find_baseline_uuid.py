@@ -1,9 +1,7 @@
 #!/usr/bin/env python
-import json
 import helper_uuid
-import update_es_uuid
 
-import subprocess, json, os, yaml, sys
+import os
 from utils import *
 from optparse import OptionParser
 
@@ -21,6 +19,7 @@ globalvars["workload"] = options.workload
 
 def find_uuid(workload):
     
+    # might want to add parameter count here
     network_type= helper_uuid.get_net_type()
 
     worker_count = helper_uuid.get_node_count("node-role.kubernetes.io/worker=")
@@ -33,11 +32,11 @@ def find_uuid(workload):
         "worker_count": int(worker_count)
     }
 
-    hits = update_es_uuid.es_search(search_params)
+    hits = helper_uuid.es_search(search_params)
     
     if len(hits) == 0: 
         search_params["LAUNCHER_VARS"] = var_loc.replace("-ci","")
-        hits = update_es_uuid.es_search(search_params)
+        hits = helper_uuid.es_search(search_params)
         if len(hits) == 0: 
             print("")
         else: 
