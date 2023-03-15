@@ -33,8 +33,6 @@ pipeline {
 
   parameters {
         string(name: 'BUILD_NUMBER', defaultValue: '', description: 'Build number of job that has installed the cluster.')
-        string(name: 'JENKINS_JOB_NUMBER', defaultValue: '', description: 'Build number of the scale-ci job that was used to load the cluster.')
-        string(name: 'JENKINS_JOB_PATH', defaultValue: '', description: 'Build path for the type of job that was used to load the cluster.')
         choice(choices: ["cluster-density","node-density","node-density-heavy","pod-density","pod-density-heavy","max-namespaces","max-services", "concurrent-builds","network-perf","router-perf","etcd-perf"], name: 'WORKLOAD', description: '''Type of kube-burner job to run''')
         string(name: "UUID", defaultValue: "", description: 'Json files of what data to output into a google sheet')
         string(
@@ -69,8 +67,6 @@ pipeline {
         )
         string(name: 'E2E_BENCHMARKING_REPO', defaultValue:'https://github.com/cloud-bulldozer/e2e-benchmarking', description:'You can change this to point to your fork if needed.')
         string(name: 'E2E_BENCHMARKING_REPO_BRANCH', defaultValue:'master', description:'You can change this to point to a branch on your fork if needed.')
-        string(name: "CI_PROFILES_URL",defaultValue: "https://gitlab.cee.redhat.com/aosqe/ci-profiles.git/",description:"Owner of ci-profiles repo to checkout, will look at folder 'scale-ci/\${major_v}.\${minor_v}'")
-        string(name: "CI_PROFILES_REPO_BRANCH", defaultValue: "master", description: "Branch of ci-profiles repo to checkout" )
     }
 
   stages {
@@ -79,7 +75,6 @@ pipeline {
       agent { label params['JENKINS_AGENT_LABEL'] }
       environment{
           EMAIL_ID_FOR_RESULTS_SHEET = "${userId}@redhat.com"
-          GLOBAL_USER_ID = "${userId}"
       }
       steps{
         deleteDir()
@@ -102,27 +97,6 @@ pipeline {
             ],
             userRemoteConfigs: [[url: params.E2E_BENCHMARKING_REPO ]]
         ])
-        // checkout CI profile repo from GitLab
-        checkout changelog: false,
-            poll: false,
-            scm: [
-                $class: 'GitSCM',
-                branches: [[name: "${params.CI_PROFILES_REPO_BRANCH}"]],
-                doGenerateSubmoduleConfigurations: false,
-                extensions: [
-                    [$class: 'CloneOption', noTags: true, reference: '', shallow: true],
-                    [$class: 'PruneStaleBranch'],
-                    [$class: 'CleanCheckout'],
-                    [$class: 'IgnoreNotifyCommit'],
-                    [$class: 'RelativeTargetDirectory', relativeTargetDir: 'ci-profiles']
-                ],
-                submoduleCfg: [],
-                userRemoteConfigs: [[
-                    name: 'origin',
-                    refspec: "+refs/heads/${params.CI_PROFILES_REPO_BRANCH}:refs/remotes/origin/${params.CI_PROFILES_REPO_BRANCH}",
-                    url: "${params.CI_PROFILES_URL}"
-                ]]
-            ]
         copyArtifacts(
             filter: '',
             fingerprintArtifacts: true,
@@ -151,7 +125,6 @@ pipeline {
                     export EMAIL_ID_FOR_RESULTS_SHEET=$EMAIL_ID_FOR_RESULTS_SHEET
 
                     export ES_SERVER="https://$ES_USERNAME:$ES_PASSWORD@search-ocp-qe-perf-scale-test-elk-hcm7wtsqpxy7xogbu72bor4uve.us-east-1.es.amazonaws.com"
-
                     export ES_SERVER_BASELINE="https://$ES_USERNAME:$ES_PASSWORD@search-ocp-qe-perf-scale-test-elk-hcm7wtsqpxy7xogbu72bor4uve.us-east-1.es.amazonaws.com"
   
                     mkdir -p ~/.kube
@@ -166,6 +139,9 @@ pipeline {
                     python --version
                     pip install -r requirements.txt
 
+                    export BASELINE_UUID=$(python find_baseline_uuid.py --workload $WORKLOAD)
+                    env | grep BASELINE_UUID
+
                     if [[ $WORKLOAD == "network-perf" ]]; then 
                       export TOLERANCY_RULES=$WORKSPACE/e2e-benchmark/workloads/network-perf/$TOLERANCY_RULES
                       echo "not set up for this type of comparison"
@@ -179,9 +155,7 @@ pipeline {
                     else
                       export TOLERANCY_RULES=$WORKSPACE/e2e-benchmark/workloads/kube-burner/$TOLERANCY_RULES
                     fi
-
-                    export BASELINE_UUID=$(python find_baseline_uuid.py --workload $WORKLOAD)
-                    env | grep BASELINE_UUID
+                    
                     if [[ -n $BASELINE_UUID ]]; then 
                       cd e2e-benchmark/utils
 
@@ -189,8 +163,7 @@ pipeline {
                       run_benchmark_comparison |& tee "comparison.out"
                       ! grep "Benchmark comparison failed" comparison.out
                     else 
-                      echo "need to add $UUID to es"
-                      python post_uuid_to_es.py --jenkins-job $JENKINS_JOB_PATH --jenkins-build $JENKINS_JOB_NUMBER --uuid $UUID --user $GLOBAL_USER_ID
+                      echo "need to add $UUID to ElasticSearch to track new configuration"
                       exit 1
                     fi
 
