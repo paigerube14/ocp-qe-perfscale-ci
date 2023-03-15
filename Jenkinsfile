@@ -82,11 +82,11 @@ pipeline {
           mkdir -p ~/.kube
           cp $WORKSPACE/flexy-artifacts/workdir/install-dir/auth/kubeconfig ~/.kube/config
           ls
-
+          sudo podman pull quay.io/redhatproductsecurity/rapidast
           oc login -u kubeadmin -p $(cat $WORKSPACE/flexy-artifacts/workdir/install-dir/auth/kubeadmin-password)
           HELM_DIR=$(mktemp -d)
           curl -sS -L https://get.helm.sh/helm-v3.11.2-linux-amd64.tar.gz | tar -xzC ${HELM_DIR}/ linux-amd64/helm
-
+          
           ${HELM_DIR}/linux-amd64/helm version
           ./deploy_ssml.sh
 
