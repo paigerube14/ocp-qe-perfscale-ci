@@ -9,7 +9,34 @@ if (userId) {
 def RETURNSTATUS = "default"
 def output = ""
 pipeline {
-  agent none
+  agent {
+    kubernetes {
+      cloud 'PSI OCP-C1 agents'
+      yaml """\
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          labels:
+            label: ${JENKINS_AGENT_LABEL}
+        spec:
+          containers:
+          - name: "jnlp"
+            image: "quay.io/openshift-qe-optional-operators/cucushift:${JENKINS_AGENT_LABEL}"
+            resources:
+              requests:
+                memory: "8Gi"
+                cpu: "2"
+              limits:
+                memory: "8Gi"
+                cpu: "2"
+            imagePullPolicy: Always
+            workingDir: "/home/jenkins/ws"
+            tty: true
+          imagePullSecrets:
+          - name: "docker-config-quay.io"
+        """.stripIndent()
+    }
+  }
   parameters {
         string(name: 'BUILD_NUMBER', defaultValue: '', description: 'Build number of job that has installed the cluster.')
         string(name: 'DAST_TOOL_URL', defaultValue: 'https://github.com/RedHatProductSecurity/rapidast.git', description: 'Rapidast tool github url .')
@@ -37,8 +64,7 @@ pipeline {
      }
 
   stages {
-    stage('Kraken Run'){
-      agent { label params['JENKINS_AGENT_LABEL'] }
+    stage('SSMl Run'){
       steps{
         deleteDir()
         checkout([
