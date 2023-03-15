@@ -204,7 +204,7 @@ pipeline {
                     python --version
                     pip install -r requirements.txt
 
-                    export BASELINE_UUID=$(python find_baseline_uuid.py --workload $WORKLOAD --parameters $PARAMETERS )
+                    export BASELINE_UUID=$(python find_baseline_uuid.py --workload $WORKLOAD --parameters $PARAMETERS)
                     env | grep BASELINE_UUID
 
                     if [[ $WORKLOAD == "network-perf" ]]; then 
@@ -226,7 +226,7 @@ pipeline {
 
                       source compare.sh
                       run_benchmark_comparison |& tee "comparison.out"
-                      ! grep "Benchmark comparison failed" comparison.out
+                      ! grep "comare result: 1" comparison.out
                     else 
                       echo "need to add $UUID to ElasticSearch to track new configuration"
                       exit 1
