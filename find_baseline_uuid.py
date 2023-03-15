@@ -48,5 +48,5 @@ def find_uuid(workload, parameter):
     else: 
         print(hits[0]['_source']['uuid'])
 
-find_uuid(globalvars["workload"])
+find_uuid(globalvars["workload"], globalvars["parameter"])
 
