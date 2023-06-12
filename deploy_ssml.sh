@@ -13,14 +13,10 @@ token=$(oc whoami -t)
 
 curl -k "https://${console_url}/api/kubernetes/openapi/v2" -H "Cookie: openshift-session-token=${token}"  -H "Accept: application/json"  >> openapi.json
 
-ls -la
-
-kubectl apply -f dast_tool/operator/olm/rapidast.yaml
 
 #edit rapidast config file
-envsubst < operator_configs/config.yaml.template > operator_configs/config/ssml_config.yaml
+envsubst < values.template > helm/chart/value.yaml
 
-kubectl apply -f operator_configs/config/ssml_config.yaml
+helm install rapidast ./helm/chart
 
-mkdir results
-bash dast_tool/operator/results.sh rapidast-pvc results
+bash results.sh rapidast-pvc results
