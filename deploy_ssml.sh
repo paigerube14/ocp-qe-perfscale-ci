@@ -1,4 +1,5 @@
 #!/bin/bash
+helm_dir=${1}
 
 oc label ns default security.openshift.io/scc.podSecurityLabelSync=false pod-security.kubernetes.io/enforce=privileged pod-security.kubernetes.io/audit=privileged pod-security.kubernetes.io/warn=privileged --overwrite
 
@@ -13,14 +14,16 @@ echo "$CONSOLE_URL"
 #edit rapidast config file
 envsubst < values.yaml.template > dast_tool/helm/chart/value_test.yaml
 
-helm install rapidast ./dast_tool/helm/chart -f ./dast_tool/helm/chart/value_test.yaml
+cat dast_tool/helm/chart/value_test.yaml
+
+${helm_dir}/helm install rapidast ./dast_tool/helm/chart -f ./dast_tool/helm/chart/value_test.yaml
 
 # wait for pod to be completed or error
-rapidast_pod=$( oc get pods -n default -l job-name=rapidast-job -o name)
+rapidast_pod=$(oc get pods -n default -l job-name=rapidast-job -o name)
 
 oc wait --for=condition=running $rapidast_pod
 phase="Running"
-while [[ $phase == "Running" ]]; do
+while [ $phase == "Running" ]; do
   sleep 5
   phase=$(oc get $rapidast_pod -o jsonpath='{.status.phase}')
 done

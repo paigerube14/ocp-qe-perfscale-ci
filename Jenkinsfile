@@ -114,7 +114,7 @@ pipeline {
           
           ${HELM_DIR}/linux-amd64/helm version
           mv ${HELM_DIR}/linux-amd64/helm /usr/local/bin/helm
-          # ./deploy_ssml.sh
+          ./deploy_ssml.sh ${HELM_DIR}/linux-amd64
 
           ls
 
