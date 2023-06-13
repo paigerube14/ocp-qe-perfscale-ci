@@ -116,8 +116,6 @@ pipeline {
           ${HELM_DIR}/linux-amd64/helm version
           ./deploy_ssml.sh
 
-          mkdir results
-          bash results.sh rapidast-pvc results
           ls
 
           ''')

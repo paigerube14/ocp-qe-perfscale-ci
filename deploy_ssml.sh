@@ -1,22 +1,33 @@
 #!/bin/bash
 
-if [[ ! -z $(kubectl get ns rapidast) ]]; then 
-    kubectl delete ns rapidast
-fi
-kubectl create ns rapidast
+oc label ns default security.openshift.io/scc.podSecurityLabelSync=false pod-security.kubernetes.io/enforce=privileged pod-security.kubernetes.io/audit=privileged pod-security.kubernetes.io/warn=privileged --overwrite
 
-ls dast_tool
+export CONSOLE_URL=$(oc get routes console -n openshift-console -o jsonpath='{.spec.host}')
 
-console_url=$( oc get routes console -n openshift-console -o jsonpath='{.spec.host}')
+export TOKEN=$(oc whoami -t)
 
-token=$(oc whoami -t)
+echo "$CONSOLE_URL"
 
-curl -k "https://${console_url}/api/kubernetes/openapi/v2" -H "Cookie: openshift-session-token=${token}"  -H "Accept: application/json"  >> openapi.json
-
+# curl -k "https://${CONSOLE_URL}/api/kubernetes/openapi/v2" -H "Cookie: openshift-session-token=${TOKEN}"  -H "Accept: application/json"  >> openapi.json
 
 #edit rapidast config file
-envsubst < values.template > helm/chart/value.yaml
+envsubst < values.yaml.template > dast_tool/helm/chart/value_test.yaml
 
-helm install rapidast ./helm/chart
+helm install rapidast ./dast_tool/helm/chart -f ./dast_tool/helm/chart/value_test.yaml
 
-bash results.sh rapidast-pvc results
+# wait for pod to be completed or error
+rapidast_pod=$( oc get pods -n default -l job-name=rapidast-job -o name)
+
+oc wait --for=condition=running $rapidast_pod
+phase="Running"
+while [[ $phase == "Running" ]]; do
+  sleep 5
+  phase=$(oc get $rapidast_pod -o jsonpath='{.status.phase}')
+done
+
+if [ $phase != "Succeeded" ]; then
+    echo "Pod $rapidast_pod failed. Please check logs."
+    exit 1
+fi
+
+./results.sh rapidast-pvc results
