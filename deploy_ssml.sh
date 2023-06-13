@@ -17,6 +17,8 @@ envsubst < values.yaml.template > dast_tool/helm/chart/value_test.yaml
 ${helm_dir}/helm install rapidast ./dast_tool/helm/chart -f ./dast_tool/helm/chart/value_test.yaml
 
 # wait for pod to be completed or error
+
+
 rapidast_pod=$(oc get pods -n default -l job-name=rapidast-job -o name)
 
 oc wait --for=condition=Ready $rapidast_pod
@@ -26,12 +28,17 @@ while [[ $(oc get $rapidast_pod -o 'jsonpath={..status.conditions[?(@.type=="Rea
   
 done
 
+
 ./results.sh rapidast-pvc results
+
+pod_name=${rapidast_pod#*/}
+oc logs $pod_name >> results/pod_logs.out
 
 phase=$(oc get $rapidast_pod -o jsonpath='{.status.phase}')
 ${helm_dir}/helm uninstall rapidast
 if [ $phase != "Succeeded" ]; then
-    echo "Pod $rapidast_pod failed. Please check logs."
+    echo "Pod $rapidast_pod failed. Look at pod logs in archives (results/pod_logs.out)"
     exit 1
 fi
+
 
