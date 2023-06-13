@@ -29,9 +29,9 @@ done
 ./results.sh rapidast-pvc results
 
 phase=$(oc get $rapidast_pod -o jsonpath='{.status.phase}')
+${helm_dir}/helm uninstall rapidast
 if [ $phase != "Succeeded" ]; then
     echo "Pod $rapidast_pod failed. Please check logs."
     exit 1
 fi
 
-${helm_dir}/helm uninstall rapidast
