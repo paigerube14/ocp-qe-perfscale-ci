@@ -14,8 +14,6 @@ echo "$CONSOLE_URL"
 #edit rapidast config file
 envsubst < values.yaml.template > dast_tool/helm/chart/value_test.yaml
 
-cat dast_tool/helm/chart/value_test.yaml
-
 ${helm_dir}/helm install rapidast ./dast_tool/helm/chart -f ./dast_tool/helm/chart/value_test.yaml
 
 # wait for pod to be completed or error
