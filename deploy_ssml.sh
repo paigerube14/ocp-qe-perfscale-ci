@@ -20,8 +20,7 @@ ${helm_dir}/helm install rapidast ./dast_tool/helm/chart -f ./dast_tool/helm/cha
 rapidast_pod=$(oc get pods -n default -l job-name=rapidast-job -o name)
 
 oc wait --for=condition=running $rapidast_pod
-phase="Running"
-while [[ $(oc get $rapidast_pod -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do
+while [[ $(oc get $rapidast_pod -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') == "True" ]]; do
   echo "sleeping 5"
   sleep 5
   
@@ -35,3 +34,4 @@ if [ $phase != "Succeeded" ]; then
     exit 1
 fi
 
+${helm_dir}/helm uninstall rapidast

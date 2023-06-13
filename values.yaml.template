@@ -40,7 +40,7 @@ rapidastConfig: |
     # `application` contains data related to the application, not to the scans.
     application:
         shortName: "MyApp-1.0"
-        url: "$CONSOLE_URL/api/kubernetes"
+        url: "https://$CONSOLE_URL/api/kubernetes"
 
     # `general` is a section that will be applied to all scanners.
     general:
@@ -60,7 +60,7 @@ rapidastConfig: |
         # define a scan through the ZAP scanner
             apiScan:
                 apis:
-                    apiUrl: "https://raw.githubusercontent.com/jeremychoi/rapidast-test/main/minimal-openapi.json"
+                    apiUrl: "$API_URL"
                     # alternative: apiFile: "<local path to openAPI file>"
 
             passiveScan:
@@ -70,7 +70,7 @@ rapidastConfig: |
             activeScan:
                 # If no policy is chosen, a default ("API-scan-minimal") will be selected
                 # The list of policies can be found in scanners/zap/policies/
-                policy: "API-scan-minimal"
+                policy: "$POLICY_FILE"
 
 scanPolicyXML: |
   <?xml version="1.0" encoding="UTF-8" standalone="no"?>

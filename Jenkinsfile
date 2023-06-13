@@ -41,6 +41,8 @@ pipeline {
         string(name: 'BUILD_NUMBER', defaultValue: '', description: 'Build number of job that has installed the cluster.')
         string(name: 'DAST_TOOL_URL', defaultValue: 'https://github.com/RedHatProductSecurity/rapidast.git', description: 'Rapidast tool github url .')
         string(name: 'DAST_TOOL_BRANCH', defaultValue: 'development', description: 'Rapdiast tool github barnch to checkout.')
+        string(name: 'API_URL', defaultValue: 'https://raw.githubusercontent.com/jeremychoi/rapidast-test/main/minimal-openapi.json', description: 'Json file of apis to scan against.')
+        string(name: 'POLICY_FILE', defaultValue: 'API-scan-minimal', description: 'List of policies to check apis against.')
         string(name:'JENKINS_AGENT_LABEL',defaultValue:'oc412',description:
         '''
         scale-ci-static: for static agent that is specific to scale-ci, useful when the jenkins dynamic agent isn't stable<br>
@@ -121,7 +123,7 @@ pipeline {
           ''')
           sh "echo $RETURNSTATUS"
           archiveArtifacts(
-              artifacts: 'results/*',
+              artifacts: '$WORKSPACE/results/*',
               allowEmptyArchive: true,
               fingerprint: true
           )
