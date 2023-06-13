@@ -19,7 +19,7 @@ ${helm_dir}/helm install rapidast ./dast_tool/helm/chart -f ./dast_tool/helm/cha
 # wait for pod to be completed or error
 rapidast_pod=$(oc get pods -n default -l job-name=rapidast-job -o name)
 
-oc wait --for=condition=running $rapidast_pod
+oc wait --for=condition=Ready $rapidast_pod
 while [[ $(oc get $rapidast_pod -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') == "True" ]]; do
   echo "sleeping 5"
   sleep 5
