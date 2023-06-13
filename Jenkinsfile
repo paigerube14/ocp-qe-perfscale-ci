@@ -113,7 +113,7 @@ pipeline {
           curl -sS -L https://get.helm.sh/helm-v3.11.2-linux-amd64.tar.gz | tar -xzC ${HELM_DIR}/ linux-amd64/helm
           
           ${HELM_DIR}/linux-amd64/helm version
-          mv ${HELM_DIR}/linux-amd64/helm /usr/local/bin/helm
+          
           ./deploy_ssml.sh ${HELM_DIR}/linux-amd64
 
           ls
