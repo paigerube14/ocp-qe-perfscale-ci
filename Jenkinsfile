@@ -109,11 +109,11 @@ pipeline {
           cp $WORKSPACE/flexy-artifacts/workdir/install-dir/auth/kubeconfig ~/.kube/config
           ls
           oc login -u kubeadmin -p $(cat $WORKSPACE/flexy-artifacts/workdir/install-dir/auth/kubeadmin-password)
-        
-          curl -sS -L https://get.helm.sh/helm-v3.11.2-linux-amd64.tar.gz | tar -xzC linux-amd64/helm
+          HELM_DIR=$(mktemp -d)
+          curl -sS -L https://get.helm.sh/helm-v3.11.2-linux-amd64.tar.gz | tar -xzC ${HELM_DIR}/ linux-amd64/helm
           
-          linux-amd64/helm version
-          mv linux-amd64/helm /usr/local/bin/helm
+          ${HELM_DIR}/linux-amd64/helm version
+          mv ${HELM_DIR}/linux-amd64/helm /usr/local/bin/helm
           # ./deploy_ssml.sh
 
           ls
