@@ -123,7 +123,7 @@ pipeline {
           ''')
           sh "echo $RETURNSTATUS"
           archiveArtifacts(
-              artifacts: '$WORKSPACE/results/*',
+              artifacts: 'results/**',
               allowEmptyArchive: true,
               fingerprint: true
           )
