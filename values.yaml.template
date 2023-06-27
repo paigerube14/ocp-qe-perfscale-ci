@@ -15,10 +15,10 @@ secContext: '{ "privileged": true }'
 resources:
     limits:
         cpu: 400m
-        memory: 2Gi
+        memory: 1Gi
     requests:
         cpu: 200m
-        memory: 1Gi
+        memory: 500Mi
   # It is recommended not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
