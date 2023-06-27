@@ -27,15 +27,13 @@ while [[ $(oc get $rapidast_pod -o 'jsonpath={..status.conditions[?(@.type=="Rea
   sleep 5
   
 done
-
-
-./results.sh rapidast-pvc results
-
 pod_name=${rapidast_pod#*/}
 oc logs $pod_name >> results/pod_logs.out
 
+./results.sh rapidast-pvc results
+
 phase=$(oc get $rapidast_pod -o jsonpath='{.status.phase}')
-${helm_dir}/helm uninstall rapidast
+
 if [ $phase != "Succeeded" ]; then
     echo "Pod $rapidast_pod failed. Look at pod logs in archives (results/pod_logs.out)"
     exit 1
