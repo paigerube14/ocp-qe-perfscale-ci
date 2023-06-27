@@ -114,7 +114,8 @@ pipeline {
           HELM_DIR=$(mktemp -d)
           curl -sS -L https://get.helm.sh/helm-v3.11.2-linux-amd64.tar.gz | tar -xzC ${HELM_DIR}/ linux-amd64/helm
           
-          ${HELM_DIR}/linux-amd64/helm version
+          ${HELM_DIR}/linux-amd64/helm version  
+          oc label ns default security.openshift.io/scc.podSecurityLabelSync=false pod-security.kubernetes.io/enforce=privileged pod-security.kubernetes.io/audit=privileged pod-security.kubernetes.io/warn=privileged --overwrite
           
           ./deploy_ssml.sh ${HELM_DIR}/linux-amd64
 
