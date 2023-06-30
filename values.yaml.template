@@ -63,7 +63,7 @@ rapidastConfig: |
                 apis:
                     # apiUrl: "$API_URL"
                     # alternative: 
-                    apiFile: "/opt/rapidast/config/ocp-openapi-v3-fixed.json"
+                    apiFile: "/home/rapidast/config/ocp-openapi-v3-fixed.json"
 
             passiveScan:
                 # optional list of passive rules to disable
