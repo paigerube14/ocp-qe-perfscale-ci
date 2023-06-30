@@ -39,6 +39,7 @@ pipeline {
   }
   parameters {
         string(name: 'BUILD_NUMBER', defaultValue: '', description: 'Build number of job that has installed the cluster.')
+        string(name: "DAST_IMAGE", defaultValue: "quay.io/redhatproductsecurity/rapidast", description: 'Image to use as the base for running zap.')
         string(name: 'DAST_TOOL_URL', defaultValue: 'https://github.com/RedHatProductSecurity/rapidast.git', description: 'Rapidast tool github url .')
         string(name: 'DAST_TOOL_BRANCH', defaultValue: 'development', description: 'Rapdiast tool github barnch to checkout.')
         string(name: 'API_URL', defaultValue: 'https://raw.githubusercontent.com/jeremychoi/rapidast-test/main/minimal-openapi.json', description: 'Json file of apis to scan against.')
