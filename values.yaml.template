@@ -5,7 +5,7 @@
 image:
   repository: $DAST_IMAGE
   pullPolicy: Always
-  tag: "latest"
+  tag: "$DAST_IMAGE_TAG"
 
 job:
   cron: false
@@ -63,7 +63,7 @@ rapidastConfig: |
                 apis:
                     # apiUrl: "$API_URL"
                     # alternative: 
-                    apiFile: "/zap/config/ocp-openapi-v3-fixed.json"
+                    apiFile: "/opt/rapidast/config/ocp-openapi-v3-fixed.json"
 
             passiveScan:
                 # optional list of passive rules to disable
