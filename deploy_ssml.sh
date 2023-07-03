@@ -8,8 +8,7 @@ export CONSOLE_URL=$(oc get routes console -n openshift-console -o jsonpath='{.s
 export TOKEN=$(oc whoami -t)
 
 echo "$CONSOLE_URL"
-
-# curl -k "https://${CONSOLE_URL}/api/kubernetes/openapi/v2" -H "Cookie: openshift-session-token=${TOKEN}"  -H "Accept: application/json"  >> openapi.json
+#curl -k "https://${CONSOLE_URL}/api/kubernetes/openapi/v2" -H "Cookie: openshift-session-token=${TOKEN}"  -H "Accept: application/json"  >> openapi.json
 
 #edit rapidast config file
 envsubst < values.yaml.template > dast_tool/helm/chart/value_test.yaml
