@@ -21,7 +21,7 @@ pipeline {
         spec:
           containers:
           - name: "jnlp"
-            image: "quay.io/openshift-qe-optional-operators/cucushift:${JENKINS_AGENT_LABEL}"
+            image: "quay.io/openshift-qe-optional-operators/cucushift:node-${JENKINS_AGENT_LABEL}"
             resources:
               requests:
                 memory: "8Gi"
@@ -120,9 +120,6 @@ pipeline {
           oc label ns default security.openshift.io/scc.podSecurityLabelSync=false pod-security.kubernetes.io/enforce=privileged pod-security.kubernetes.io/audit=privileged pod-security.kubernetes.io/warn=privileged --overwrite
           
           ./deploy_ssml.sh ${HELM_DIR}/linux-amd64
-
-          ls
-
           ''')
           sh "echo $RETURNSTATUS"
           archiveArtifacts(
