@@ -17,21 +17,20 @@ ${helm_dir}/helm install rapidast ./dast_tool/helm/chart -f ./dast_tool/helm/cha
 
 # wait for pod to be completed or error
 
+
 rapidast_pod=$(oc get pods -n default -l job-name=rapidast-job -o name)
 
-oc wait --for=condition=Ready $rapidast_pod -n default
+oc wait --for=condition=Ready $rapidast_pod
 while [[ $(oc get $rapidast_pod -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') == "True" ]]; do
   echo "sleeping 5"
   sleep 5
   
 done
 
-mkdir results
+mkdir results 
+cp ./dast_tool/helm/chart/value_test.yaml results/value.yaml
 
-cp ./dast_tool/helm/chart/value_test.yaml results/value_test.yaml 
-oc events $pod_name -n default >> results/pod_events.out
-
-oc logs $pod_name  -n default >> results/pod_logs.out
+oc logs $rapidast_pod -n default >> results/pod_logs.out
 
 ./results.sh rapidast-pvc results
 
@@ -43,4 +42,3 @@ if [ $phase != "Succeeded" ]; then
 fi
 
 
-# ${helm_dir}/helm install rapidast
