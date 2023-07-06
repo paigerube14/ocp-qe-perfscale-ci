@@ -370,15 +370,15 @@ pipeline {
                     else { 
                         currentBuild.result = "FAILURE"
                     }
-                    checkout([
-                        $class: 'GitSCM',
-                        branches: [[name: 'helpful_scripts' ]],
-                        userRemoteConfigs: [[url: "https://github.com/openshift-qe/ocp-qe-perfscale-ci" ]],
-                        extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'main']]
-                    ])
-                    }
+                }
             }
             script {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: 'main' ]],
+                    userRemoteConfigs: [[url: "https://github.com/openshift-qe/ocp-qe-perfscale-ci" ]],
+                    extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'helpful_scripts']]
+                ])
                 // run Mr. Sandman
                 returnCode = sh(returnStatus: true, script: """
                     python3.9 --version
@@ -397,6 +397,8 @@ pipeline {
                 if (returnCode.toInteger() == 0) {
                     println 'Successfully ran Mr. Sandman tool :)'
                 }
+                buildInfo = readJSON file: 'helpful_scripts/data/workload.json'
+                buildInfo.each { env.setProperty(it.key, it.value) }
                 archiveArtifacts(
                     artifacts: 'helpful_scripts/data/*',
                     allowEmptyArchive: true,
