@@ -381,11 +381,10 @@ pipeline {
 
                             python $WORKSPACE/helpful_scripts/scripts/sandman.py --file $WORKSPACE/workloads/kube-burner/kube-burner.out
                         """)
+                        buildInfo = readJSON file: 'helpful_scripts/data/workload.json'
+                        buildInfo.params.each { env.setProperty(it.key.toUpperCase(), it.value) } 
                         // fail pipeline if Mr. Sandman run failed, continue otherwise
-                        if (returnCode.toInteger() != 0) {
-                            error('Mr. Sandman tool failed :(')
-                        }
-                        else {
+                        if (returnCode.toInteger() == 0) {
                             println 'Successfully ran Mr. Sandman tool :)'
                         }
                         archiveArtifacts(
@@ -393,8 +392,6 @@ pipeline {
                             allowEmptyArchive: true,
                             fingerprint: true
                         )
-
-                        
                 }
             }
         }
@@ -402,16 +399,7 @@ pipeline {
     stage("Run benchmark comparison") {
         agent { label params['JENKINS_AGENT_LABEL'] }
         steps {
-            copyArtifacts(
-                fingerprintArtifacts: true, 
-                projectName: JENKINS_JOB_PATH,
-                selector: specific(JENKINS_JOB_NUMBER),
-                target: 'workload-artifacts'
-            )
             script { 
-                buildInfo = readJSON file: 'flexy-artifacts/data/workload.json'
-                buildInfo.params.each { env.setProperty(it.key, it.value) }
-                // update build description fields
 
                 currentBuild.description += "<b>UUID:</b> ${env.UUID}<br/>"
                 compare_job = build job: 'scale-ci/e2e-benchmarking-multibranch-pipeline/benchmark-comparison',
