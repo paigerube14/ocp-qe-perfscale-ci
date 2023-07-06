@@ -229,6 +229,15 @@ pipeline {
       )
   }
   stages {  
+    stage('Validate job parameters') {
+        steps {
+            script {
+                if (params.BUILD_NUMBER == '') {
+                    error 'A Flexy build number must be specified'
+                }
+            }
+        }
+    }
     stage('Scale up cluster') {
       agent { label params['JENKINS_AGENT_LABEL'] }
         when {
