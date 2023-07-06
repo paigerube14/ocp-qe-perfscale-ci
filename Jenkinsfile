@@ -140,6 +140,11 @@ pipeline {
           defaultValue: "clusterVersion.json podLatency.json containerMetrics.json kubelet.json etcd.json crio.json nodeMasters-max.json nodeWorkers.json",
           description: 'JSON config files of what data to output into a Google Sheet'
       )
+      string(
+          name: "TOLERANCY_RULES_PARAM",
+          defaultValue: "pod-latency-tolerancy-rules.yaml master-tolerancy.yaml worker-tolerancy.yaml etcd-tolerancy.yaml crio-tolerancy.yaml kubelet-tolerancy.yaml",
+          description: 'JSON config files of what data to output into a Google Sheet'
+        )
       booleanParam(
           name: 'GEN_CSV',
           defaultValue: true,
@@ -356,10 +361,71 @@ pipeline {
                     else { 
                         currentBuild.result = "FAILURE"
                     }
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: 'helpful_scripts' ]],
+                        userRemoteConfigs: [[url: "https://github.com/openshift-qe/ocp-qe-perfscale-ci" ]],
+                        extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'main']]
+                    ])
+                    
+                    script {
+                        // run Mr. Sandman
+                        returnCode = sh(returnStatus: true, script: """
+                            python3.9 --version
+                            python3.9 -m pip install virtualenv
+                            python3.9 -m virtualenv venv3
+                            source venv3/bin/activate
+                            python --version
+                            python -m pip install -r $WORKSPACE/helpful_scripts/scripts/requirements.txt
+                            ls $WORKSPACE
+
+                            python $WORKSPACE/helpful_scripts/scripts/sandman.py --file $WORKSPACE/workloads/kube-burner/kube-burner.out
+                        """)
+                        // fail pipeline if Mr. Sandman run failed, continue otherwise
+                        if (returnCode.toInteger() != 0) {
+                            error('Mr. Sandman tool failed :(')
+                        }
+                        else {
+                            println 'Successfully ran Mr. Sandman tool :)'
+                        }
+                        archiveArtifacts(
+                            artifacts: 'helpful_scripts/data/*',
+                            allowEmptyArchive: true,
+                            fingerprint: true
+                        )
+
+                        
                 }
             }
         }
     }
+    stage("Run benchmark comparison") {
+        agent { label params['JENKINS_AGENT_LABEL'] }
+        steps {
+            copyArtifacts(
+                fingerprintArtifacts: true, 
+                projectName: JENKINS_JOB_PATH,
+                selector: specific(JENKINS_JOB_NUMBER),
+                target: 'workload-artifacts'
+            )
+            script { 
+                buildInfo = readJSON file: 'flexy-artifacts/data/workload.json'
+                buildInfo.params.each { env.setProperty(it.key, it.value) }
+                // update build description fields
+
+                currentBuild.description += "<b>UUID:</b> ${env.UUID}<br/>"
+                compare_job = build job: 'scale-ci/e2e-benchmarking-multibranch-pipeline/benchmark-comparison',
+                    parameters: [
+                        string(name: 'BUILD_NUMBER', value: BUILD_NUMBER),text(name: "ENV_VARS", value: ENV_VARS),
+                        string(name: 'JENKINS_AGENT_LABEL', value: JENKINS_AGENT_LABEL),booleanParam(name: "GEN_CSV", value: GEN_CSV),
+                        string(name: "WORKLOAD", value: WORKLOAD), string(name: "UUID", value: env.UUID),
+                        string(name: "COMPARISON_CONFIG_PARAM", value: COMPARISON_CONFIG),string(name: "TOLERANCY_RULES_PARAM", value: TOLERANCY_RULES_PARAM)
+                    ],
+                    propagate: false
+            }
+        }
+    }
+
     stage("Check cluster health") {
         agent { label params['JENKINS_AGENT_LABEL'] }
         when {
