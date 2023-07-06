@@ -376,7 +376,8 @@ pipeline {
                         userRemoteConfigs: [[url: "https://github.com/openshift-qe/ocp-qe-perfscale-ci" ]],
                         extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'main']]
                     ])
-                    
+                    }
+            }
                     script {
                         // run Mr. Sandman
                         returnCode = sh(returnStatus: true, script: """
