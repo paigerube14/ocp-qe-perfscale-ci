@@ -74,7 +74,4 @@ def write_prow_results_to_sheet():
     ws = sheet.worksheet(job_type)
     ws.insert_row(row, index, "USER_ENTERED")
 
-#write_prow_results_to_sheet()
-
-fips = get_fips()
-print('fips ' + str(fips))
+write_prow_results_to_sheet()
