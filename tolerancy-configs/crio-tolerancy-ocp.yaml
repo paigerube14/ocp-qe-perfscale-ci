@@ -1,0 +1,8 @@
+- json_path: ["metricName", "cpu-crio","jobName","*", "avg(value)"]
+  tolerancy: 20
+  # Maximum percentage of allowed failures
+  max_failures: 0
+- json_path: ["metricName", "memory-crio","jobName","*", "avg(value)"]
+  tolerancy: 15
+  # Maximum percentage of allowed failures
+  max_failures: 0

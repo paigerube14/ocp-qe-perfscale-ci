@@ -1,0 +1,12 @@
+- json_path: ["metricName", "99thEtcdDiskBackendCommitDurationSeconds", "jobName","*","avg(value)"]
+  tolerancy: 40
+  # Maximum percentage of allowed failures
+  max_failures: 0
+- json_path: ["metricName", "99thEtcdDiskWalFsyncDurationSeconds", "jobName","*","avg(value)"]
+  tolerancy: 40
+  # Maximum percentage of allowed failures
+  max_failures: 0
+- json_path: ["metricName", "99thEtcdRoundTripTimeSeconds", "jobName","*","avg(value)"]
+  tolerancy: 40
+  # Maximum percentage of allowed failures
+  max_failures: 0

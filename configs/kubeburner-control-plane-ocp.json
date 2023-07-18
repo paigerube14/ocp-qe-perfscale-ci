@@ -1,0 +1,76 @@
+{
+    "elasticsearch": {
+        "metadata": {
+            "k8s_cluster_info-metadata": {
+                "fields": [
+                    "value.cluster_version"
+                ]
+            }
+        },
+        "ripsaw-kube-burner*": [
+            {
+                "filter": {
+                    "metricName.keyword": "cpu-kube-apiserver"
+                },
+                "buckets": [
+                    "labels.namespace.keyword",
+                    "labels.container.keyword"
+                ],
+                "aggregations": {
+                    "value": [
+                        "max",
+                        "avg"
+                    ]
+                }
+            },
+            {
+                "filter": {
+                    "labels.namespace.keyword": "openshift-kube-apiserver",
+                    "metricName.keyword": "containerMemory-Masters"
+                },
+                "buckets": [
+                    "labels.namespace.keyword",
+                    "labels.container.keyword"
+                ],
+                "aggregations": {
+                    "value": [
+                        "max",
+                        "avg"
+                    ]
+                }
+            },
+            {
+                "filter": {
+                    "labels.namespace.keyword": "openshift-etcd",
+                    "metricName.keyword": "containerCPU-Masters"
+                },
+                "buckets": [
+                    "labels.namespace.keyword",
+                    "labels.container.keyword"
+                ],
+                "aggregations": {
+                    "value": [
+                        "max",
+                        "avg"
+                    ]
+                }
+            },
+            {
+                "filter": {
+                    "labels.namespace.keyword": "openshift-etcd",
+                    "metricName.keyword": "containerMemory-Masters"
+                },
+                "buckets": [
+                    "labels.namespace.keyword",
+                    "labels.container.keyword"
+                ],
+                "aggregations": {
+                    "value": [
+                        "max",
+                        "avg"
+                    ]
+                }
+            }
+        ]
+    }
+}
