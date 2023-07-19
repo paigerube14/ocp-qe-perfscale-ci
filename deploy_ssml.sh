@@ -7,16 +7,16 @@ export CONSOLE_URL=$(oc get routes console -n openshift-console -o jsonpath='{.s
 
 export TOKEN=$(oc whoami -t)
 
-
-dast_tool_path=../rapidast/
-# dast_tool_path=./dast_tool
+# path for local testing
+#dast_tool_path=../rapidast/
+dast_tool_path=./dast_tool
 echo "$CONSOLE_URL"
 #curl -k "https://${CONSOLE_URL}/api/kubernetes/openapi/v2" -H "Cookie: openshift-session-token=${TOKEN}"  -H "Accept: application/json"  >> openapi.json
 #mkdir results 
-
-for api_doc in $(ls ./apidocs); do 
-  echo "api doc $api_doc"
-  API_URL="https://raw.githubusercontent.com/paigerube14/ocp-qe-perfscale-ci/ssml/apidocs/$api_doc"
+api_doc="open-api"
+#for api_doc in $(ls ./apidocs); do 
+echo "api doc $api_doc"
+#  API_URL="https://raw.githubusercontent.com/paigerube14/ocp-qe-perfscale-ci/ssml/apidocs/$api_doc"
   #edit rapidast config file
   envsubst < values.yaml.template > $dast_tool_path/helm/chart/value_test.yaml
 
@@ -35,13 +35,13 @@ for api_doc in $(ls ./apidocs); do
     
   done
 
-  cp $dast_tool_path/helm/chart/value_test.yaml results/$api_doc_value.yaml
+  cp $dast_tool_path/helm/chart/value_test.yaml results/$api_doc/_value.yaml
 
-  oc logs $rapidast_pod -n default >> results/$api_doc_pod_logs.out
+  oc logs $rapidast_pod -n default >> results/$api_doc/pod_logs.out
 
-  ./results.sh rapidast-pvc results
+  ./results.sh rapidast-pvc results/$api_doc
   ${helm_dir}/helm uninstall rapidast 
-done
+#done
 
 phase=$(oc get $rapidast_pod -o jsonpath='{.status.phase}')
 
