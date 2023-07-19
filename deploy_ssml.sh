@@ -25,7 +25,7 @@ echo "api doc $api_doc"
   # wait for pod to be completed or error
   rapidast_pod=$(oc get pods -n default -l job-name=rapidast-job -o name)
   echo "rapidast current pod $rapidast_pod"
-  oc wait --for=condition=Ready $rapidast_pod
+  oc wait --for=condition=Ready $rapidast_pod --timeout=120s
   response=$($?)
   echo "response $response"
   oc get $rapidast_pod -o 'jsonpath={..status.conditions}'
