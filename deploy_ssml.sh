@@ -12,7 +12,7 @@ export TOKEN=$(oc whoami -t)
 dast_tool_path=./dast_tool
 echo "$CONSOLE_URL"
 #curl -k "https://${CONSOLE_URL}/api/kubernetes/openapi/v2" -H "Cookie: openshift-session-token=${TOKEN}"  -H "Accept: application/json"  >> openapi.json
-#mkdir results 
+mkdir results 
 api_doc="open-api"
 #for api_doc in $(ls ./apidocs); do 
 echo "api doc $api_doc"
@@ -34,7 +34,7 @@ echo "api doc $api_doc"
     sleep 5
     
   done
-
+  mkdir results/$api_doc
   cp $dast_tool_path/helm/chart/value_test.yaml results/$api_doc/_value.yaml
 
   oc logs $rapidast_pod -n default >> results/$api_doc/pod_logs.out
