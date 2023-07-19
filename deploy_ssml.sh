@@ -41,6 +41,7 @@ echo "api doc $api_doc"
 
   ./results.sh rapidast-pvc results/$api_doc
   ${helm_dir}/helm uninstall rapidast 
+  oc delete pvc rapidast-pvc
 #done
 
 phase=$(oc get $rapidast_pod -o jsonpath='{.status.phase}')
