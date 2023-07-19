@@ -7,32 +7,41 @@ export CONSOLE_URL=$(oc get routes console -n openshift-console -o jsonpath='{.s
 
 export TOKEN=$(oc whoami -t)
 
+
+dast_tool_path=../rapidast/
+# dast_tool_path=./dast_tool
 echo "$CONSOLE_URL"
 #curl -k "https://${CONSOLE_URL}/api/kubernetes/openapi/v2" -H "Cookie: openshift-session-token=${TOKEN}"  -H "Accept: application/json"  >> openapi.json
+#mkdir results 
 
-#edit rapidast config file
-envsubst < values.yaml.template > dast_tool/helm/chart/value_test.yaml
+for api_doc in $(ls ./apidocs); do 
+  echo "api doc $api_doc"
+  API_URL="https://raw.githubusercontent.com/paigerube14/ocp-qe-perfscale-ci/ssml/apidocs/$api_doc"
+  #edit rapidast config file
+  envsubst < values.yaml.template > $dast_tool_path/helm/chart/value_test.yaml
 
-${helm_dir}/helm install rapidast ./dast_tool/helm/chart -f ./dast_tool/helm/chart/value_test.yaml
+  ${helm_dir}/helm install rapidast $dast_tool_path/helm/chart -f $dast_tool_path/helm/chart/value_test.yaml
 
-# wait for pod to be completed or error
+  # wait for pod to be completed or error
+  rapidast_pod=$(oc get pods -n default -l job-name=rapidast-job -o name)
+  echo "rapidast current pod $rapidast_pod"
+  oc wait --for=condition=Ready $rapidast_pod
+  response=$($?)
+  echo "response $response"
+  oc get $rapidast_pod -o 'jsonpath={..status.conditions}'
+  while [[ $(oc get $rapidast_pod -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') == "True" ]]; do
+    echo "sleeping 5"
+    sleep 5
+    
+  done
 
+  cp $dast_tool_path/helm/chart/value_test.yaml results/$api_doc_value.yaml
 
-rapidast_pod=$(oc get pods -n default -l job-name=rapidast-job -o name)
+  oc logs $rapidast_pod -n default >> results/$api_doc_pod_logs.out
 
-oc wait --for=condition=Ready $rapidast_pod
-while [[ $(oc get $rapidast_pod -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') == "True" ]]; do
-  echo "sleeping 5"
-  sleep 5
-  
+  ./results.sh rapidast-pvc results
+  ${helm_dir}/helm uninstall rapidast 
 done
-
-mkdir results 
-cp ./dast_tool/helm/chart/value_test.yaml results/value.yaml
-
-oc logs $rapidast_pod -n default >> results/pod_logs.out
-
-./results.sh rapidast-pvc results
 
 phase=$(oc get $rapidast_pod -o jsonpath='{.status.phase}')
 
