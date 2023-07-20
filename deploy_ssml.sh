@@ -35,19 +35,19 @@ echo "api doc $api_doc"
     
   done
   mkdir results/$api_doc
-  cp $dast_tool_path/helm/chart/value_test.yaml results/$api_doc/_value.yaml
+  cp $dast_tool_path/helm/chart/value_test.yaml results/$api_doc/value.yaml
 
   oc logs $rapidast_pod -n default >> results/$api_doc/pod_logs.out
 
   ./results.sh rapidast-pvc results/$api_doc
-  ${helm_dir}/helm uninstall rapidast 
-  oc delete pvc rapidast-pvc
+  # ${helm_dir}/helm uninstall rapidast 
+  # oc delete pvc rapidast-pvc
 #done
 
 phase=$(oc get $rapidast_pod -o jsonpath='{.status.phase}')
 
 if [ $phase != "Succeeded" ]; then
-    echo "Pod $rapidast_pod failed. Look at pod logs in archives (results/pod_logs.out)"
+    echo "Pod $rapidast_pod failed. Look at pod logs in archives (results/*/pod_logs.out)"
     exit 1
 fi
 
