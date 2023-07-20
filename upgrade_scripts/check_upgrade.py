@@ -221,3 +221,52 @@ def wait_for_replicas(machine_replicas, machine_name, wait_num=60):
             print("ERROR, nodes are still not ready after 5 minutes")
             sys.exit(1)
     print("Machine sets have correct replica count and all nodes are ready")
+
+def loop_failed_pods(pods_failed_list): 
+    failed_pod_list_overall = []
+    for failed_pod in pods_failed_list:
+        pod_split = failed_pod.split(" ")
+        print('pod split' + str(pod_split))
+        if len(pod_split) > 2:
+            failed_pod_list_overall.append([pod_split[0], pod_split[1]])
+    return failed_pod_list_overall
+
+def find_failing_pods(wait_num=40):
+    counter = 0
+    failed_pod_list_overall = []
+    return_code, pods_failed_str = invoke(" oc get pods --no-headers -A| grep -v -E 'Running|Completed|installer'| awk '(NF=NF-2) 1'")
+    if pods_failed_str !="":
+        pods_failed_list = pods_failed_str.split("\n")
+        failed_pod_list_overall = loop_failed_pods(pods_failed_list)
+        print('failed  pod list ' + str(failed_pod_list_overall))
+        counter = 0
+        while True:
+            time.sleep(5)
+            return_code, pods_failed_list = invoke(" oc get pods --no-headers -A| grep -v -E 'Running|Completed|installer'| awk '(NF=NF-2) 1'")
+            pods_failed_list = pods_failed_str.split("\n")
+            failed_pod_sub = loop_failed_pods(pods_failed_list)
+        
+            for pod_info in failed_pod_sub:
+                print('pod info' + str(pod_info))
+                found = False
+                for i in range(len(failed_pod_list_overall) - 1):
+                    print ( "i " + str(failed_pod_list_overall[i]))
+                    print('pod info ' + str(pod_info[1]))
+                    if failed_pod_list_overall[i][1] == pod_info[1]:
+                        found = True
+                        break
+                if not found: 
+                    print ( " found" + str(found))
+                    failed_pod_list_overall.remove(pod_info)
+                else:
+                    failed_pod_list_overall.append(pod_info)
+            print('failed_pod_list_overall ' + str(failed_pod_list_overall))
+            if len(failed_pod_list_overall) == 0: 
+                break
+            counter += 1
+            if counter >= wait_num:
+                print("ERROR, pods are still not ready after 2 minutes")
+                sys.exit(1)
+    print("All pods are ready")
+
+find_failing_pods()
