@@ -391,14 +391,8 @@ pipeline {
 
                     python $WORKSPACE/helpful_scripts/scripts/sandman.py --file $WORKSPACE/workloads/kube-burner/kube-burner.out
                 """)
-                buildInfo = readJSON file: 'helpful_scripts/data/workload.json'
-                buildInfo.params.each { env.setProperty(it.key.toUpperCase(), it.value) } 
-                // fail pipeline if Mr. Sandman run failed, continue otherwise
-                if (returnCode.toInteger() == 0) {
-                    println 'Successfully ran Mr. Sandman tool :)'
-                }
-                buildInfo = readJSON file: 'helpful_scripts/data/workload.json'
-                buildInfo.each { env.setProperty(it.key, it.value) }
+                workloadInfo = readJSON file: 'helpful_scripts/data/workload.json'
+                workloadInfo.each { env.setProperty(it.key, it.value) }
                 archiveArtifacts(
                     artifacts: 'helpful_scripts/data/*',
                     allowEmptyArchive: true,
