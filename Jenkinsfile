@@ -352,7 +352,8 @@ pipeline {
                             export COMPARISON_CONFIG=$(echo ${COMPARISON_CONFIG/containerMetrics.json/})
                             
                         fi
-
+                        rm -rf /tmp/${WORKLOAD}-${UUID}
+                        rm -rf *.csv
                         set -o pipefail
                         pwd
                         echo "workspace $WORKSPACE"
@@ -407,7 +408,7 @@ pipeline {
             script { 
 
                 currentBuild.description += "<b>UUID:</b> ${env.UUID}<br/>"
-                compare_job = build job: 'scale-ci/paige-e2e-benchmark/benchmark-comparison',
+                compare_job = build job: 'scale-ci/paige-e2e-multibranch/benchmark-comparison',
                     parameters: [
                         string(name: 'BUILD_NUMBER', value: BUILD_NUMBER),text(name: "ENV_VARS", value: ENV_VARS),
                         string(name: 'JENKINS_AGENT_LABEL', value: JENKINS_AGENT_LABEL),booleanParam(name: "GEN_CSV", value: GEN_CSV),
