@@ -408,7 +408,7 @@ pipeline {
             script { 
 
                 currentBuild.description += "<b>UUID:</b> ${env.UUID}<br/>"
-                compare_job = build job: 'scale-ci/paige-e2e-multibranch/benchmark-comparison',
+                compare_job = build job: 'scale-ci/e2e-benchmarking-multibranch-pipeline/benchmark-comparison',
                     parameters: [
                         string(name: 'BUILD_NUMBER', value: BUILD_NUMBER),text(name: "ENV_VARS", value: ENV_VARS),
                         string(name: 'JENKINS_AGENT_LABEL', value: JENKINS_AGENT_LABEL),booleanParam(name: "GEN_CSV", value: GEN_CSV),
