@@ -331,7 +331,7 @@ pipeline {
                         python3.9 -m virtualenv venv3
                         source venv3/bin/activate
                         python --version
-                        pip install pytimeparse futures
+                        pip install pytimeparse futures jq
                         if [[ $WORKLOAD == *"cluster-density"* ]] || [[ $WORKLOAD == *"networkpolicy-case"* ]]; then
                             export JOB_ITERATIONS=$VARIABLE
                         elif [[ $WORKLOAD == "pod-density" ]]; then
