@@ -81,8 +81,8 @@ pipeline {
           description: 'Optional image to help get must-gather information on non default areas. See <a href="https://docs.openshift.com/container-platform/4.12/support/gathering-cluster-data.html">docs</a> for more information and options.'
         )
         string(
-            name: "KUBE_BURNER_URL"
-            defaultValue: "https://github.com/cloud-bulldozer/kube-burner/releases/download/v0.17.3/kube-burner-0.17.3-Linux-x86_64.tar.gz"
+            name: "KUBE_BURNER_URL",
+            defaultValue: "https://github.com/cloud-bulldozer/kube-burner/releases/download/v0.17.3/kube-burner-0.17.3-Linux-x86_64.tar.gz",
             description: "Url of the kube-burner tar file to use to load the cluster"
         )
         string(
