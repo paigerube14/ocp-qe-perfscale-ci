@@ -17,15 +17,7 @@ creation_time = ""
 data_source = "QE%20kube-burner"
 uuid = ""
         
-def get_fips():
 
-    return_code, fips_enabled = write_helper.run("oc get cm cluster-config-v1 -n kube-system -o json | jq -r '.data' | grep 'fips'")
-    print('return code' + str(return_code))
-    if return_code == 0: 
-        if fips_enabled != "":
-            return str(True)
-
-    return str(False)
 
 def get_metadata_es(uuid): 
     index= "perf_scale_ci" 
@@ -49,13 +41,14 @@ def write_prow_results_to_sheet():
     #open sheet
     index = 2
 
-    job_parameters = os.getenv("JOB_ITERATIONS")
-    job_type = os.getenv("WORKLOAD_TYPE")
     es_username = os.getenv("ES_USERNAME")
     es_password = os.getenv("ES_PASSWORD")
 
     global uuid
     uuid = write_scale_results_sheet.get_uuid()
+
+    metadata_uuid = get_metadata_es(uuid)
+    job_type = metadata_uuid['benchmark']
     if job_type == "network-perf-v2":
         grafana_cell = write_scale_results_sheet.find_k8s_perf_uuid_url()
     elif job_type == "router-perf":
@@ -67,26 +60,20 @@ def write_prow_results_to_sheet():
     else:
         print('call metadata')
         grafana_cell = write_scale_results_sheet.get_metadata_uuid()
-    cloud_type, architecture_type, network_type, fips_enabled = install_type()
-    
+    cloud_type = metadata_uuid['platform']
+    architecture_type = write_helper.get_arch_type()
+    network_type = metadata_uuid['networkType']
+    fips_enabled = write_helper.get_fips()
+    cluster_type = metadata_uuid['clusterType']
+
+    job_url = metadata_uuid['buildUrl']
+    upstream_job_name = metadata_uuid['upstreamJob']
+    job_url_cell = f'=HYPERLINK("{job_url}","{upstream_job_name}")'
     version = write_helper.get_oc_version()
     tz = timezone('EST')
 
     worker_count = write_helper.get_worker_num()
-    row = [version, grafana_cell, cloud_type, architecture_type, network_type, fips_enabled, worker_count]
-
-    if job_type not in ["network-perf-v2", "router-perf", "ingress-perf"]:
-        workload_args = write_scale_results_sheet.get_workload_params(job_type)
-        if workload_args != 0:
-            row.append(workload_args)
-    elif job_type == "router-perf":
-        row.append(str(metadata))
-
-    if job_parameters:
-        parameter_list = job_parameters.split(',')
-        for param in parameter_list:
-            if param:
-                row.append(param)
+    row = [version, grafana_cell, cluster_type, cloud_type, architecture_type, network_type, fips_enabled, worker_count, job_url_cell]
 
     if job_type not in ["network-perf-v2","router-perf","ingress-perf"]:
         creation_time = os.getenv("STARTTIME_STRING").replace(' ', "T") + ".000Z"
