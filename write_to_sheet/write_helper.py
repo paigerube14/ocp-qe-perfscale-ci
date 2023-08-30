@@ -79,6 +79,24 @@ def get_oc_version():
     else:
         print("Error getting clusterversion")
 
+
+def get_fips():
+
+    return_code, fips_enabled = run("oc get cm cluster-config-v1 -n kube-system -o json | jq -r '.data' | grep 'fips'")
+    print('return code' + str(return_code))
+    if return_code == 0: 
+        if fips_enabled != "":
+            return str(True)
+
+    return str(False)
+
+def get_arch_type():
+    node_status, node_name=run("oc get node --no-headers | grep master| head -1| awk '{print $1}'")
+    node_name = node_name.strip()
+    arch_type_status, architecture_type = run("oc get node " + str(node_name) + " --no-headers -ojsonpath='{.status.nodeInfo.architecture}'")
+    return architecture_type
+
+
 def flexy_install_type(flexy_url):
     return_code, version_type_string = run('curl --noproxy "*" -s {}/consoleFull | grep "run_installer template -c private-templates/functionality-testing/aos-"'.format(flexy_url))
     if return_code == 0:
