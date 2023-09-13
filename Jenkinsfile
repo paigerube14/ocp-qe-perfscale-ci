@@ -34,7 +34,7 @@ pipeline {
                 cpu: "200m"
             tty: true
             volumeMounts:
-            - mountPath: "/home/jenkins/agent"
+            - mountPath: "/home/jenkins/ws"
               name: "workspace-volume"
               readOnly: false
           - args:
