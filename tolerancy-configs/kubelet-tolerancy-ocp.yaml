@@ -1,8 +1,0 @@
-- json_path: ["metricName", "cpu-kubelet", "jobName", "*", "avg(value)"]
-  tolerancy: -15
-  # Maximum percentage of allowed failures
-  max_failures: 100
-- json_path: ["metricName", "memory-kubelet", "jobName", "*", "avg(value)"]
-  tolerancy: -15
-  # Maximum percentage of allowed failures
-  max_failures: 100

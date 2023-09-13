@@ -20,16 +20,43 @@ pipeline {
             label: ${JENKINS_AGENT_LABEL}
         spec:
           containers:
-          - name: "jnlp"
-            image: "quay.io/openshift-qe-optional-operators/cucushift:node-${JENKINS_AGENT_LABEL}"
+          - command:
+            - "cat"
+            image: "quay.io/redhatproductsecurity/rapidast:latest"
+            imagePullPolicy: "Always"
+            name: "builder"
             resources:
-              requests:
-                memory: "8Gi"
-                cpu: "2"
               limits:
-                memory: "8Gi"
-                cpu: "2"
-            imagePullPolicy: Always
+                memory: "1Gi"
+                cpu: "500m"
+              requests:
+                memory: "100Mi"
+                cpu: "200m"
+            tty: true
+            volumeMounts:
+            - mountPath: "/home/jenkins/agent"
+              name: "workspace-volume"
+              readOnly: false
+          - args:
+            image: "quay.io/openshift-qe-optional-operators/cucushift:node-${JENKINS_AGENT_LABEL}"
+            imagePullPolicy: "Always"
+            name: "jnlp"
+            resources:
+              limits:
+                memory: "512Mi"
+                cpu: "300m"
+              requests:
+                memory: "256Mi"
+                cpu: "100m"
+            tty: false
+          nodeSelector:
+            kubernetes.io/os: "linux"
+          restartPolicy: "Never"
+          serviceAccountName: "jenkins"
+          volumes:
+          - emptyDir:
+              medium: ""
+            name: "workspace-volume"
             workingDir: "/home/jenkins/ws"
             tty: true
           imagePullSecrets:
@@ -113,13 +140,10 @@ pipeline {
           cp $WORKSPACE/flexy-artifacts/workdir/install-dir/auth/kubeconfig ~/.kube/config
           ls
           oc login -u kubeadmin -p $(cat $WORKSPACE/flexy-artifacts/workdir/install-dir/auth/kubeadmin-password)
-          HELM_DIR=$(mktemp -d)
-          curl -sS -L https://get.helm.sh/helm-v3.11.2-linux-amd64.tar.gz | tar -xzC ${HELM_DIR}/ linux-amd64/helm
-          
-          ${HELM_DIR}/linux-amd64/helm version  
+
           oc label ns default security.openshift.io/scc.podSecurityLabelSync=false pod-security.kubernetes.io/enforce=privileged pod-security.kubernetes.io/audit=privileged pod-security.kubernetes.io/warn=privileged --overwrite
           
-          ./deploy_ssml.sh ${HELM_DIR}/linux-amd64
+          ./run_ssml.sh
           ''')
           sh "echo $RETURNSTATUS"
           archiveArtifacts(
