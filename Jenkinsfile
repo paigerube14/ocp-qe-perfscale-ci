@@ -49,10 +49,6 @@ pipeline {
                 memory: "256Mi"
                 cpu: "100m"
             tty: false
-          nodeSelector:
-            kubernetes.io/os: "linux"
-          restartPolicy: "Never"
-          serviceAccountName: "jenkins"
           volumes:
           - emptyDir:
               medium: ""
