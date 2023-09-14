@@ -83,7 +83,6 @@ def get_oc_version():
 def get_fips():
 
     return_code, fips_enabled = run("oc get cm cluster-config-v1 -n kube-system -o json | jq -r '.data' | grep 'fips'")
-    print('return code' + str(return_code))
     if return_code == 0: 
         if fips_enabled != "":
             return str(True)

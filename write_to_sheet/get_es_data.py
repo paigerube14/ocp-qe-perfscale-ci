@@ -17,7 +17,7 @@ def run(command):
 
 def get_metadata_es(index, search_params={}): 
     hits = update_es_uuid.es_search(search_params, index=index)
-    #print("hits[0]['_source']" + str(hits))
+    print("hits[0]['_source']" + str(hits))
     return hits
 
 
