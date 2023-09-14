@@ -75,6 +75,9 @@ rapidastConfig: |
                 # The list of policies can be found in scanners/zap/policies/
                 policy: "$POLICY_FILE"
 
+            report:
+                format: ["json", "html"]
+
 scanPolicyXML: |
   <?xml version="1.0" encoding="UTF-8" standalone="no"?>
   <configuration>
