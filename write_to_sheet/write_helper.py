@@ -53,10 +53,10 @@ def get_upgrade_duration():
         return str(time_elapsed), all_versions
     return get_oc_version(), ""
 
-def get_pod_latencies(uuid="",creation_time="",es_username="", es_password=""):
+def get_pod_latencies(uuid=""):
     if uuid != "":
         # In the form of [[json_data['quantileName'], json_data['avg'], json_data['P99']...]
-        pod_latencies_list = get_es_data.get_pod_latency_data(uuid, creation_time,es_username,es_password)
+        pod_latencies_list = get_es_data.get_pod_latency_data(uuid)
         if len(pod_latencies_list) != 0:
             avg_list = []
             p99_list = []
@@ -78,7 +78,6 @@ def get_oc_version():
 def get_fips():
 
     return_code, fips_enabled = run("oc get cm cluster-config-v1 -n kube-system -o json | jq -r '.data' | grep 'fips'")
-    print('return code' + str(return_code))
     if return_code == 0: 
         if fips_enabled != "":
             return str(True)

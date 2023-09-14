@@ -67,9 +67,9 @@ def get_ingress_perf_grafana_url(uuid, start_time, end_time):
     grafana_cell = f'=HYPERLINK("{grafana_url}","{uuid}")'
     return grafana_cell
 
-def find_uperf_uuid_url(cluster_name, start_time, es_username, es_password):
+def find_uperf_uuid_url(cluster_name):
 
-    uuid = get_es_data.get_uuid_uperf(cluster_name, start_time, es_username, es_password)
+    uuid = get_es_data.get_uuid_uperf(cluster_name)
     if uuid != "":
         return uuid
     return ""
@@ -181,8 +181,7 @@ def write_to_sheet(google_sheet_account, flexy_id, ci_job, job_type, job_url, st
         return_code, CLUSTER_NAME=write_helper.run("oc get machineset -n openshift-machine-api -o=go-template='{{(index (index .items 0).metadata.labels \"machine.openshift.io/cluster-api-cluster\" )}}'")
         if job_output:
             global uuid
-            start_time = parse_output_for_starttime()
-            uuid, metadata = find_uperf_uuid_url(CLUSTER_NAME,start_time,es_username,es_password)
+            uuid, metadata = find_uperf_uuid_url(CLUSTER_NAME)
             grafana_cell = uuid
         else:
             grafana_cell = ""
@@ -219,8 +218,7 @@ def write_to_sheet(google_sheet_account, flexy_id, ci_job, job_type, job_url, st
                 row.append(param)
 
     if job_type not in ["etcd-perf", "network-perf", "network-perf-v2","router-perf","ingress-perf"]:
-        creation_time = os.getenv("STARTTIME_STRING").replace(' ', "T") + ".000Z"
-        row.extend(write_helper.get_pod_latencies(uuid, creation_time, es_username,es_password))
+        row.extend(write_helper.get_pod_latencies(uuid))
 
     if job_output:
 

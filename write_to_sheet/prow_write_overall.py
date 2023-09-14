@@ -32,9 +32,6 @@ def write_prow_results_to_sheet():
     #open sheet
     index = 2
 
-    # es_username = os.getenv("ES_USERNAME")
-    # es_password = os.getenv("ES_PASSWORD")
-
     task_id=os.getenv("BUILD_ID")
     job_id=os.getenv("JOB_NAME")
     cluster_type = os.getenv("CLUSTER_TYPE")
