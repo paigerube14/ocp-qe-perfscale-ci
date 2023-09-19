@@ -142,6 +142,7 @@ pipeline {
           python3 -m virtualenv venv3
           source venv3/bin/activate
           python --version
+          export PATH=$PATH:/opt/zap/:/opt/rapidast/
           ./run_ssml.sh
           ''')
           sh "echo $RETURNSTATUS"
