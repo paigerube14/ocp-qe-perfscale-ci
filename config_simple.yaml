@@ -34,7 +34,7 @@ general:
     #   podman: RapiDAST runs each scanner using podman
     #   flatpak: RapiDAST runs each scanner using flatpak
     #   none: RapiDAST runs each scanner in the same host or container (where RapiDAST itself is running in a container)
-    type: "podman"
+    type: "none"
 
 # `scanners' is a section that configures scanning options
 # See the config-template-long.yaml for more options
@@ -59,7 +59,6 @@ scanners:
     container:
       parameters:
         image: "docker.io/owasp/zap2docker-stable:latest" # for type such as podman
-
         executable: "zap.sh"  # for Linux
         # executable: "/Applications/OWASP ZAP.app/Contents/Java/zap.sh"    # for MacOS, when general.container.type is 'none' only
 
