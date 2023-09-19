@@ -136,9 +136,11 @@ pipeline {
           cp $WORKSPACE/flexy-artifacts/workdir/install-dir/auth/kubeconfig ~/.kube/config
           ls
           oc login -u kubeadmin -p $(cat $WORKSPACE/flexy-artifacts/workdir/install-dir/auth/kubeadmin-password)
-
-          oc label ns default security.openshift.io/scc.podSecurityLabelSync=false pod-security.kubernetes.io/enforce=privileged pod-security.kubernetes.io/audit=privileged pod-security.kubernetes.io/warn=privileged --overwrite
-          
+          python3.9 --version
+          python3.9 -m pip install virtualenv
+          python3.9 -m virtualenv venv3
+          source venv3/bin/activate
+          python --version
           ./run_ssml.sh
           ''')
           sh "echo $RETURNSTATUS"
