@@ -21,7 +21,7 @@ echo "api doc $api_doc"
   cd $dast_tool_path
   ls
   pip install -r requirements.txt
-
+  pip install pyyaml
   echo $PATH
   cat config/config.yaml
   ./rapidast.py --log-level debug --config config/config.yaml
