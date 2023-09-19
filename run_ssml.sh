@@ -19,10 +19,11 @@ echo "api doc $api_doc"
   #edit rapidast config file
   envsubst < config_simple.yaml > $dast_tool_path/config/config.yaml
   cd $dast_tool_path
-  ./rapidast.py --log-level debug --config config/config.yaml"
-  mkdir results/$api_doc
+  ls
+  ./rapidast.py --log-level debug --config config/config.yaml
+  #mkdir results/$api_doc
 
-  ./results.sh rapidast-pvc results/$api_doc
+  #./results.sh rapidast-pvc results/$api_doc
 
 #done
 
