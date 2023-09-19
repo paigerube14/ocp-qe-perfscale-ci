@@ -136,9 +136,9 @@ pipeline {
           cp $WORKSPACE/flexy-artifacts/workdir/install-dir/auth/kubeconfig ~/.kube/config
           ls
           oc login -u kubeadmin -p $(cat $WORKSPACE/flexy-artifacts/workdir/install-dir/auth/kubeadmin-password)
-          python3.9 --version
-          python3.9 -m pip install virtualenv
-          python3.9 -m virtualenv venv3
+          python3 --version
+          python3 -m pip install virtualenv
+          python3 -m virtualenv venv3
           source venv3/bin/activate
           python --version
           ./run_ssml.sh
