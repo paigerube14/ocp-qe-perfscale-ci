@@ -20,9 +20,9 @@ echo "api doc $api_doc"
   envsubst < config_simple.yaml > $dast_tool_path/config/config.yaml
   cd $dast_tool_path
   ls
-  python --version 
   pip install -r requirements.txt
 
+  echo $PATH
   cat config/config.yaml
   ./rapidast.py --log-level debug --config config/config.yaml
   #mkdir results/$api_doc
