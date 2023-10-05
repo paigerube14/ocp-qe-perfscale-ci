@@ -4,6 +4,7 @@ from datetime import datetime
 import os
 from pytz import timezone
 import write_helper
+import sys
 import os
 creation_time = ""
 data_source = "QE%20kube-burner"
@@ -26,6 +27,10 @@ def write_prow_results_to_sheet():
 
     task_id=os.getenv("BUILD_ID")
     job_id=os.getenv("JOB_NAME")
+
+    # version 
+    cluster_version=write_helper.run('$(oc version -o json | jq -r ".openshiftVersion") || echo "Cluster Install Failed"')
+
     cluster_type = os.getenv("CLUSTER_TYPE")
 
     prow_base_url = "https://prow.ci.openshift.org/view/gs/origin-ci-test/logs"
@@ -33,9 +38,10 @@ def write_prow_results_to_sheet():
     #open sheet
 
     cluster_profile_dir = os.getenv("CLUSTER_PROFILE_DIR")
-    write_helper.run("ls " + cluster_profile_dir)
-
-    write_helper.run(f"cat {cluster_profile_dir}/*")
+    ls_data = write_helper.run("ls " + cluster_profile_dir)
+    print("ls data" + str(ls_data))
+    
+    print(write_helper.run(f"cat {cluster_profile_dir}/*"))
     # with open(cluster_profile_dir, "r") as r: 
     #     profile_str = r.read()
     # print('profile str ' + str(profile_str))
@@ -51,9 +57,10 @@ def write_prow_results_to_sheet():
     index = 2
     job_url_cell = f'=HYPERLINK("{build_url}","PROW")'
     tz = timezone('EST')
-    row = [job_url_cell, str(datetime.now(tz))]
+    row = [cluster_type,cluster_version,  job_url_cell, str(datetime.now(tz))]
     
     ws = sheet.worksheet(find_version)
     ws.insert_row(row, index, "USER_ENTERED")
+    sys.exit(1)
 
 write_prow_results_to_sheet()
