@@ -1,18 +1,9 @@
 from oauth2client.service_account import ServiceAccountCredentials
 import gspread
-import json
-import subprocess
 from datetime import datetime
-import calendar
 import os
 from pytz import timezone
-import get_es_data
-import write_helper
-import get_scale_output
 import os
-import write_scale_results_sheet
-import yaml 
-import update_es_uuid
 creation_time = ""
 data_source = "QE%20kube-burner"
 uuid = ""
@@ -45,6 +36,12 @@ def write_prow_results_to_sheet():
         profile_str = r.read()
     print('profile str ' + str(profile_str))
     
+    
+    # read through ran tests file
+    # do oc commands to see if clsuter is up 
+
+    # 
+
 
     find_version = "4." + job_id.split("4.")[-1].split("-")[0]
     index = 2
