@@ -32,7 +32,7 @@ def write_prow_results_to_sheet():
     #open sheet
 
     cluster_profile_dir = os.getenv("CLUSTER_PROFILE_DIR")
-    with open(cluster_profile_dir, r) as r: 
+    with open(cluster_profile_dir, "r") as r: 
         profile_str = r.read()
     print('profile str ' + str(profile_str))
     
