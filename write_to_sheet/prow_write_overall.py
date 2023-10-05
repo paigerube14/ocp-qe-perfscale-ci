@@ -6,6 +6,7 @@ from pytz import timezone
 import write_helper
 import sys
 import os
+import json
 creation_time = ""
 data_source = "QE%20kube-burner"
 uuid = ""
@@ -29,29 +30,25 @@ def write_prow_results_to_sheet():
     job_id=os.getenv("JOB_NAME")
 
     # version 
-    cluster_version=write_helper.run('$(oc version -o json | jq -r ".openshiftVersion") || echo "Cluster Install Failed"')
+    cluster_sha=os.getenv("RELEASE_IMAGE_LATEST").split("@")[-1].strip()
+    print('clsuter sha' + str(cluster_sha))
+    image_tag_name=write_helper.run("oc get imagetags --no-headers| grep %s| awk '{print $1}' "% cluster_sha)[1].strip()
+    print('image_tag_name' + str(image_tag_name))
+    cluster_version_labels=write_helper.run("oc get imagestreamtag --no-headers %s -o jsonpath='{.image.dockerImageMetadata.Config.Labels}'"% image_tag_name)
+
+    print('cluster_version_labels' + str(cluster_version_labels))
+    cluster_version= json.loads(cluster_version_labels[1])['io.openshift.release']
+    print('cluster version ' + str(cluster_version))
 
     cluster_type = os.getenv("CLUSTER_TYPE")
 
     prow_base_url = "https://prow.ci.openshift.org/view/gs/origin-ci-test/logs"
     build_url=prow_base_url + "/" + job_id+ "/"+ task_id
     #open sheet
-
-    cluster_profile_dir = os.getenv("CLUSTER_PROFILE_DIR")
-    ls_data = write_helper.run("ls " + cluster_profile_dir)
-    print("ls data" + str(ls_data))
-    
-    print(write_helper.run(f"cat {cluster_profile_dir}/*"))
-    # with open(cluster_profile_dir, "r") as r: 
-    #     profile_str = r.read()
-    # print('profile str ' + str(profile_str))
-    
-    
     # read through ran tests file
     # do oc commands to see if clsuter is up 
 
     # 
-
 
     find_version = "4." + job_id.split("4.")[-1].split("-")[0]
     index = 2
