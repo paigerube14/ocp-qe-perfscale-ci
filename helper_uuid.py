@@ -152,7 +152,12 @@ def find_uuid(workload, metric_name, uuid_data):
 
     }
 
-    hits = update_es_uuid.es_search(search_params)
+
+    version = uuid_data['ocpVersion'][:4]
+    search_wildcard = {
+        "ocp_version": str(version) + "*"
+    }
+    hits = update_es_uuid.es_search(search_params, wildcard=search_wildcard)
     
     if len(hits) == 0: 
         return False
