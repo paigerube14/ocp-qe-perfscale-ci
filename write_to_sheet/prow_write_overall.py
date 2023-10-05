@@ -3,6 +3,7 @@ import gspread
 from datetime import datetime
 import os
 from pytz import timezone
+import write_helper
 import os
 creation_time = ""
 data_source = "QE%20kube-burner"
@@ -32,9 +33,12 @@ def write_prow_results_to_sheet():
     #open sheet
 
     cluster_profile_dir = os.getenv("CLUSTER_PROFILE_DIR")
-    with open(cluster_profile_dir, "r") as r: 
-        profile_str = r.read()
-    print('profile str ' + str(profile_str))
+    write_helper.run("ls " + cluster_profile_dir)
+
+    write_helper.run(f"cat {cluster_profile_dir}/*")
+    # with open(cluster_profile_dir, "r") as r: 
+    #     profile_str = r.read()
+    # print('profile str ' + str(profile_str))
     
     
     # read through ran tests file
