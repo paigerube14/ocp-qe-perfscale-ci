@@ -312,6 +312,11 @@ pipeline {
                             pip install jq
                             ./ingress-performance.sh |& tee "ingress_router.out"
                             ! grep "Benchmark comparison failed" ingress_router.out
+
+                            ls /tmp
+                            folder_name=$(ls -t -d /tmp/*/ | head -1)
+                            file_loc=$folder_name"*"
+                            cp $file_loc .
                             '''
                         )
                         archiveArtifacts(
@@ -319,6 +324,13 @@ pipeline {
                             allowEmptyArchive: true,
                             fingerprint: true
                         )
+                        archiveArtifacts(
+                            artifacts: 'workloads/router-perf-v2/index_data.json',
+                            allowEmptyArchive: true,
+                            fingerprint: true
+                        )
+                        workloadInfo = readJSON file: "workloads/router-perf-v2/index_data.json"
+                        workloadInfo.each { env.setProperty(it.key.toUpperCase(), it.value) }
                         if (RETURNSTATUS.toInteger() == 0) {
                             status = "PASS"
                         }
