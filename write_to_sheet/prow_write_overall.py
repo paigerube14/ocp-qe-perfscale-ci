@@ -43,6 +43,7 @@ def write_prow_results_to_sheet(results_file):
     print('cluster version ' + str(cluster_version))
 
     cluster_type = os.getenv("CLUSTER_TYPE")
+    job_type = os.getenv("JOB_TYPE")
 
     prow_base_url = "https://prow.ci.openshift.org/view/gs/origin-ci-test/logs"
     build_url=prow_base_url + "/" + job_id+ "/"+ task_id
@@ -50,7 +51,7 @@ def write_prow_results_to_sheet(results_file):
 
     find_version = "4." + job_id.split("4.")[-1].split("-")[0]
     index = 2
-    job_url_cell = f'=HYPERLINK("{build_url}","PROW")'
+    job_url_cell = f'=HYPERLINK("{build_url}",{job_type})'
     tz = timezone('EST')
     row = [job_url_cell,cluster_version, cluster_type]
     # read through ran tests file
