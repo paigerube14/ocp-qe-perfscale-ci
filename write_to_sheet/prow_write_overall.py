@@ -7,6 +7,7 @@ import write_helper
 import sys
 import os
 import json
+import sys
 creation_time = ""
 data_source = "QE%20kube-burner"
 uuid = ""
@@ -14,7 +15,7 @@ uuid = ""
 
 # vars here: https://gcsweb-ci.apps.ci.l2s4.p1.openshiftapps.com/gcs/origin-ci-test/pr-logs/pull/openshift_release/42837/rehearse-42837-periodic-ci-openshift-qe-ocp-qe-perfscale-ci-main-aws-4.14-ocp-qe-perfscale-aws-ci-tests-write/1697269049693573120/artifacts/ocp-qe-perfscale-aws-ci-tests-write/openshift-qe-write-perfscale-results-all/build-log.txt
 
-def write_prow_results_to_sheet():
+def write_prow_results_to_sheet(results_file):
     scopes = [
     'https://www.googleapis.com/auth/spreadsheets',
     'https://www.googleapis.com/auth/drive'
@@ -38,6 +39,7 @@ def write_prow_results_to_sheet():
 
     print('cluster_version_labels' + str(cluster_version_labels))
     cluster_version= json.loads(cluster_version_labels[1])['io.openshift.release']
+
     print('cluster version ' + str(cluster_version))
 
     cluster_type = os.getenv("CLUSTER_TYPE")
@@ -45,19 +47,29 @@ def write_prow_results_to_sheet():
     prow_base_url = "https://prow.ci.openshift.org/view/gs/origin-ci-test/logs"
     build_url=prow_base_url + "/" + job_id+ "/"+ task_id
     #open sheet
-    # read through ran tests file
-    # do oc commands to see if clsuter is up 
-
-    # 
 
     find_version = "4." + job_id.split("4.")[-1].split("-")[0]
     index = 2
     job_url_cell = f'=HYPERLINK("{build_url}","PROW")'
     tz = timezone('EST')
-    row = [cluster_type,cluster_version,  job_url_cell, str(datetime.now(tz))]
+    row = [job_url_cell,cluster_version, cluster_type]
+    # read through ran tests file
+    # do oc commands to see if clsuter is up 
+    with open(results_file, "r+") as f:
+        result_str = f.read()
+    result_json = json.loads(result_str)
+    if len(result_json.keys()) == 0: 
+        row.append("Cluster failed to scale and run tests")
+    else: 
+        for k,v in result_json.items(): 
+            row.append(k + ": " + v)
     
+    row.append(str(datetime.now(tz)))
     ws = sheet.worksheet(find_version)
     ws.insert_row(row, index, "USER_ENTERED")
     sys.exit(1)
 
-write_prow_results_to_sheet()
+
+if __name__ == "__main__":
+    print(f"Arguments count: {len(sys.argv)}")
+    write_prow_results_to_sheet(sys.argv[1])
