@@ -31,13 +31,10 @@ def write_prow_results_to_sheet(results_file):
     job_id=os.getenv("JOB_NAME")
 
     # version 
-    cluster_sha=os.getenv("RELEASE_IMAGE_LATEST").split("@")[-1].strip()
-    print('clsuter sha' + str(cluster_sha))
-    image_tag_name=write_helper.run("oc get imagetags --no-headers| grep %s| awk '{print $1}' "% cluster_sha)[1].strip()
-    print('image_tag_name' + str(image_tag_name))
+    image_tag_name="release:latest"
     cluster_version_labels=write_helper.run("oc get imagestreamtag --no-headers %s -o jsonpath='{.image.dockerImageMetadata.Config.Labels}'"% image_tag_name)
 
-    print('cluster_version_labels' + str(cluster_version_labels))
+    print('cluster_version_labels' + str(cluster_version_labels[1]))
     cluster_version= json.loads(cluster_version_labels[1])['io.openshift.release']
 
     print('cluster version ' + str(cluster_version))
@@ -51,7 +48,7 @@ def write_prow_results_to_sheet(results_file):
 
     find_version = "4." + job_id.split("4.")[-1].split("-")[0]
     index = 2
-    job_url_cell = f'=HYPERLINK("{build_url}",{job_type})'
+    job_url_cell = f'=HYPERLINK("{build_url}","{job_type}")'
     tz = timezone('EST')
     row = [job_url_cell,cluster_version, cluster_type]
     # read through ran tests file
