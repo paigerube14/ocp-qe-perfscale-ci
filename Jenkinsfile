@@ -42,7 +42,7 @@ pipeline {
       )
       choice(
           name: 'WORKLOAD',
-          choices: ["node-density-cni-networkpolicy","concurrent-builds","pods-service-route","networkpolicy-case1","networkpolicy-case2","networkpolicy-case3"],
+          choices: ["cluster-density","node-density-cni-networkpolicy","concurrent-builds","pods-service-route","networkpolicy-case1","networkpolicy-case2","networkpolicy-case3"],
           description: 'Type of kube-burner job to run'
       )
       booleanParam(
