@@ -31,11 +31,10 @@ def write_prow_results_to_sheet(results_file):
     job_id=os.getenv("JOB_NAME")
 
     # version 
-    image_tag_name="release:latest"
-    cluster_version_labels=write_helper.run("oc get imagestreamtag --no-headers %s -o jsonpath='{.image.dockerImageMetadata.Config.Labels}'"% image_tag_name)
 
-    print('cluster_version_labels' + str(cluster_version_labels[1]))
-    cluster_version= json.loads(cluster_version_labels[1])['io.openshift.release']
+    cluster_output, cluster_version=write_helper.run("oc get clusterversion -o jsonpath='{.items[0].status.desired.version}'")
+    if cluster_output!= 0: 
+        cluster_version = "Cluster Install Failed"
 
     print('cluster version ' + str(cluster_version))
 
