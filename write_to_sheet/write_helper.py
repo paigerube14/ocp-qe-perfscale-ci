@@ -11,7 +11,7 @@ def run(command):
     except subprocess.CalledProcessError as exc:
         print("Status : ", command, exc.output)
         return exc.returncode, exc.output
-    return 0, output
+    return 0, output.strip()
 
 
 def transform_time_to_int(time):

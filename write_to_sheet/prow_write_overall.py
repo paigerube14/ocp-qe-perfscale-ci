@@ -36,12 +36,20 @@ def write_prow_results_to_sheet(results_file):
     if cluster_output!= 0: 
         cluster_version = "Cluster Install Failed"
 
-    print('cluster version ' + str(cluster_version))
+
+    worker_output, workers_count =write_helper.run("oc get nodes --ignore-not-found -l node-role.kubernetes.io/worker --no-headers=true | wc -l")
+    if worker_output != 0: 
+        workers_count = "Cluster Install Failed"
+    print('cluster version ' + str(cluster_version) + ", "+ str(workers_count))
 
     cluster_type = os.getenv("CLUSTER_TYPE")
     job_type = os.getenv("JOB_TYPE")
 
-    prow_base_url = "https://prow.ci.openshift.org/view/gs/origin-ci-test/logs"
+    prow_base_url = "https://prow.ci.openshift.org/view/gs/origin-ci-test/"
+    if job_type == "presubmit": 
+        prow_base_url +="pr-logs/pull/openshift_release/" + os.getenv("PULL_NUMBER")
+    else: 
+        prow_base_url += "/logs"
     build_url=prow_base_url + "/" + job_id+ "/"+ task_id
     #open sheet
 
@@ -49,7 +57,7 @@ def write_prow_results_to_sheet(results_file):
     index = 2
     job_url_cell = f'=HYPERLINK("{build_url}","{job_type}")'
     tz = timezone('EST')
-    row = [job_url_cell,cluster_version, cluster_type]
+    row = [job_url_cell,cluster_version, cluster_type, workers_count]
     # read through ran tests file
     # do oc commands to see if clsuter is up 
     with open(results_file, "r+") as f:
@@ -64,7 +72,6 @@ def write_prow_results_to_sheet(results_file):
     row.append(str(datetime.now(tz)))
     ws = sheet.worksheet(find_version)
     ws.insert_row(row, index, "USER_ENTERED")
-    sys.exit(1)
 
 
 if __name__ == "__main__":
