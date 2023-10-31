@@ -64,7 +64,7 @@ def write_prow_results_to_sheet(results_file):
         result_str = f.read()
     result_json = json.loads(result_str)
     if len(result_json.keys()) == 0: 
-        row.append("Cluster failed to scale and run tests")
+        row.append("Cluster failed to run tests")
     else: 
         for k,v in result_json.items(): 
             row.append(k + ": " + v)
