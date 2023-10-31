@@ -317,6 +317,7 @@ pipeline {
                             folder_name=$(ls -t -d /tmp/*/ | head -1)
                             file_loc=$folder_name"*"
                             cp $file_loc .
+                            pwd
                             '''
                         )
                         archiveArtifacts(
