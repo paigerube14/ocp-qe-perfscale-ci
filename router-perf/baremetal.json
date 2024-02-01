@@ -1,0 +1,52 @@
+{
+    "4.11": {
+        "3": {
+            "UPI-on-Baremetal-Packet-DualStack-OVN": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-04-19T20:42:02.615543Z",
+                "user": null,
+                "workload": "router-perf",
+                "ci_job_num": 878,
+                "flexy_build": 171819,
+                "uuid": "8705f418-032b-48fd-89fb-514fc1b90de3",
+                "cloud": "baremetal",
+                "ocp_version": "4.11.0-0.nightly-2023-01-14-121306",
+                "arch_type": "amd64",
+                "network_type": "OVNKubernetes",
+                "worker_count": 3,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_11/upi-on-baremetal/versioned-installer-packet-dual_stack",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "UPI-on-Baremetal-Packet-DualStack-OVN",
+                "worker_size": "m3.small.x86",
+                "master_size": ""
+            }
+        }
+    },
+    "4.12": {
+        "20": {
+            "UPI-on-Baremetal-Packet-DualStack-OVN": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-04-19T20:42:02.615550Z",
+                "user": null,
+                "workload": "router-perf",
+                "ci_job_num": 801,
+                "flexy_build": 158099,
+                "uuid": "7b1d8e2f-390c-4231-a1bb-9c7ebd514615",
+                "cloud": "baremetal",
+                "ocp_version": "4.12.0-0.nightly-2022-11-22-173232",
+                "arch_type": "amd64",
+                "network_type": "OVNKubernetes",
+                "worker_count": 20,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_12/upi-on-baremetal/versioned-installer-packet-dual_stack",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "UPI-on-Baremetal-Packet-DualStack-OVN",
+                "worker_size": "m3.small.x86",
+                "master_size": ""
+            }
+        }
+    }
+}

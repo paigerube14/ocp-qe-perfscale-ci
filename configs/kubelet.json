@@ -1,0 +1,32 @@
+{
+  "elasticsearch": {
+    "ripsaw-kube-burner": [
+      {
+        "filter": {
+          "metricName.keyword": "kubeletCPU"
+        },
+        "buckets": [
+          "jobName.keyword"
+        ],
+        "aggregations": {
+          "value": [
+            "max"
+          ]
+        }
+      },
+      {
+        "filter": {
+          "metricName.keyword": "kubeletMemory"
+        },
+        "buckets": [
+          "jobName.keyword"
+        ],
+        "aggregations": {
+          "value": [
+            "max"
+          ]
+        }
+      }
+    ]
+  }
+}

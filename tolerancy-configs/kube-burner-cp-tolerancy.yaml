@@ -1,0 +1,16 @@
+- json_path: ["metricName", "containerCPU-Masters", "labels.namespace", "openshift-kube-apiserver", "avg(value)"]
+  tolerancy: -15
+  # Maximum percentage of allowed failures
+  max_failures: 100
+- json_path: ["metricName", "containerMemory-Masters", "labels.namespace", "openshift-kube-apiserver", "avg(value)"]
+  tolerancy: -15
+  # Maximum percentage of allowed failures
+  max_failures: 100
+- json_path: ["metricName", "containerCPU-Masters", "labels.namespace", "openshift-etcd", "avg(value)"]
+  tolerancy: -15
+  # Maximum percentage of allowed failures
+  max_failures: 100
+- json_path: ["metricName", "containerMemory-Masters", "labels.namespace", "openshift-etcd", "avg(value)"]
+  tolerancy: -15
+  # Maximum percentage of allowed failures
+  max_failures: 100

@@ -1,0 +1,100 @@
+{
+    "4.12": {
+        "120": {
+            "IPI-on-GCP-OVN": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T19:03:27.731014Z",
+                "user": "first_test",
+                "workload": "pod-density",
+                "parameters": 28200,
+                "ci_job_num": 1994,
+                "flexy_build": 174587,
+                "uuid": "4027050b-5007-4847-beed-b14f145c0fc9",
+                "cloud": "gcp",
+                "ocp_version": "4.12.0-0.nightly-2023-01-24-150415",
+                "arch_type": "amd64",
+                "network_type": "OVNKubernetes",
+                "worker_count": 120,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_12/upi-on-gcp/versioned-installer-sno",
+                "infra_node_count": 3,
+                "workload_node_count": 1,
+                "profile": "IPI-on-GCP-OVN",
+                "worker_size": "n1-standard-8",
+                "master_size": "n1-standard-16"
+            },
+            "IPI-on-GCP": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-04-19T20:42:02.615462Z",
+                "user": null,
+                "workload": "pod-density",
+                "parameters": 28200,
+                "ci_job_num": 2024,
+                "flexy_build": 175957,
+                "uuid": "a42b16c6-8ae9-4234-baf8-99cac0c94aa5",
+                "cloud": "gcp",
+                "ocp_version": "4.12.0-0.nightly-2023-02-04-034821",
+                "arch_type": "amd64",
+                "network_type": "OpenShiftSDN",
+                "worker_count": 120,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_12/ipi-on-gcp/versioned-installer",
+                "infra_node_count": 3,
+                "workload_node_count": 1,
+                "profile": "IPI-on-GCP",
+                "worker_size": "n1-standard-8",
+                "master_size": "n1-standard-16"
+            }
+        },
+        "3": {
+            "IPI-on-GCP-OVN": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T19:03:27.730992Z",
+                "user": "first_test",
+                "workload": "pod-density",
+                "parameters": 3000,
+                "ci_job_num": 1062,
+                "flexy_build": 131007,
+                "uuid": "53d54eed-b192-4343-81f5-c12fcd912f55",
+                "cloud": "gcp",
+                "ocp_version": "4.12.0-0.nightly-2022-08-15-150248",
+                "arch_type": "amd64",
+                "network_type": "OVNKubernetes",
+                "worker_count": 3,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_12/upi-on-gcp/versioned-installer-sno",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI-on-GCP-OVN",
+                "worker_size": "n1-standard-4",
+                "master_size": ""
+            }
+        }
+    },
+    "4.13": {
+        "120": {
+            "IPI-on-GCP": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T19:03:27.731069Z",
+                "user": "first_test",
+                "workload": "pod-density",
+                "parameters": 28200,
+                "ci_job_num": 1966,
+                "flexy_build": 173211,
+                "uuid": "9017f85b-ded3-4fe7-823b-9735cf19ee83",
+                "cloud": "gcp",
+                "ocp_version": "4.13.0-0.nightly-2023-01-17-152326",
+                "arch_type": "amd64",
+                "network_type": "OpenShiftSDN",
+                "worker_count": 120,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_13/upi-on-gcp/versioned-installer-sno",
+                "infra_node_count": 3,
+                "workload_node_count": 1,
+                "profile": "IPI-on-GCP",
+                "worker_size": "n1-standard-8",
+                "master_size": "n1-standard-16"
+            }
+        }
+    }
+}

@@ -1,0 +1,70 @@
+{
+    "elasticsearch": {
+        "ingress-perf*": [
+            {
+                "filter": {
+                    "config.termination": "passthrough"
+                },
+                "buckets": [
+                    "sample",
+                    "config.serverReplicas",
+                    "config.connections",
+                    "config.concurrency"
+                ],
+                "aggregations": {
+                    "total_avg_rps": [
+                        "avg"
+                    ]
+                }
+            },
+            {
+                "filter": {
+                    "config.termination": "edge"
+                },
+                "buckets": [
+                    "sample",
+                    "config.serverReplicas",
+                    "config.connections",
+                    "config.concurrency"
+                ],
+                "aggregations": {
+                    "total_avg_rps": [
+                        "avg"
+                    ]
+                }
+            },
+            {
+                "filter": {
+                    "config.termination": "reencrypt"
+                },
+                "buckets": [
+                    "sample",
+                    "config.serverReplicas",
+                    "config.connections",
+                    "config.concurrency"
+                ],
+                "aggregations": {
+                    "total_avg_rps": [
+                        "avg"
+                    ]
+                }
+            },
+            {
+                "filter": {
+                    "config.termination": "http"
+                },
+                "buckets": [
+                    "sample",
+                    "config.serverReplicas",
+                    "config.connections",
+                    "config.concurrency"
+                ],
+                "aggregations": {
+                    "total_avg_rps": [
+                        "avg"
+                    ]
+                }
+            }
+        ]
+    }
+}

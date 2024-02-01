@@ -1,0 +1,72 @@
+{
+    "4.9": {
+        "3": {},
+        "10": {},
+        "20": {}
+    },
+    "4.10": {
+        "3": {},
+        "10": {},
+        "20": {}
+    },
+    "4.11": {
+        "3": {
+            "UPI-on-Baremetal-Packet-DualStack-OVN.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM-OVN.install.yaml": "",
+            "UPI-on-Baremetal-Packet-DualStack.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM.install.yaml": ""
+        },
+        "10": {
+            "UPI-on-Baremetal-Packet-DualStack-OVN.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM-OVN.install.yaml": "",
+            "UPI-on-Baremetal-Packet-DualStack.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM.install.yaml": ""
+        },
+        "20": {
+            "UPI-on-Baremetal-Packet-DualStack-OVN.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM-OVN.install.yaml": "",
+            "UPI-on-Baremetal-Packet-DualStack.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM.install.yaml": ""
+        }
+    },
+    "4.12": {
+        "3": {
+            "UPI-on-Baremetal-Packet-DualStack-OVN.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM-OVN.install.yaml": "",
+            "UPI-on-Baremetal-Packet-DualStack.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM.install.yaml": ""
+        },
+        "10": {
+            "UPI-on-Baremetal-Packet-DualStack-OVN.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM-OVN.install.yaml": "",
+            "UPI-on-Baremetal-Packet-DualStack.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM.install.yaml": ""
+        },
+        "20": {
+            "UPI-on-Baremetal-Packet-DualStack-OVN.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM-OVN.install.yaml": "",
+            "UPI-on-Baremetal-Packet-DualStack.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM.install.yaml": ""
+        }
+    },
+    "4.13": {
+        "3": {
+            "UPI-on-Baremetal-Packet-DualStack-OVN.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM-OVN.install.yaml": "",
+            "UPI-on-Baremetal-Packet-DualStack.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM.install.yaml": ""
+        },
+        "10": {
+            "UPI-on-Baremetal-Packet-DualStack-OVN.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM-OVN.install.yaml": "",
+            "UPI-on-Baremetal-Packet-DualStack.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM.install.yaml": ""
+        },
+        "20": {
+            "UPI-on-Baremetal-Packet-DualStack-OVN.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM-OVN.install.yaml": "",
+            "UPI-on-Baremetal-Packet-DualStack.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM.install.yaml": ""
+        }
+    }
+}

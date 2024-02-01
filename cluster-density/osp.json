@@ -1,0 +1,78 @@
+{
+    "4.10": {
+        "3": {
+            "IPI-on-OSP16": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T18:56:53.369909Z",
+                "user": "first_test",
+                "workload": "cluster-density",
+                "parameters": 200,
+                "ci_job_num": 961,
+                "flexy_build": 126967,
+                "uuid": "063dc6a7-26a5-4b95-bcba-ed3996f1166f",
+                "cloud": "osp",
+                "ocp_version": "4.10.0-0.nightly-2022-08-02-005056",
+                "arch_type": "amd64",
+                "network_type": "OpenShiftSDN",
+                "worker_count": 3,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_10/ipi-on-osp/versioned-installer-ci",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI-on-OSP16",
+                "worker_size": "ci.m1.xlarge",
+                "master_size": ""
+            }
+        },
+        "50": {
+            "IPI-on-OSP16": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T18:56:53.369928Z",
+                "user": "first_test",
+                "workload": "cluster-density",
+                "parameters": 200,
+                "ci_job_num": 1260,
+                "flexy_build": 138712,
+                "uuid": "0491d0a4-bd43-4a17-a8c0-28033bc715d9",
+                "cloud": "osp",
+                "ocp_version": "4.10.32",
+                "arch_type": "amd64",
+                "network_type": "OpenShiftSDN",
+                "worker_count": 50,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_10/ipi-on-osp/versioned-installer-ci",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI-on-OSP16",
+                "worker_size": "ci.m1.xlarge",
+                "master_size": ""
+            }
+        }
+    },
+    "4.11": {
+        "3": {
+            "IPI-on-OSP16": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T18:56:53.369934Z",
+                "user": "first_test",
+                "workload": "cluster-density",
+                "parameters": 12,
+                "ci_job_num": 901,
+                "flexy_build": 124007,
+                "uuid": "5d03ebc6-7896-4700-8f31-9691b824e822",
+                "cloud": "osp",
+                "ocp_version": "4.11.0-0.nightly-2022-07-24-151159",
+                "arch_type": "amd64",
+                "network_type": "OpenShiftSDN",
+                "worker_count": 3,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_11/ipi-on-osp/versioned-installer-ci",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI-on-OSP16",
+                "worker_size": "ci.m1.xlarge",
+                "master_size": ""
+            }
+        }
+    }
+}

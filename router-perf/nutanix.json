@@ -1,0 +1,27 @@
+{
+    "4.13": {
+        "27": {
+            "IPI-on-Nutanix-OVN": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T19:04:18.285271Z",
+                "user": "first_test",
+                "workload": "router-perf",
+                "ci_job_num": 20,
+                "flexy_build": 172541,
+                "uuid": "093c06d5-0a65-4ed1-a7a3-38a4e420fbb7",
+                "cloud": "nutanix",
+                "ocp_version": "4.13.0-0.nightly-2023-01-17-152326",
+                "arch_type": "amd64",
+                "network_type": "OVNKubernetes",
+                "worker_count": 27,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_13/ipi-on-nutanix/versioned-installer-fips-ovn-csi_pvc-ci",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI-on-Nutanix-OVN",
+                "worker_size": "",
+                "master_size": ""
+            }
+        }
+    }
+}

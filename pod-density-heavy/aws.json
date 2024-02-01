@@ -1,0 +1,116 @@
+{
+    "4.9": {
+        "3": {
+            "IPI-on-AWS-OVN.install.yaml": "",
+            "IPI-on-AWS.install.yaml": ""
+        },
+        "20": {
+            "IPI-on-AWS-OVN.install.yaml": "",
+            "IPI-on-AWS.install.yaml": ""
+        },
+        "50": {
+            "IPI-on-AWS-OVN.install.yaml": "",
+            "IPI-on-AWS.install.yaml": ""
+        },
+        "120": {
+            "IPI-on-AWS-OVN.install.yaml": "",
+            "IPI-on-AWS.install.yaml": ""
+        }
+    },
+    "4.10": {
+        "3": {
+            "IPI-on-AWS-OVN.install.yaml": "",
+            "IPI-on-AWS.install.yaml": ""
+        },
+        "20": {
+            "IPI-on-AWS-OVN.install.yaml": "",
+            "IPI-on-AWS.install.yaml": ""
+        },
+        "50": {
+            "IPI-on-AWS-OVN.install.yaml": "",
+            "IPI-on-AWS.install.yaml": ""
+        },
+        "120": {
+            "IPI-on-AWS-OVN.install.yaml": "",
+            "IPI-on-AWS.install.yaml": ""
+        }
+    },
+    "4.11": {
+        "3": {
+            "IPI-on-AWS-OVN.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM-OVN.install.yaml": "",
+            "IPI-on-AWS.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM.install.yaml": ""
+        },
+        "20": {
+            "IPI-on-AWS-OVN.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM-OVN.install.yaml": "",
+            "IPI-on-AWS.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM.install.yaml": ""
+        },
+        "50": {
+            "IPI-on-AWS-OVN.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM-OVN.install.yaml": "",
+            "IPI-on-AWS.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM.install.yaml": ""
+        },
+        "120": {
+            "IPI-on-AWS-OVN.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM-OVN.install.yaml": "",
+            "IPI-on-AWS.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM.install.yaml": ""
+        }
+    },
+    "4.12": {
+        "3": {
+            "IPI-on-AWS-OVN.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM-OVN.install.yaml": "",
+            "IPI-on-AWS.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM.install.yaml": ""
+        },
+        "20": {
+            "IPI-on-AWS-OVN.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM-OVN.install.yaml": "",
+            "IPI-on-AWS.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM.install.yaml": ""
+        },
+        "50": {
+            "IPI-on-AWS-OVN.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM-OVN.install.yaml": "",
+            "IPI-on-AWS.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM.install.yaml": ""
+        },
+        "120": {
+            "IPI-on-AWS-OVN.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM-OVN.install.yaml": "",
+            "IPI-on-AWS.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM.install.yaml": ""
+        }
+    },
+    "4.13": {
+        "3": {
+            "IPI-on-AWS-OVN.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM-OVN.install.yaml": "",
+            "IPI-on-AWS.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM.install.yaml": ""
+        },
+        "20": {
+            "IPI-on-AWS-OVN.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM-OVN.install.yaml": "",
+            "IPI-on-AWS.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM.install.yaml": ""
+        },
+        "50": {
+            "IPI-on-AWS-OVN.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM-OVN.install.yaml": "",
+            "IPI-on-AWS.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM.install.yaml": ""
+        },
+        "120": {
+            "IPI-on-AWS-OVN.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM-OVN.install.yaml": "",
+            "IPI-on-AWS.install.yaml": "",
+            "IPI-on-AWS-Baremetal-ARM.install.yaml": ""
+        }
+    }
+}

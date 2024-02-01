@@ -1,0 +1,28 @@
+{
+    "4.13": {
+        "20": {
+            "IPI-on-vSphere-OVN": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-04-19T20:42:02.615479Z",
+                "user": null,
+                "workload": "node-density",
+                "parameters": 200,
+                "ci_job_num": 2206,
+                "flexy_build": 186348,
+                "uuid": "1513a8a3-b5d0-4d8f-84dc-940761b640cb",
+                "cloud": "vsphere",
+                "ocp_version": "4.13.0-0.nightly-2023-03-14-053612",
+                "arch_type": "amd64",
+                "network_type": "OVNKubernetes",
+                "worker_count": 20,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_13/ipi-on-vsphere/versioned-installer-vmc7-ovn",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI-on-vSphere-OVN",
+                "worker_size": "",
+                "master_size": ""
+            }
+        }
+    }
+}

@@ -1,0 +1,54 @@
+{
+    "4.10": {
+        "3": {
+            "IPI-on-Azure-OVN-IPSEC": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T19:04:12.459849Z",
+                "user": "first_test",
+                "workload": "node-density",
+                "parameters": 200,
+                "ci_job_num": 902,
+                "flexy_build": 124019,
+                "uuid": "8ee0771a-4a22-458b-b983-56ce40455092",
+                "cloud": "azure",
+                "ocp_version": "4.10.0-0.nightly-2022-07-19-210744",
+                "arch_type": "amd64",
+                "network_type": "OVNKubernetes",
+                "worker_count": 3,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_10/ipi-on-azure/versioned-installer-ovn-ci",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI-on-Azure-OVN-IPSEC",
+                "worker_size": "",
+                "master_size": ""
+            }
+        }
+    },
+    "4.12": {
+        "3": {
+            "IPI-on-Azure-OVN": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T19:04:12.459883Z",
+                "user": "first_test",
+                "workload": "node-density",
+                "parameters": 200,
+                "ci_job_num": 960,
+                "flexy_build": 126959,
+                "uuid": "92805961-f123-41b3-8cda-f8c332711552",
+                "cloud": "azure",
+                "ocp_version": "4.12.0-0.nightly-2022-08-01-151317",
+                "arch_type": "amd64",
+                "network_type": "OVNKubernetes",
+                "worker_count": 3,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_12/ipi-on-azure/versioned-installer-ovn",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI-on-Azure-OVN",
+                "worker_size": "",
+                "master_size": ""
+            }
+        }
+    }
+}

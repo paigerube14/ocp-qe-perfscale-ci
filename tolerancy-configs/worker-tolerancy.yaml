@@ -1,0 +1,16 @@
+- json_path: ["metricName", "nodeCPU-Workers","labels.mode","*","max(value)"]
+  tolerancy: -15
+  # Maximum percentage of allowed failures
+  max_failures: 50
+- json_path: ["metricName", "nodeCPU-Workers","labels.mode","*","avg(value)"]
+  tolerancy: -15
+  # Maximum percentage of allowed failures
+  max_failures: 50
+- json_path: ["metricName", "nodeMemoryUtilization-Workers","jobName","*","max(value)"]
+  tolerancy: -15
+  # Maximum percentage of allowed failures
+  max_failures: 50
+- json_path: ["metricName", "nodeMemoryUtilization-Workers","jobName","*","avg(value)"]
+  tolerancy: -15
+  # Maximum percentage of allowed failures
+  max_failures: 50

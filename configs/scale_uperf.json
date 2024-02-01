@@ -1,0 +1,93 @@
+{
+  "elasticsearch": {
+    "metadata": {
+      "cpuinfo-metadata": {
+        "additional_fields": [
+          "pod_name"
+        ],
+        "fields": [
+          "value.Model name",
+          "value.Architecture",
+          "value.CPU(s)"
+        ]
+      },
+      "meminfo-metadata": {
+        "additional_fields": [
+          "pod_name"
+        ],
+        "fields": [
+          "value.MemTotal"
+        ]
+      },
+      "k8s_cluster_info-metadata": {
+        "fields": [
+          "value.cluster_version"
+        ]
+      }
+    },
+    "ripsaw": {
+      "ripsaw-uperf-results": [
+        {
+          "filter": {
+            "test_type.keyword": "stream"
+          },
+          "exclude": {
+            "norm_ops": 0
+          },
+          "buckets": [
+            "density",
+            "nodes_in_iter",
+            "client_node.keyword",
+            "client_ips.keyword",
+            "protocol.keyword",
+            "message_size",
+            "read_message_size",
+            "num_threads",
+            "pod_id"
+          ],
+          "aggregations": {
+            "norm_byte": [
+              "avg"
+            ]
+          }
+        },
+        {
+          "filter": {
+            "test_type.keyword": "rr"
+          },
+          "exclude": {
+            "norm_ops": 0
+          },
+          "buckets": [
+            "density",
+            "nodes_in_iter",
+            "client_node.keyword",
+            "client_ips.keyword",
+            "protocol.keyword",
+            "message_size",
+            "read_message_size",
+            "num_threads",
+            "pod_id"
+          ],
+          "aggregations": {
+            "norm_ops": [
+              "max",
+              "avg"
+            ],
+            "norm_ltcy": [
+              {
+                "percentiles": {
+                  "percents": [
+                    90,
+                    99
+                  ]
+                }
+              },
+              "avg"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

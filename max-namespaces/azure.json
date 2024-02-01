@@ -1,0 +1,76 @@
+{
+    "4.10": {
+        "120": {
+            "IPI-on-Azure-Private": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T19:04:12.460840Z",
+                "user": "first_test",
+                "workload": "max-namespaces",
+                "parameters": 3600,
+                "ci_job_num": 867,
+                "flexy_build": 122365,
+                "uuid": "9966c6ec-3fc1-4a49-b558-fbab35222cd6",
+                "cloud": "azure",
+                "ocp_version": "4.10.0-0.nightly-2022-07-19-210744",
+                "arch_type": "amd64",
+                "network_type": "OpenShiftSDN",
+                "worker_count": 120,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_10/ipi-on-azure/versioned-installer-ci",
+                "infra_node_count": 3,
+                "workload_node_count": 1,
+                "profile": "IPI-on-Azure-Private",
+                "worker_size": "Standard_D8s_v3",
+                "master_size": "Standard_D16s_v3"
+            }
+        }
+    },
+    "4.11": {
+        "120": {
+            "IPI-on-Azure-Private": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T19:04:12.460862Z",
+                "user": "first_test",
+                "workload": "max-namespaces",
+                "parameters": 3600,
+                "ci_job_num": 854,
+                "flexy_build": 121981,
+                "uuid": "61610b80-b217-4580-b02c-f12523a196a8",
+                "cloud": "azure",
+                "ocp_version": "4.11.0-0.nightly-2022-07-18-234011",
+                "arch_type": "amd64",
+                "network_type": "OpenShiftSDN",
+                "worker_count": 120,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_11/ipi-on-azure/versioned-installer",
+                "infra_node_count": 3,
+                "workload_node_count": 1,
+                "profile": "IPI-on-Azure-Private",
+                "worker_size": "Standard_D8s_v3",
+                "master_size": "Standard_D16s_v3"
+            },
+            "IPI-on-Azure": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-04-19T20:42:02.615488Z",
+                "user": null,
+                "workload": "max-namespaces",
+                "parameters": 3600,
+                "ci_job_num": 854,
+                "flexy_build": 121981,
+                "uuid": "61610b80-b217-4580-b02c-f12523a196a8",
+                "cloud": "azure",
+                "ocp_version": "4.11.0-0.nightly-2022-07-18-234011",
+                "arch_type": "amd64",
+                "network_type": "OpenShiftSDN",
+                "worker_count": 120,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_11/ipi-on-azure/versioned-installer-ci",
+                "infra_node_count": 3,
+                "workload_node_count": 1,
+                "profile": "IPI-on-Azure",
+                "worker_size": "Standard_D8s_v3",
+                "master_size": "Standard_D16s_v3"
+            }
+        }
+    }
+}

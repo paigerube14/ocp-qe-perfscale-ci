@@ -1,0 +1,26 @@
+{
+    "4.9": {
+        "25": {}
+    },
+    "4.10": {
+        "25": {}
+    },
+    "4.11": {
+        "25": {
+            "IPI-on-Nutanix-OVN.install.yaml": "",
+            "IPI-on-Nutanix.install.yaml": ""
+        }
+    },
+    "4.12": {
+        "25": {
+            "IPI-on-Nutanix-OVN.install.yaml": "",
+            "IPI-on-Nutanix.install.yaml": ""
+        }
+    },
+    "4.13": {
+        "25": {
+            "IPI-on-Nutanix-OVN.install.yaml": "",
+            "IPI-on-Nutanix.install.yaml": ""
+        }
+    }
+}

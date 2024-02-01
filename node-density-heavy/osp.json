@@ -1,0 +1,32 @@
+{
+    "4.9": {
+        "25": {
+            "IPI-on-OSP16-OVN.install.yaml": "",
+            "IPI-on-OSP16.install.yaml": ""
+        }
+    },
+    "4.10": {
+        "25": {
+            "IPI-on-OSP16-OVN.install.yaml": "",
+            "IPI-on-OSP16.install.yaml": ""
+        }
+    },
+    "4.11": {
+        "25": {
+            "IPI-on-OSP16-OVN.install.yaml": "",
+            "IPI-on-OSP16.install.yaml": ""
+        }
+    },
+    "4.12": {
+        "25": {
+            "IPI-on-OSP16-OVN.install.yaml": "",
+            "IPI-on-OSP16.install.yaml": ""
+        }
+    },
+    "4.13": {
+        "25": {
+            "IPI-on-OSP16-OVN.install.yaml": "",
+            "IPI-on-OSP16.install.yaml": ""
+        }
+    }
+}

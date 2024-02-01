@@ -1,0 +1,50 @@
+{
+    "4.12": {
+        "20": {
+            "IPI-on-AWS-ARM-OVN": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T19:04:09.614606Z",
+                "user": "first_test",
+                "workload": "max-namespaces",
+                "parameters": 600,
+                "ci_job_num": 1583,
+                "flexy_build": 152216,
+                "uuid": "93fedc27-9b62-4271-b19a-5fa262bb1d91",
+                "cloud": "aws",
+                "ocp_version": "4.12.0-0.nightly-arm64-2022-11-02-075603",
+                "arch_type": "arm64",
+                "network_type": "OVNKubernetes",
+                "worker_count": 20,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_12/ipi-on-aws/versioned-installer-arm",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI-on-AWS-ARM-OVN",
+                "worker_size": "m6gd.metal",
+                "master_size": "m6gd.metal"
+            },
+            "IPI-on-AWS-ARM": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T19:04:09.614620Z",
+                "user": "first_test",
+                "workload": "max-namespaces",
+                "parameters": 600,
+                "ci_job_num": 1189,
+                "flexy_build": 136187,
+                "uuid": "e3f2f879-f2c4-4acd-aafd-e8790371f550",
+                "cloud": "aws",
+                "ocp_version": "4.12.0-0.nightly-arm64-2022-09-05-122742",
+                "arch_type": "arm64",
+                "network_type": "OpenShiftSDN",
+                "worker_count": 20,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_12/ipi-on-aws/versioned-installer-arm",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI-on-AWS-ARM",
+                "worker_size": "m6g.xlarge",
+                "master_size": ""
+            }
+        }
+    }
+}

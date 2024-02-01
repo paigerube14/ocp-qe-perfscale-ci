@@ -1,0 +1,28 @@
+{
+    "4.12": {
+        "3": {
+            "IPI-on-AlibabacloudOVN": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T18:56:51.632603Z",
+                "user": "first_test",
+                "workload": "cluster-density",
+                "parameters": 150,
+                "ci_job_num": 1085,
+                "flexy_build": 132065,
+                "uuid": "d2c343dc-2e9d-4ae0-bd66-c746c5b36429",
+                "cloud": "alicloud",
+                "ocp_version": "4.12.0-0.nightly-2022-08-22-032534",
+                "arch_type": "amd64",
+                "network_type": "OVNKubernetes",
+                "worker_count": 3,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_12/ipi-on-alicloud/versioned-installer",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI-on-AlibabacloudOVN",
+                "worker_size": "ecs.g6.xlarge",
+                "master_size": ""
+            }
+        }
+    }
+}

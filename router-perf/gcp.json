@@ -1,0 +1,167 @@
+{
+    "4.13": {
+        "65": {
+            "IPI-on-GCP": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-04-19T20:42:02.615522Z",
+                "user": null,
+                "workload": "router-perf",
+                "ci_job_num": 973,
+                "flexy_build": 195275,
+                "uuid": "5fdc4928-db54-4d82-861f-e9d3289ae7dc",
+                "cloud": "gcp",
+                "ocp_version": "4.13.0-0.nightly-2023-04-12-050538",
+                "arch_type": "amd64",
+                "network_type": "OpenShiftSDN",
+                "worker_count": 65,
+                "worker_size": "",
+                "master_size": "",
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_12/ipi-on-gcp/versioned-installer",
+                "infra_node_count": 3,
+                "workload_node_count": 1,
+                "profile": "IPI-on-GCP"
+            },
+            "IPI-on-GCP-OVN": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T19:04:15.498026Z",
+                "user": "first_test",
+                "workload": "router-perf",
+                "ci_job_num": 883,
+                "flexy_build": 173609,
+                "uuid": "7b575a8f-6a04-48c2-92ab-3d4e06b84b3d",
+                "cloud": "gcp",
+                "ocp_version": "4.13.0-0.nightly-2023-01-24-061922",
+                "arch_type": "amd64",
+                "network_type": "OVNKubernetes",
+                "worker_count": 65,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_13/upi-on-gcp/versioned-installer-sno",
+                "infra_node_count": 3,
+                "workload_node_count": 1,
+                "profile": "IPI-on-GCP-OVN",
+                "worker_size": "n1-standard-8",
+                "master_size": "n1-standard-16"
+            }
+        }
+    },
+    "4.12": {
+        "3": {
+            "IPI-on-GCP": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T19:04:15.498019Z",
+                "user": "first_test",
+                "workload": "router-perf",
+                "ci_job_num": 827,
+                "flexy_build": 164698,
+                "uuid": "555e319b-a872-4c2f-b1dd-be4aa783ea0d",
+                "cloud": "gcp",
+                "ocp_version": "4.12.0-0.nightly-2022-12-14-135139",
+                "arch_type": "amd64",
+                "network_type": "OpenShiftSDN",
+                "worker_count": 3,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_12/upi-on-gcp/versioned-installer-sno",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI-on-GCP",
+                "worker_size": "n1-standard-4",
+                "master_size": ""
+            }
+        },
+        "65": {
+            "IPI-on-GCP-OVN": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T19:04:15.498009Z",
+                "user": "first_test",
+                "workload": "router-perf",
+                "ci_job_num": 882,
+                "flexy_build": 173408,
+                "uuid": "46e694ba-2423-4c79-888c-fab5d6ad26c0",
+                "cloud": "gcp",
+                "ocp_version": "4.12.0-0.nightly-2023-01-19-110743",
+                "arch_type": "amd64",
+                "network_type": "OVNKubernetes",
+                "worker_count": 65,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_12/upi-on-gcp/versioned-installer-sno",
+                "infra_node_count": 3,
+                "workload_node_count": 1,
+                "profile": "IPI-on-GCP-OVN",
+                "worker_size": "n1-standard-8",
+                "master_size": "n1-standard-16"
+            },
+            "IPI-on-GCP": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T19:04:15.498014Z",
+                "user": "first_test",
+                "workload": "router-perf",
+                "ci_job_num": 806,
+                "flexy_build": 159502,
+                "uuid": "c2b23ee2-01cc-4745-a2e5-eb9765103bc7",
+                "cloud": "gcp",
+                "ocp_version": "4.12.0-0.nightly-2022-11-25-185455",
+                "arch_type": "amd64",
+                "network_type": "OpenShiftSDN",
+                "worker_count": 65,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_12/upi-on-gcp/versioned-installer-sno",
+                "infra_node_count": 3,
+                "workload_node_count": 1,
+                "profile": "IPI-on-GCP",
+                "worker_size": "n1-standard-8",
+                "master_size": "n1-standard-16"
+            }
+        }
+    },
+    "4.14": {
+        "65": {
+            "IPI-on-GCP-OVN": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-04-19T20:42:02.615513Z",
+                "user": null,
+                "workload": "router-perf",
+                "ci_job_num": 958,
+                "flexy_build": 190718,
+                "uuid": "7f18ab9b-31e5-4586-8c79-48364d278fee",
+                "cloud": "gcp",
+                "ocp_version": "4.14.0-0.nightly-2023-03-28-031439",
+                "arch_type": "amd64",
+                "network_type": "OVNKubernetes",
+                "worker_count": 65,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_9/ipi-on-gcp/versioned-installer-ovn-ci",
+                "infra_node_count": 3,
+                "workload_node_count": 1,
+                "profile": "IPI-on-GCP-OVN",
+                "worker_size": "",
+                "master_size": ""
+            }
+        }
+    },
+    "4.10": {
+        "3": {
+            "IPI-on-GCP-Private": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T19:04:15.497975Z",
+                "user": "first_test",
+                "workload": "router-perf",
+                "ci_job_num": 633,
+                "flexy_build": 127704,
+                "uuid": "68f34dcc-5368-4780-8168-987babcdd506",
+                "cloud": "gcp",
+                "ocp_version": "4.10.0-0.nightly-2022-08-05-032847",
+                "arch_type": "amd64",
+                "network_type": "OpenShiftSDN",
+                "worker_count": 3,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_10/ipi-on-gcp/versioned-installer",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI-on-GCP-Private",
+                "worker_size": "n1-standard-4",
+                "master_size": ""
+            }
+        }
+    }
+}

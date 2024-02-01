@@ -1,0 +1,54 @@
+{
+    "4.12": {
+        "40": {
+            "IPI_on_IBMCloudOVN": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-04-19T20:42:02.615491Z",
+                "user": null,
+                "workload": "max-namespaces",
+                "parameters": 1200,
+                "ci_job_num": 2210,
+                "flexy_build": 186445,
+                "uuid": "8683c2ec-8a00-4fc1-8a53-ec4dabf975df",
+                "cloud": "ibmcloud",
+                "ocp_version": "4.12.8",
+                "arch_type": "amd64",
+                "network_type": "OVNKubernetes",
+                "worker_count": 40,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_12/ipi-on-ibmcloud/versioned-installer-ovn",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI_on_IBMCloudOVN",
+                "worker_size": "bx2-4x16",
+                "master_size": "bx2-8x32"
+            }
+        }
+    },
+    "4.13": {
+        "40": {
+            "IPI_on_IBMCloudOVN": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-04-19T20:42:02.615494Z",
+                "user": null,
+                "workload": "max-namespaces",
+                "parameters": 1200,
+                "ci_job_num": 2213,
+                "flexy_build": 186676,
+                "uuid": "f34aa30e-4ae0-46c0-ac91-cbd4b358f00e",
+                "cloud": "ibmcloud",
+                "ocp_version": "4.13.0-0.nightly-2023-03-14-053612",
+                "arch_type": "amd64",
+                "network_type": "OVNKubernetes",
+                "worker_count": 40,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_13/ipi-on-ibmcloud/versioned-installer-ovn",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI_on_IBMCloudOVN",
+                "worker_size": "bx2-4x16",
+                "master_size": "bx2-8x32"
+            }
+        }
+    }
+}

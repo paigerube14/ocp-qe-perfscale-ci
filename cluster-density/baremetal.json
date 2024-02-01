@@ -1,0 +1,28 @@
+{
+    "4.12": {
+        "20": {
+            "R05_UPI_Baremetal_OVN": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T18:56:53.133726Z",
+                "user": "first_test",
+                "workload": "cluster-density",
+                "parameters": 80,
+                "ci_job_num": 1775,
+                "flexy_build": 162671,
+                "uuid": "5f338cca-b5d6-456f-aa2f-7384b32ab69d",
+                "cloud": "baremetal",
+                "ocp_version": "4.12.0-rc.3",
+                "arch_type": "amd64",
+                "network_type": "OVNKubernetes",
+                "worker_count": 20,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_12/upi-on-baremetal/versioned-installer-packet-dual_stack",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "R05_UPI_Baremetal_OVN",
+                "worker_size": "m3.small.x86",
+                "master_size": ""
+            }
+        }
+    }
+}

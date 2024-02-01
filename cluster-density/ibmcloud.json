@@ -1,0 +1,76 @@
+{
+    "4.12": {
+        "20": {
+            "IPI_on_IBMCloudOVN": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T18:56:51.922716Z",
+                "user": "first_test",
+                "workload": "cluster-density",
+                "parameters": 80,
+                "ci_job_num": 2137,
+                "flexy_build": 181578,
+                "uuid": "0d95a056-5253-41b3-9f38-2f094d835061",
+                "cloud": "ibmcloud",
+                "ocp_version": "4.12.4",
+                "arch_type": "amd64",
+                "network_type": "OVNKubernetes",
+                "worker_count": 20,
+                "worker_size": "bx2-4x16",
+                "master_size": "",
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_12/ipi-on-ibmcloud/versioned-installer-ovn",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI_on_IBMCloudOVN"
+            }
+        },
+        "3": {
+            "IPI_on_IBMCloudOVN": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T18:56:51.922697Z",
+                "user": "first_test",
+                "workload": "cluster-density",
+                "parameters": 150,
+                "ci_job_num": 1103,
+                "flexy_build": 132351,
+                "uuid": "74c93790-1073-4d0d-9abb-331372a30536",
+                "cloud": "ibmcloud",
+                "ocp_version": "4.12.0-0.nightly-2022-08-23-031342",
+                "arch_type": "amd64",
+                "network_type": "OVNKubernetes",
+                "worker_count": 3,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_12/ipi-on-ibmcloud/versioned-installer-ovn",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI_on_IBMCloudOVN",
+                "worker_size": "bx2-4x16",
+                "master_size": ""
+            }
+        },
+        "40": {
+            "IPI_on_IBMCloudOVN": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T18:56:51.922721Z",
+                "user": "first_test",
+                "workload": "cluster-density",
+                "parameters": 160,
+                "ci_job_num": 1569,
+                "flexy_build": 151799,
+                "uuid": "cfc479e6-c983-495c-92f6-09927d00be3c",
+                "cloud": "ibmcloud",
+                "ocp_version": "4.12.0-0.nightly-2022-10-25-121937",
+                "arch_type": "amd64",
+                "network_type": "OVNKubernetes",
+                "worker_count": 40,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_12/ipi-on-ibmcloud/versioned-installer-ovn",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI_on_IBMCloudOVN",
+                "worker_size": "bx2-4x16",
+                "master_size": "bx2-8x32"
+            }
+        }
+    }
+}

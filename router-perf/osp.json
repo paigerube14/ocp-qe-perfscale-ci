@@ -1,0 +1,27 @@
+{
+    "4.11": {
+        "3": {
+            "IPI-on-OSP16": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-04-19T20:42:02.615553Z",
+                "user": null,
+                "workload": "router-perf",
+                "ci_job_num": 628,
+                "flexy_build": 124007,
+                "uuid": "fd576ea9-7bce-48ec-add5-5f02804ae71d",
+                "cloud": "osp",
+                "ocp_version": "4.11.0-0.nightly-2022-07-24-151159",
+                "arch_type": "amd64",
+                "network_type": "OpenShiftSDN",
+                "worker_count": 3,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_11/ipi-on-osp/versioned-installer-ci",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI-on-OSP16",
+                "worker_size": "ci.m1.xlarge",
+                "master_size": ""
+            }
+        }
+    }
+}

@@ -1,0 +1,72 @@
+{
+    "4.9": {
+        "3": {
+            "IPI-on-vSphere-OVN.install.yaml": "",
+            "IPI-on-vSphere.install.yaml": ""
+        },
+        "10": {
+            "IPI-on-vSphere-OVN.install.yaml": "",
+            "IPI-on-vSphere.install.yaml": ""
+        },
+        "20": {
+            "IPI-on-vSphere-OVN.install.yaml": "",
+            "IPI-on-vSphere.install.yaml": ""
+        }
+    },
+    "4.10": {
+        "3": {
+            "IPI-on-vSphere-OVN.install.yaml": "",
+            "IPI-on-vSphere.install.yaml": ""
+        },
+        "10": {
+            "IPI-on-vSphere-OVN.install.yaml": "",
+            "IPI-on-vSphere.install.yaml": ""
+        },
+        "20": {
+            "IPI-on-vSphere-OVN.install.yaml": "",
+            "IPI-on-vSphere.install.yaml": ""
+        }
+    },
+    "4.11": {
+        "3": {
+            "IPI-on-vSphere-OVN.install.yaml": "",
+            "IPI-on-vSphere.install.yaml": ""
+        },
+        "10": {
+            "IPI-on-vSphere-OVN.install.yaml": "",
+            "IPI-on-vSphere.install.yaml": ""
+        },
+        "20": {
+            "IPI-on-vSphere-OVN.install.yaml": "",
+            "IPI-on-vSphere.install.yaml": ""
+        }
+    },
+    "4.12": {
+        "3": {
+            "IPI-on-vSphere-OVN.install.yaml": "",
+            "IPI-on-vSphere.install.yaml": ""
+        },
+        "10": {
+            "IPI-on-vSphere-OVN.install.yaml": "",
+            "IPI-on-vSphere.install.yaml": ""
+        },
+        "20": {
+            "IPI-on-vSphere-OVN.install.yaml": "",
+            "IPI-on-vSphere.install.yaml": ""
+        }
+    },
+    "4.13": {
+        "3": {
+            "IPI-on-vSphere-OVN.install.yaml": "",
+            "IPI-on-vSphere.install.yaml": ""
+        },
+        "10": {
+            "IPI-on-vSphere-OVN.install.yaml": "",
+            "IPI-on-vSphere.install.yaml": ""
+        },
+        "20": {
+            "IPI-on-vSphere-OVN.install.yaml": "",
+            "IPI-on-vSphere.install.yaml": ""
+        }
+    }
+}

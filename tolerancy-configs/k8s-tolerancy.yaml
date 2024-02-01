@@ -1,0 +1,4 @@
+- json_path: ["profile", "*", "hostNetwork", "*", "messageSize", "*", "samples", "*", "parallelism", "*","acrossAZ","*","service","*", "avg(throughput)"]
+  tolerancy: -70
+  # Maximum percentage of allowed failures
+  max_failures: 33

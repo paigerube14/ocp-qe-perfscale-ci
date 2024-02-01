@@ -1,0 +1,54 @@
+{
+    "4.9": {
+        "3": {},
+        "10": {},
+        "20": {}
+    },
+    "4.10": {
+        "3": {},
+        "10": {},
+        "20": {}
+    },
+    "4.11": {
+        "3": {
+            "IPI-on-Nutanix-OVN.install.yaml": "",
+            "IPI-on-Nutanix.install.yaml": ""
+        },
+        "10": {
+            "IPI-on-Nutanix-OVN.install.yaml": "",
+            "IPI-on-Nutanix.install.yaml": ""
+        },
+        "20": {
+            "IPI-on-Nutanix-OVN.install.yaml": "",
+            "IPI-on-Nutanix.install.yaml": ""
+        }
+    },
+    "4.12": {
+        "3": {
+            "IPI-on-Nutanix-OVN.install.yaml": "",
+            "IPI-on-Nutanix.install.yaml": ""
+        },
+        "10": {
+            "IPI-on-Nutanix-OVN.install.yaml": "",
+            "IPI-on-Nutanix.install.yaml": ""
+        },
+        "20": {
+            "IPI-on-Nutanix-OVN.install.yaml": "",
+            "IPI-on-Nutanix.install.yaml": ""
+        }
+    },
+    "4.13": {
+        "3": {
+            "IPI-on-Nutanix-OVN.install.yaml": "",
+            "IPI-on-Nutanix.install.yaml": ""
+        },
+        "10": {
+            "IPI-on-Nutanix-OVN.install.yaml": "",
+            "IPI-on-Nutanix.install.yaml": ""
+        },
+        "20": {
+            "IPI-on-Nutanix-OVN.install.yaml": "",
+            "IPI-on-Nutanix.install.yaml": ""
+        }
+    }
+}

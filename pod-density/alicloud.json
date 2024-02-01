@@ -1,0 +1,100 @@
+{
+    "4.11": {
+        "3": {
+            "IPI-on-Alibabacloud": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T19:03:28.254899Z",
+                "user": "first_test",
+                "workload": "pod-density",
+                "parameters": 600,
+                "ci_job_num": 968,
+                "flexy_build": 127311,
+                "uuid": "967a554d-b304-44ae-8d29-b6554fcc9b00",
+                "cloud": "alicloud",
+                "ocp_version": "4.11.0-0.nightly-2022-08-02-014045",
+                "arch_type": "amd64",
+                "network_type": "OpenShiftSDN",
+                "worker_count": 3,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_11/ipi-on-alicloud/versioned-installer-ci",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI-on-Alibabacloud",
+                "worker_size": "ecs.g6.xlarge",
+                "master_size": ""
+            },
+            "IPI-on-AlibabacloudOVN": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T19:03:28.254889Z",
+                "user": "first_test",
+                "workload": "pod-density",
+                "parameters": 600,
+                "ci_job_num": 976,
+                "flexy_build": 127694,
+                "uuid": "26ac0120-85b1-4689-a815-73954959eaea",
+                "cloud": "alicloud",
+                "ocp_version": "4.11.0-0.nightly-2022-08-04-081314",
+                "arch_type": "amd64",
+                "network_type": "OVNKubernetes",
+                "worker_count": 3,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_11/ipi-on-alicloud/versioned-installer-ci",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI-on-AlibabacloudOVN",
+                "worker_size": "ecs.g6.xlarge",
+                "master_size": ""
+            }
+        }
+    },
+    "4.10": {
+        "120": {
+            "IPI-on-AlibabacloudOVN": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T19:03:28.254876Z",
+                "user": "first_test",
+                "workload": "pod-density",
+                "parameters": 28200,
+                "ci_job_num": 783,
+                "flexy_build": 120399,
+                "uuid": "562fbe1b-c737-459c-880c-52a464d8f6e6",
+                "cloud": "alicloud",
+                "ocp_version": "4.10.22",
+                "arch_type": "amd64",
+                "network_type": "OVNKubernetes",
+                "worker_count": 120,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_10/ipi-on-alicloud/versioned-installer-ci",
+                "infra_node_count": 3,
+                "workload_node_count": 1,
+                "profile": "IPI-on-AlibabacloudOVN",
+                "worker_size": "ecs.g6.2xlarge",
+                "master_size": "ecs.g6.4xlarge"
+            }
+        },
+        "3": {
+            "IPI-on-AlibabacloudOVN": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T19:03:28.254834Z",
+                "user": "first_test",
+                "workload": "pod-density",
+                "parameters": 705,
+                "ci_job_num": 1008,
+                "flexy_build": 129748,
+                "uuid": "e381242a-ac01-4165-b8ee-f4bed9d307af",
+                "cloud": "alicloud",
+                "ocp_version": "4.10.0-0.nightly-2022-08-12-014102",
+                "arch_type": "amd64",
+                "network_type": "OVNKubernetes",
+                "worker_count": 3,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_10/ipi-on-alicloud/versioned-installer-ci",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI-on-AlibabacloudOVN",
+                "worker_size": "ecs.g6.xlarge",
+                "master_size": ""
+            }
+        }
+    }
+}

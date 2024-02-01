@@ -1,0 +1,124 @@
+{
+    "4.11": {
+        "25": {
+            "IPI-on-AWS-OVN-IPSEC": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T19:04:09.615539Z",
+                "user": "first_test",
+                "workload": "node-density-heavy",
+                "parameters": 245,
+                "ci_job_num": 959,
+                "flexy_build": 126942,
+                "uuid": "9434cf07-b4ef-46e4-b45c-9d3ec02b5a17",
+                "cloud": "aws",
+                "ocp_version": "4.11.0-0.nightly-2022-08-02-014045",
+                "arch_type": "amd64",
+                "network_type": "OVNKubernetes",
+                "worker_count": 25,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_11/ipi-on-aws/versioned-installer-ovn",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI-on-AWS-OVN-IPSEC",
+                "worker_size": "m5.2xlarge",
+                "master_size": "m5.4xlarge"
+            }
+        }
+    },
+    "4.12": {
+        "25": {
+            "IPI-on-AWS": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T19:04:09.615561Z",
+                "user": "first_test",
+                "workload": "node-density-heavy",
+                "parameters": 245,
+                "ci_job_num": 1880,
+                "flexy_build": 169062,
+                "uuid": "5746feba-e7eb-45e7-8d4f-ffd13a2a25c3",
+                "cloud": "aws",
+                "ocp_version": "4.12.0-0.nightly-2023-01-04-060842",
+                "arch_type": "amd64",
+                "network_type": "OpenShiftSDN",
+                "worker_count": 25,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_12/ipi-on-aws/versioned-installer",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI-on-AWS",
+                "worker_size": "m5.2xlarge",
+                "master_size": "m5.4xlarge"
+            },
+            "IPI-on-AWS-OVN": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T19:04:09.615557Z",
+                "user": "first_test",
+                "workload": "node-density-heavy",
+                "parameters": 245,
+                "ci_job_num": 2078,
+                "flexy_build": 177847,
+                "uuid": "adb5a4eb-f7f2-460a-b538-f3c7b56f1b99",
+                "cloud": "aws",
+                "ocp_version": "4.12.0-0.nightly-2023-02-11-110819",
+                "arch_type": "amd64",
+                "network_type": "OVNKubernetes",
+                "worker_count": 25,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_12/ipi-on-aws/versioned-installer-ovn",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI-on-AWS-OVN",
+                "worker_size": "m5.2xlarge",
+                "master_size": "m5.4xlarge"
+            }
+        }
+    },
+    "4.13": {
+        "25": {
+            "IPI-on-AWS": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T19:04:09.615568Z",
+                "user": "first_test",
+                "workload": "node-density-heavy",
+                "parameters": 245,
+                "ci_job_num": 1977,
+                "flexy_build": 173611,
+                "uuid": "f2bb51a0-80d2-4195-a42f-2cdefd78b0a4",
+                "cloud": "aws",
+                "ocp_version": "4.13.0-0.nightly-2023-01-24-061922",
+                "arch_type": "amd64",
+                "network_type": "OpenShiftSDN",
+                "worker_count": 25,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_13/ipi-on-aws/versioned-installer",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI-on-AWS",
+                "worker_size": "m5.2xlarge",
+                "master_size": "m5.4xlarge"
+            },
+            "IPI-on-AWS-OVN": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T19:04:09.615565Z",
+                "user": "first_test",
+                "workload": "node-density-heavy",
+                "parameters": 245,
+                "ci_job_num": 1870,
+                "flexy_build": 168746,
+                "uuid": "92f82b84-1c79-4bae-a4cf-19d11ab53ed6",
+                "cloud": "aws",
+                "ocp_version": "4.13.0-0.nightly-2023-01-01-223309",
+                "arch_type": "amd64",
+                "network_type": "OVNKubernetes",
+                "worker_count": 25,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_13/ipi-on-aws/versioned-installer-ovn",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI-on-AWS-OVN",
+                "worker_size": "m5.2xlarge",
+                "master_size": "m5.4xlarge"
+            }
+        }
+    }
+}

@@ -1,0 +1,45 @@
+{
+  "elasticsearch": {
+    "ripsaw-kube-burner": [
+      {
+        "filter": {
+          "metricName.keyword": "99thEtcdDiskBackendCommitDurationSeconds"
+        },
+        "buckets": [
+          "jobConfig.name.keyword"
+        ],
+        "aggregations": {
+          "value": [
+            "max"
+          ]
+        }
+      },
+      {
+        "filter": {
+          "metricName.keyword": "99thEtcdDiskWalFsyncDurationSeconds"
+        },
+        "buckets": [
+          "jobConfig.name.keyword"
+        ],
+        "aggregations": {
+          "value": [
+            "max"
+          ]
+        }
+      },
+      {
+        "filter": {
+          "metricName.keyword": "99thEtcdRoundTripTimeSeconds"
+        },
+        "buckets": [
+          "jobConfig.name.keyword"
+        ],
+        "aggregations": {
+          "value": [
+            "max"
+          ]
+        }
+      }
+    ]
+  }
+}

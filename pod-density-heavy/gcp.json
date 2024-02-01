@@ -1,0 +1,92 @@
+{
+    "4.9": {
+        "3": {
+            "IPI-on-GCP-OVN.install.yaml": "",
+            "IPI-on-GCP.install.yaml": ""
+        },
+        "20": {
+            "IPI-on-GCP-OVN.install.yaml": "",
+            "IPI-on-GCP.install.yaml": ""
+        },
+        "50": {
+            "IPI-on-GCP-OVN.install.yaml": "",
+            "IPI-on-GCP.install.yaml": ""
+        },
+        "120": {
+            "IPI-on-GCP-OVN.install.yaml": "",
+            "IPI-on-GCP.install.yaml": ""
+        }
+    },
+    "4.10": {
+        "3": {
+            "IPI-on-GCP-OVN.install.yaml": "",
+            "IPI-on-GCP.install.yaml": ""
+        },
+        "20": {
+            "IPI-on-GCP-OVN.install.yaml": "",
+            "IPI-on-GCP.install.yaml": ""
+        },
+        "50": {
+            "IPI-on-GCP-OVN.install.yaml": "",
+            "IPI-on-GCP.install.yaml": ""
+        },
+        "120": {
+            "IPI-on-GCP-OVN.install.yaml": "",
+            "IPI-on-GCP.install.yaml": ""
+        }
+    },
+    "4.11": {
+        "3": {
+            "IPI-on-GCP-OVN.install.yaml": "",
+            "IPI-on-GCP.install.yaml": ""
+        },
+        "20": {
+            "IPI-on-GCP-OVN.install.yaml": "",
+            "IPI-on-GCP.install.yaml": ""
+        },
+        "50": {
+            "IPI-on-GCP-OVN.install.yaml": "",
+            "IPI-on-GCP.install.yaml": ""
+        },
+        "120": {
+            "IPI-on-GCP-OVN.install.yaml": "",
+            "IPI-on-GCP.install.yaml": ""
+        }
+    },
+    "4.12": {
+        "3": {
+            "IPI-on-GCP-OVN.install.yaml": "",
+            "IPI-on-GCP.install.yaml": ""
+        },
+        "20": {
+            "IPI-on-GCP-OVN.install.yaml": "",
+            "IPI-on-GCP.install.yaml": ""
+        },
+        "50": {
+            "IPI-on-GCP-OVN.install.yaml": "",
+            "IPI-on-GCP.install.yaml": ""
+        },
+        "120": {
+            "IPI-on-GCP-OVN.install.yaml": "",
+            "IPI-on-GCP.install.yaml": ""
+        }
+    },
+    "4.13": {
+        "3": {
+            "IPI-on-GCP-OVN.install.yaml": "",
+            "IPI-on-GCP.install.yaml": ""
+        },
+        "20": {
+            "IPI-on-GCP-OVN.install.yaml": "",
+            "IPI-on-GCP.install.yaml": ""
+        },
+        "50": {
+            "IPI-on-GCP-OVN.install.yaml": "",
+            "IPI-on-GCP.install.yaml": ""
+        },
+        "120": {
+            "IPI-on-GCP-OVN.install.yaml": "",
+            "IPI-on-GCP.install.yaml": ""
+        }
+    }
+}

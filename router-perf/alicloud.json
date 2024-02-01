@@ -1,0 +1,52 @@
+{
+    "4.13": {
+        "65": {
+            "IPI-on-AlibabacloudOVN": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-04-19T20:42:02.615534Z",
+                "user": null,
+                "workload": "router-perf",
+                "ci_job_num": 943,
+                "flexy_build": 188339,
+                "uuid": "0ae3142f-0ce1-4de0-b208-ef2f3665a85f",
+                "cloud": "alicloud",
+                "ocp_version": "4.13.0-0.nightly-2023-03-22-165711",
+                "arch_type": "amd64",
+                "network_type": "OVNKubernetes",
+                "worker_count": 65,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_13/ipi-on-alicloud/versioned-installer",
+                "infra_node_count": 3,
+                "workload_node_count": 1,
+                "profile": "IPI-on-AlibabacloudOVN",
+                "worker_size": "ecs.g6.2xlarge",
+                "master_size": "ecs.g6.4xlarge"
+            }
+        }
+    },
+    "4.11": {
+        "3": {
+            "IPI-on-AlibabacloudOVN": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T19:04:17.329946Z",
+                "user": "first_test",
+                "workload": "router-perf",
+                "ci_job_num": 632,
+                "flexy_build": 127694,
+                "uuid": "1a86bdce-d9d7-4556-ab97-c710ff7725cd",
+                "cloud": "alicloud",
+                "ocp_version": "4.11.0-0.nightly-2022-08-04-081314",
+                "arch_type": "amd64",
+                "network_type": "OVNKubernetes",
+                "worker_count": 3,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_11/ipi-on-alicloud/versioned-installer-ci",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI-on-AlibabacloudOVN",
+                "worker_size": "ecs.g6.xlarge",
+                "master_size": ""
+            }
+        }
+    }
+}

@@ -1,0 +1,28 @@
+{
+    "4.10": {
+        "3": {
+            "IPI-on-GCP-Private": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T19:04:15.485372Z",
+                "user": "first_test",
+                "workload": "node-density",
+                "parameters": 200,
+                "ci_job_num": 869,
+                "flexy_build": 122411,
+                "uuid": "808c2e64-6012-47f7-bf7d-fdfa83fdb88c",
+                "cloud": "gcp",
+                "ocp_version": "4.10.0-0.nightly-2022-07-19-210744",
+                "arch_type": "amd64",
+                "network_type": "OpenShiftSDN",
+                "worker_count": 3,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_10/ipi-on-gcp/versioned-installer",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI-on-GCP-Private",
+                "worker_size": "n1-standard-4",
+                "master_size": ""
+            }
+        }
+    }
+}

@@ -1,0 +1,78 @@
+{
+  "elasticsearch": {
+    "k8s-netperf": [
+      {
+        "filter": {
+          "profile": "TCP_STREAM"
+        },
+        "buckets": [
+          "hostNetwork",
+          "messageSize",
+          "samples",
+          "parallelism",
+          "acrossAZ",
+          "service"
+        ],
+        "aggregations": {
+          "throughput": [
+            "avg"
+          ]
+        }
+      },
+      {
+        "filter": {
+          "profile": "UDP_STREAM"
+        },
+        "buckets": [
+          "hostNetwork",
+          "messageSize",
+          "samples",
+          "parallelism",
+          "acrossAZ",
+          "service"
+        ],
+        "aggregations": {
+          "throughput": [
+            "avg"
+          ]
+        }
+      },
+      {
+        "filter": {
+          "profile": "TCP_CRR"
+        },
+        "buckets": [
+          "hostNetwork",
+          "messageSize",
+          "samples",
+          "parallelism",
+          "acrossAZ",
+          "service"
+        ],
+        "aggregations": {
+          "throughput": [
+            "avg"
+          ]
+        }
+      },
+      {
+        "filter": {
+          "profile": "TCP_RR"
+        },
+        "buckets": [
+          "hostNetwork",
+          "messageSize",
+          "samples",
+          "parallelism",
+          "acrossAZ",
+          "service"
+        ],
+        "aggregations": {
+          "throughput": [
+            "avg"
+          ]
+        }
+      }
+    ]
+  }
+}

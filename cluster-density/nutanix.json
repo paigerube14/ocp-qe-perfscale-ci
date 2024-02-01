@@ -1,0 +1,54 @@
+{
+    "4.11": {
+        "20": {
+            "IPI-on-Nutanix-OVN": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-04-19T20:42:02.615427Z",
+                "user": null,
+                "workload": "cluster-density",
+                "parameters": 80,
+                "ci_job_num": 2162,
+                "flexy_build": 183196,
+                "uuid": "f484714e-3f1f-49e4-a955-775da150d3a1",
+                "cloud": "nutanix",
+                "ocp_version": "4.11.30",
+                "arch_type": "amd64",
+                "network_type": "OVNKubernetes",
+                "worker_count": 20,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_11/ipi-on-nutanix/versioned-installer-fips-ovn-csi_pvc-ci",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI-on-Nutanix-OVN",
+                "worker_size": "",
+                "master_size": ""
+            }
+        }
+    },
+    "4.12": {
+        "20": {
+            "IPI-on-Nutanix": {
+                "metric_name": "base_line_uuids",
+                "data_type": "metadata",
+                "iso_timestamp": "2023-03-07T18:56:52.889731Z",
+                "user": "first_test",
+                "workload": "cluster-density",
+                "parameters": 80,
+                "ci_job_num": 1822,
+                "flexy_build": 164506,
+                "uuid": "7b9f2bde-da2d-44b3-bc90-7f816fedd228",
+                "cloud": "nutanix",
+                "ocp_version": "4.12.0-rc.4",
+                "arch_type": "amd64",
+                "network_type": "OpenShiftSDN",
+                "worker_count": 20,
+                "LAUNCHER_VARS": "private-templates/functionality-testing/aos-4_12/ipi-on-nutanix/versioned-installer",
+                "infra_node_count": 0,
+                "workload_node_count": 0,
+                "profile": "IPI-on-Nutanix",
+                "worker_size": "",
+                "master_size": ""
+            }
+        }
+    }
+}
