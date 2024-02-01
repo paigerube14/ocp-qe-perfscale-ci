@@ -175,6 +175,8 @@ pipeline {
                       ls
                       cd ..
                       
+                      python3.9 -m pip install virtualenv
+                      python3.9 -m virtualenv venv3
                       source venv3/bin/activate
                       python --version
                       source common.sh
