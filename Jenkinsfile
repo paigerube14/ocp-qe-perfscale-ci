@@ -165,7 +165,7 @@ pipeline {
                    
                     folder_name=$(ls -t -d /tmp/*/ | head -1)
                     
-                    file_loc=$folder_name"*"
+                    file_loc=$(ls $folder_name)
                     echo "file loc $file_loc"
                      # see if csv is in file loc
                      if [[ $file_loc == *".csv" ]]; then
