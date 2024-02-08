@@ -26,8 +26,7 @@ def find_workload_type_sub( current_run_uuid):
         "uuid": current_run_uuid
     }
 
-    workload_index_map = { "kube-burner":"ripsaw-kube-burner" ,"ingress-perf":"ingress-perf*", "network-perf-v2":"k8s-netperf","router-perf":"router-test-results",
-                          "network-perf":"ripsaw-uperf",}
+    workload_index_map = { "kube-burner":"ripsaw-kube-burner" ,"ingress-perf":"ingress-perf*", "network-perf-v2":"k8s-netperf","router-perf":"router-test-results"}
     for k, v in workload_index_map.items(): 
         hits = update_es_uuid.es_search(search_params, index=v)
         #print('hits extra' + str(hits))
