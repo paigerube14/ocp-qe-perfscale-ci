@@ -43,9 +43,14 @@ pipeline {
           defaultValue: false,
           description: "If you want to compare the current UUID's data to any <ocp-version>-1  release data"
         )
+        booleanParam(
+          name: "HUNTER_ANALYZE", 
+          defaultValue: false,
+          description: "If you want to compare the current UUID's data to any <ocp-version>-1  release data"
+        )
         string(
-          name: "TIME_RANGE", 
-          defaultValue: "4 m", 
+          name: "CONFIG", 
+          defaultValue: "examples/small-scale-cluster-density.yaml", 
           description: 'Set of time to look back at to find any comparable results'
         )
         text(name: 'ENV_VARS', defaultValue: '', description:'''<p>
@@ -69,20 +74,20 @@ pipeline {
         '''
         )
         string(
-          name: 'E2E_BENCHMARKING_REPO', 
-          defaultValue:'https://github.com/paigerube14/e2e-benchmarking', 
+          name: 'ORION_REPO', 
+          defaultValue:'https://github.com/cloud-bulldozer/orion.git', 
           description:'You can change this to point to your fork if needed.'
         )
         string(
-          name: 'E2E_BENCHMARKING_REPO_BRANCH', 
-          defaultValue:'new_compare', 
+          name: 'ORION_REPO_BRANCH', 
+          defaultValue:'master', 
           description:'You can change this to point to a branch on your fork if needed.'
         )
     }
 
   stages {
 
-    stage('Run Benchmark Comparison'){
+    stage('Run Orion Comparison'){
       when {
             expression { params.UUID != "" }
         }
@@ -99,29 +104,16 @@ pipeline {
           ]])
         checkout([
             $class: 'GitSCM',
-            branches: [[name: "main" ]],
+            branches: [[name: params.ORION_REPO_BRANCH ]],
             doGenerateSubmoduleConfigurations: false,
             extensions: [
                 [$class: 'CloneOption', noTags: true, reference: '', shallow: true],
                 [$class: 'PruneStaleBranch'],
                 [$class: 'CleanCheckout'],
                 [$class: 'IgnoreNotifyCommit'],
-                [$class: 'RelativeTargetDirectory', relativeTargetDir: 'helpful_scripts']
+                [$class: 'RelativeTargetDirectory', relativeTargetDir: 'orion']
             ],
-            userRemoteConfigs: [[url: "https://github.com/openshift-qe/ocp-qe-perfscale-ci.git" ]]
-        ])
-        checkout([
-            $class: 'GitSCM',
-            branches: [[name: params.E2E_BENCHMARKING_REPO_BRANCH ]],
-            doGenerateSubmoduleConfigurations: false,
-            extensions: [
-                [$class: 'CloneOption', noTags: true, reference: '', shallow: true],
-                [$class: 'PruneStaleBranch'],
-                [$class: 'CleanCheckout'],
-                [$class: 'IgnoreNotifyCommit'],
-                [$class: 'RelativeTargetDirectory', relativeTargetDir: 'e2e-benchmarking']
-            ],
-            userRemoteConfigs: [[url: params.E2E_BENCHMARKING_REPO ]]
+            userRemoteConfigs: [[url: params.ORION_REPO ]]
         ])
         
         script{
@@ -136,54 +128,32 @@ pipeline {
 
                     export ES_SERVER="https://$ES_USERNAME:$ES_PASSWORD@search-ocp-qe-perf-scale-test-elk-hcm7wtsqpxy7xogbu72bor4uve.us-east-1.es.amazonaws.com"
 
-                    
                     python3.9 --version
                     python3.9 -m pip install virtualenv
                     python3.9 -m virtualenv venv3
                     source venv3/bin/activate
                     python --version
 
-                    pip install elasticsearch==7.13.4
-                    python get_graphana_link.py
-
-                    
-                    cd e2e-benchmarking/utils/compare
+                    cd orion
                     pip install -r requirements.txt
-                    python3.9 read_files.py
+                    pip install .
+                    hunter_var=""
+                    if [[ $HUNTER_ANALYZE == "true" ]]; then
+                      hunter_var=" --hunter-analyze"
+                    fi
+                    uuid_var=""
+                    if [[ -n $UUID ]]; then
+                      uuid_var=" --uuid $UUID "
+                    fi
+
+                    orion --config $CONFIG --debug$uuid_var$hunter_var
 
                   ''')
-                  sh(returnStatus: true, script: '''
-                    # Get ENV VARS Supplied by the user to this job and store in .env_override
-                    echo "$ENV_VARS" > .env_override
-                    # Export those env vars so they could be used by CI Job
-                    set -a && source .env_override && set +a
-                    cp $GSHEET_KEY_LOCATION $WORKSPACE/.gsheet.json
-                    export GSHEET_KEY_LOCATION=$WORKSPACE/.gsheet.json
-                    env
-                    export EMAIL_ID_FOR_RESULTS_SHEET=$EMAIL_ID_FOR_RESULTS_SHEET
-                    cd e2e-benchmarking/utils/compare
-                   
-                    folder_name=$(ls -t -d /tmp/*/ | head -1)
-                    file_loc=$folder_name"*"
-
-                    # see if csv is in file loc
-                     if [[ $file_loc == *".csv" ]]; then
-                      echo "found csv"
-
-                      cp $file_loc .
-                      ls
-                      cd ..
-                      source common.sh
-                      python --version
-                      gen_spreadsheet_helper comparison ${file_loc} prubenda@redhat.com ${GSHEET_KEY_LOCATION}
-                    fi
-                ''')
-
                 if (RETURNSTATUS.toInteger() != 0) {
                     currentBuild.result = "FAILURE"
                 }
                 archiveArtifacts(
-                        artifacts: 'e2e-benchmarking/utils/compare/comparison.csv',
+                        artifacts: 'orion/output.csv',
                         allowEmptyArchive: true,
                         fingerprint: true
                 )
