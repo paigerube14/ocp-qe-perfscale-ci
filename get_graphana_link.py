@@ -46,14 +46,26 @@ def get_graphana():
         for baseline in baseline_uuid.split(","):
             uuid_str += "&var-uuid=" + baseline
 
+
+    # data source for public dev es 
     # might want to be able to loop through multiple baseline uuids if more than one is passed
+
     grafana_url_ending="&from=now-1y&to=now&var-platform=AWS&var-platform=Azure&var-platform=GCP&var-platform=IBMCloud&var-platform=AlibabaCloud&var-platform=VSphere&var-platform=rosa"
     if workload == "ingress-perf":
         print(f"grafana url https://grafana.rdu2.scalelab.redhat.com:3000/d/nlAhmRyVk/ingress-perf?orgId=1&var-datasource=QE%20Ingress-perf{uuid_str}&var-termination=edge&var-termination=http&var-termination=passthrough&var-termination=reencrypt&var-latency_metric=avg_lat_us&var-compare_by=uuid.keyword&var-clusterType=rosa&var-clusterType=self-managed{grafana_url_ending}")
 
     elif workload == "k8s-netperf" or workload == "network-perf-v2":
-        print( "Need to find grafana url")
+        
+        if "perfscale-dev" in os.getenv("ES_SERVER"):
+            data_source = 'b7f1eb5f-4330-4a43-8be1-8ed1280a68a3'
+        else: 
+            data_source = "rKPTw9UVz"
+        print(f"grafana url  https://grafana.rdu2.scalelab.redhat.com:3000/d/wINGhybVz/k8s-netperf?orgId=1&var-datasource={data_source}{uuid_str}&var-termination=edge&var-termination=http&var-termination=passthrough&var-termination=reencrypt&var-latency_metric=avg_lat_us&var-compare_by=uuid.keyword&var-clusterType=rosa&var-clusterType=self-managed{grafana_url_ending}")
     else:
-        print( f"grafana url https://grafana.rdu2.scalelab.redhat.com:3000/d/8wDGrVY4k/kube-burner-compare-update?orgId=1&var-Datasource=QE%20kube-burner&var-sdn=OVNKubernetes&var-workload={workload}&var-worker_nodes=&var-latencyPercentile=P99&var-condition=Ready&var-component=kube-apiserver{uuid_str}{grafana_url_ending}")
+        if "perfscale-dev" in os.getenv("ES_SERVER"):
+            data_source = "C3f6SSfnk"
+        else: 
+            data_source = "QE%20kube-burner"
+        print( f"grafana url https://grafana.rdu2.scalelab.redhat.com:3000/d/8wDGrVY4k/kube-burner-compare-update?orgId=1&var-Datasource={data_source}&var-sdn=OVNKubernetes&var-workload={workload}&var-worker_nodes=&var-latencyPercentile=P99&var-condition=Ready&var-component=kube-apiserver{uuid_str}{grafana_url_ending}")
 
 get_graphana()
