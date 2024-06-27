@@ -46,7 +46,6 @@ def get_graphana():
         for baseline in baseline_uuid.split(","):
             uuid_str += "&var-uuid=" + baseline
 
-
     # data source for public dev es 
     # might want to be able to loop through multiple baseline uuids if more than one is passed
 
