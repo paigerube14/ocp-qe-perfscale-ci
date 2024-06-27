@@ -134,7 +134,7 @@ pipeline {
                     # Export those env vars so they could be used by CI Job
                     set -a && source .env_override && set +a
 
-                    export ES_SERVER="https://$ES_USERNAME:$ES_PASSWORD@search-ocp-qe-perf-scale-test-elk-hcm7wtsqpxy7xogbu72bor4uve.us-east-1.es.amazonaws.com"
+                    export ES_SERVER=${ES_SERVER:-https://$ES_USERNAME:$ES_PASSWORD@search-ocp-qe-perf-scale-test-elk-hcm7wtsqpxy7xogbu72bor4uve.us-east-1.es.amazonaws.com"}
 
                     
                     python3.9 --version
