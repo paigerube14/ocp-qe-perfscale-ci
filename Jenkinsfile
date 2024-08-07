@@ -80,7 +80,7 @@ pipeline {
         )
         string(
           name: 'ORION_REPO_BRANCH', 
-          defaultValue:'master', 
+          defaultValue:'main', 
           description:'You can change this to point to a branch on your fork if needed.'
         )
     }
