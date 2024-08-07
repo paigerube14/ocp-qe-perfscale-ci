@@ -160,13 +160,14 @@ pipeline {
                     export es_metadata_index="perf_scale_ci*"
                     export es_benchmark_index="ripsaw-kube-burner*"
                     orion cmd --config $CONFIG --debug$extra_vars
+                    pwd
 
                   ''')
                 if (RETURNSTATUS.toInteger() != 0) {
                     currentBuild.result = "FAILURE"
                 }
                 archiveArtifacts(
-                        artifacts: 'orion/output.csv',
+                        artifacts: 'orion/output*.*',
                         allowEmptyArchive: true,
                         fingerprint: true
                 )
