@@ -145,8 +145,10 @@ pipeline {
                     if [[ -n $UUID ]]; then
                       uuid_var=" --uuid $UUID "
                     fi
-
-                    orion --config $CONFIG --debug$uuid_var$hunter_var
+                    
+                    export es_metadata_index="perf_scale_ci*"
+                    export es_benchmark_index="ripsaw-kube-burner*"
+                    orion cmd --config $CONFIG --debug$uuid_var$hunter_var
 
                   ''')
                 if (RETURNSTATUS.toInteger() != 0) {
