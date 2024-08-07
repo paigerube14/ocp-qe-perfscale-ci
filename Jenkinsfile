@@ -48,6 +48,11 @@ pipeline {
           defaultValue: false,
           description: "If you want to compare the current UUID's data to any <ocp-version>-1  release data"
         )
+        booleanParam(
+          name: "NODE-COUNT", 
+          defaultValue: false,
+          description: 'Skip the filtering of uuids that do not match job iterations, should be set to true for any node-density tests'
+        )
         string(
           name: "CONFIG", 
           defaultValue: "examples/small-scale-cluster-density.yaml", 
@@ -137,18 +142,21 @@ pipeline {
                     cd orion
                     pip install -r requirements.txt
                     pip install .
-                    hunter_var=""
+                    extra_vars=""
                     if [[ $HUNTER_ANALYZE == "true" ]]; then
-                      hunter_var=" --hunter-analyze"
+                      extra_vars=" --hunter-analyze"
+                    fi
+                    if [[ $NODE-COUNT == "true" ]]; then
+                      extra_vars+=" --node-count True"
                     fi
                     uuid_var=""
                     if [[ -n $UUID ]]; then
-                      uuid_var=" --uuid $UUID "
+                      extra_vars+=" --uuid $UUID"
                     fi
                     
                     export es_metadata_index="perf_scale_ci*"
                     export es_benchmark_index="ripsaw-kube-burner*"
-                    orion cmd --config $CONFIG --debug$uuid_var$hunter_var
+                    orion cmd --config $CONFIG --debug$extra_vars
 
                   ''')
                 if (RETURNSTATUS.toInteger() != 0) {
