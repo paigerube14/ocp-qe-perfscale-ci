@@ -153,6 +153,9 @@ pipeline {
                     if [[ -n $UUID ]]; then
                       extra_vars+=" --uuid $UUID"
                     fi
+                    if [[ -n $UUID ]]; then
+                      extra_vars+=" --baseline $BASELINE_UUID"
+                    fi
                     
                     export es_metadata_index="perf_scale_ci*"
                     export es_benchmark_index="ripsaw-kube-burner*"
