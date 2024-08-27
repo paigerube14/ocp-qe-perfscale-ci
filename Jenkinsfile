@@ -230,24 +230,7 @@ services:
                         string(name: "VARIABLES_LOCATION", value: "${var_loc}"),
                         string(name: "JENKINS_AGENT_LABEL", value: custom_jenkins_label),
                         text(name: "LAUNCHER_VARS", value: "${extra_launcher_vars}installer_payload_image: '${version_string}'"),
-                        text(name: "BUSHSLICER_CONFIG", value: "${bushslicer_config}"),
-                        text(name: 'REPOSITORIES', value: '''
-GIT_PRIVATE_URI=git@gitlab.cee.redhat.com:aosqe/cucushift-internal.git
-GIT_PRIVATE_TEMPLATES_URI=https://gitlab.cee.redhat.com/aosqe/flexy-templates.git'''),
-text(name: 'CREDENTIALS', value: '''
-DYNECT_CREDENTIALS=b1666c61-4a76-40b7-950f-a3d40f721e59
-REG_STAGE=41c2dd39-aad7-4f07-afec-efc052b450f5
-REG_QUAY=c1802784-0f74-4b35-99fb-32dfa9a207ad
-REG_CLOUD=fba37700-62f8-4883-8905-53f86461ba5b
-REG_CONNECT=819c9e9f-1e9c-4d2b-9dc0-fc630674bc9b
-REG_REDHAT=819c9e9f-1e9c-4d2b-9dc0-fc630674bc9b
-REG_BREW_OSBS=brew-registry-osbs-mirror
-REG_NIGHTLY_BUILDS=9a9187c6-a54c-452a-866f-bea36caea6f9
-REG_CI_BUILDS=registry.ci.openshift.org
-GIT_FLEXY_SSH_KEY=e2f7029f-ab8d-4987-8950-39feb80d5fbd
-GIT_PRIVATE_SSH_KEY=1d2207b6-15c0-4cb0-913a-637788d12257
-REG_SVC_CI=9a9187c6-a54c-452a-866f-bea36caea6f9
-                            ''' )
+                        text(name: "BUSHSLICER_CONFIG", value: "${bushslicer_config}")
                     ]
                     currentBuild.result =  install.result
                     FLEXY_BUILD_NUMBER = install.number.toString()
