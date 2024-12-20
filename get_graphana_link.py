@@ -12,7 +12,7 @@ def find_workload_type( current_run_uuid):
     index = os.getenv("es_metadata_index")
     
     hits = update_es_uuid.es_search(search_params, index=index)
-    print('hits ' + str(hits))
+    #print('hits ' + str(hits))
     if len(hits) <= 0:
         #print('else')
         workload_type = find_workload_type_sub(current_run_uuid)
