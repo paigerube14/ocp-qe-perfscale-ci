@@ -15,10 +15,9 @@ def update_data_to_elasticsearch(params, index, new_index):
     '''
 
     start = time.time()
-    matched_docs = update_es_uuid.es_search(params, index=index, size=50,from_pos=0)
+    matched_docs = update_es_uuid.es_search(params, index=index, size=30,from_pos=0)
  
-   
-   # print('doc length' + str(len(matched_docs[0]['_source'])))
+    print('doc length' + str(len(matched_docs[0])))
     for item in matched_docs:
         param_uuid = {"uuid": item['_source']['uuid']}
         found_uuid = update_es_uuid.es_search(param_uuid, index=new_index)
@@ -52,6 +51,7 @@ def upload_data_to_elasticsearch(item, index):
         body=item
     )
     print(f"Response back was {response}")
+
     end = time.time()
     elapsed_time = end - start
 
