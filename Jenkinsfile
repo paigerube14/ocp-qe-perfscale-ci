@@ -40,6 +40,11 @@ pipeline {
           defaultValue: "", 
           description: 'Set a baseline uuid to use for comparison, if blank will find baseline uuid for profile, workload and worker node count to then compare'
         )
+        string(
+          name: "VERSION", 
+          defaultValue: "", 
+          description: 'OCP version of the UUID'
+        )
         booleanParam(
           name: "PREVIOUS_VERSION", 
           defaultValue: false,
@@ -131,6 +136,19 @@ pipeline {
             ],
             userRemoteConfigs: [[url: params.ORION_REPO ]]
         ])
+        checkout([
+            $class: 'GitSCM',
+            branches: [[name: "main" ]],
+            doGenerateSubmoduleConfigurations: false,
+            extensions: [
+                [$class: 'CloneOption', noTags: true, reference: '', shallow: true],
+                [$class: 'PruneStaleBranch'],
+                [$class: 'CleanCheckout'],
+                [$class: 'IgnoreNotifyCommit'],
+                [$class: 'RelativeTargetDirectory', relativeTargetDir: 'helpful_scripts']
+            ],
+            userRemoteConfigs: [[url: "https://github.com/openshift-qe/ocp-qe-perfscale-ci.git" ]]
+        ])
         
         script{
             env.EMAIL_ID_FOR_RESULTS_SHEET = "${userId}@redhat.com"
@@ -142,25 +160,35 @@ pipeline {
                     echo "$ENV_VARS" > .env_override
                     # Export those env vars so they could be used by CI Job
                     set -a && source .env_override && set +a
+                    export version=$VERSION
                     if [[ $INTERNAL_ES == "true" ]]; then
                       n=${#ES_PASSWORD_INTERNAL}
                       export ES_SERVER="https://$ES_USERNAME_INTERNAL:$ES_PASSWORD_INTERNAL@opensearch.app.intlab.redhat.com"
+                      export ES_URL="https://opensearch.app.intlab.redhat.com"
+                      export ES_PASSWORD=$ES_PASSWORD_INTERNAL
+                      export ES_USERNAME=$ES_USERNAME_INTERNAL
                       n=${#ES_SERVER}
                       echo "internal $n"
                       export es_metadata_index="ospst-perf-scale-ci*"
                       export es_benchmark_index="ospst-ripsaw-kube-burner*"
+
 
                     else
                       echo "qe"
                       export es_metadata_index="perf_scale_ci*"
                       export es_benchmark_index="ripsaw-kube-burner*"
                       export ES_SERVER="https://$ES_USERNAME:$ES_PASSWORD@search-ocp-qe-perf-scale-test-elk-hcm7wtsqpxy7xogbu72bor4uve.us-east-1.es.amazonaws.com"
+                      export ES_URL="https://search-ocp-qe-perf-scale-test-elk-hcm7wtsqpxy7xogbu72bor4uve.us-east-1.es.amazonaws.com"
                     fi 
+
                     python3.9 --version
                     python3.9 -m pip install virtualenv
                     python3.9 -m virtualenv venv3
                     source venv3/bin/activate
                     python --version
+
+                    pip install -r helpful_scripts/es_scripts/requirements.txt
+                    python helpful_scripts/get_graphana_link.py
 
                     cd orion
                     pip install -r requirements.txt
@@ -182,8 +210,8 @@ pipeline {
                       extra_vars+=" --baseline $BASELINE_UUID"
                     fi
                     
-                    
                     orion cmd --config $CONFIG --debug$extra_vars
+
                     pwd
 
                   ''')
