@@ -170,13 +170,26 @@ pipeline {
                       n=${#ES_SERVER}
                       echo "internal $n"
                       export es_metadata_index="ospst-perf-scale-ci*"
-                      export es_benchmark_index="ospst-ripsaw-kube-burner*"
 
+                      if [[ $CONFIG == *"ingress"* ]]; then
+                        export es_benchmark_index="ospst-ingress-performance*"
+                      elif [[ $CONFIG == *"netperf"* ]]; then
+                        export es_benchmark_index="ospst-k8s-netperf"
+                      else
+                        export es_benchmark_index="ospst-ripsaw-kube-burner*"
+                      fi 
 
                     else
                       echo "qe"
                       export es_metadata_index="perf_scale_ci*"
-                      export es_benchmark_index="ripsaw-kube-burner*"
+
+                      if [[ $CONFIG == *"ingress"* ]]; then
+                        export es_benchmark_index="ingress-perf*"
+                      elif [[ $CONFIG == *"netperf"* ]]; then
+                        export es_benchmark_index="k8s-netperf*"
+                      else
+                        export es_benchmark_index="ripsaw-kube-burner*"
+                      fi
                       export ES_SERVER="https://$ES_USERNAME:$ES_PASSWORD@search-ocp-qe-perf-scale-test-elk-hcm7wtsqpxy7xogbu72bor4uve.us-east-1.es.amazonaws.com"
                       export ES_URL="https://search-ocp-qe-perf-scale-test-elk-hcm7wtsqpxy7xogbu72bor4uve.us-east-1.es.amazonaws.com"
                     fi 
@@ -208,7 +221,7 @@ pipeline {
                     if [[ -n $BASELINE_UUID ]]; then
                       extra_vars+=" --baseline $BASELINE_UUID"
                     fi
-                    
+
                     orion cmd --config $CONFIG --debug$extra_vars
 
                     pwd
