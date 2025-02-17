@@ -290,8 +290,6 @@ pipeline {
 
                         cp $WORKSPACE/flexy-artifacts/workdir/install-dir/auth/kubeconfig ~/.kube/config
                         
-                        # export PPROF=false
-                        # export ARCHIVE=false
                         export CHURN_DURATION=${CHURN_DURATION:-10m}
                         export CHURN_DELAY=${CHURN_DELAY:-60s}
                         export CHURN_PERCENT=${CHURN_PERCENT:-10}
