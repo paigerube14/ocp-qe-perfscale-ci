@@ -312,7 +312,7 @@ pipeline {
                             export EXTRA_FLAGS="$EXTRA_FLAGS --layer3=${ENABLE_LAYER_3}"
                         fi
                     
-                        if [[ $WORKLOAD == *"cluster-density"* ]]; then
+                        if [[ $WORKLOAD == *"cluster-density"* || $WORKLOAD =~ "udn-density-pods" ]]; then
                             export ITERATIONS=$VARIABLE
                         elif [[ $WORKLOAD == *"node-density"* ]]; then
                             export EXTRA_FLAGS="$EXTRA_FLAGS --pods-per-node=$VARIABLE"
